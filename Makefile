@@ -4,7 +4,7 @@
 ## Login   <dhiver_b@epitech.net>
 ## 
 ## Started on  Thu Mar 31 13:20:36 2016 Bastien DHIVER
-## Last update Mon Apr 11 11:29:54 2016 florian videau
+## Last update Mon Apr 11 11:31:08 2016 florian videau
 ##
 
 CC	= gcc
@@ -14,7 +14,7 @@ RM	= rm -f
 CFLAGS	+= -W -Wall -Wextra -pedantic -std=c99
 CFLAGS	+= -I$(INCF)
 
-NAME	= strace
+NAME	= ftrace
 
 SRCF	= src/
 
