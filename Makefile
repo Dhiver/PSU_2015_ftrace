@@ -4,7 +4,7 @@
 ## Login   <dhiver_b@epitech.net>
 ## 
 ## Started on  Thu Mar 31 13:20:36 2016 Bastien DHIVER
-## Last update Mon Apr 11 11:31:08 2016 florian videau
+## Last update Tue Apr 12 15:08:47 2016 florian videau
 ##
 
 CC	= gcc
@@ -18,9 +18,10 @@ NAME	= ftrace
 
 SRCF	= src/
 
-INCF	= include/
+INCF	= inc/
 
-SRCS	= $(SRCF)ftrace.c
+SRCS	= $(SRCF)ftrace.c\
+	  $(SRCF)find_executable.c
 
 OBJS	= $(SRCS:.c=.o)
 
