@@ -1,10 +1,11 @@
-## ## Makefile for strace in /home/work/work/projects/PSU_2015_strace_doc/PSU_2015_strace
-## 
-## Made by Bastien DHIVER
-## Login   <dhiver_b@epitech.net>
-## 
-## Started on  Thu Mar 31 13:20:36 2016 Bastien DHIVER
-## Last update Tue Apr 12 15:08:47 2016 florian videau
+##
+## Makefile for ftrace in /home/videau_f/rendu/PSU/PSU_2015_ftrace
+##
+## Made by florian videau
+## Login   <videau_f@epitech.net>
+##
+## Started on  Wed Apr 13 11:06:17 2016 florian videau
+## Last update Wed Apr 13 11:08:09 2016 florian videau
 ##
 
 CC	= gcc
@@ -21,7 +22,9 @@ SRCF	= src/
 INCF	= inc/
 
 SRCS	= $(SRCF)ftrace.c\
-	  $(SRCF)find_executable.c
+	  $(SRCF)find_executable.c\
+	  $(SRCF)trace.c\
+	  $(SRCF)utils.c
 
 OBJS	= $(SRCS:.c=.o)
 
