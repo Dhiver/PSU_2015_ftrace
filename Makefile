@@ -5,7 +5,7 @@
 ## Login   <videau_f@epitech.net>
 ##
 ## Started on  Wed Apr 13 11:06:17 2016 florian videau
-## Last update Wed Apr 13 11:08:09 2016 florian videau
+## Last update Tue Apr 19 10:12:52 2016 Bastien DHIVER
 ##
 
 CC	= gcc
@@ -19,7 +19,7 @@ NAME	= ftrace
 
 SRCF	= src/
 
-INCF	= inc/
+INCF	= include/
 
 SRCS	= $(SRCF)ftrace.c\
 	  $(SRCF)find_executable.c\

@@ -5,18 +5,18 @@
 ** Login   <dhiver_b@epitech.net>
 **
 ** Started on  Thu Mar 31 13:18:13 2016 Bastien DHIVER
-** Last update Tue Apr 12 15:47:56 2016 florian videau
+** Last update Tue Apr 19 11:07:45 2016 Bastien DHIVER
 */
 
 #include <stdlib.h>
 #include <string.h>
 #include <limits.h>
 #include <stdio.h>
-#include "strace.h"
+#include "ftrace.h"
 
 int	display_error(int errsav, int ret_code)
 {
-  return (print("%s\n", strerror(errsav)), ret_code);
+  return (print_err("%s\n", strerror(errsav)), ret_code);
 }
 
 int	get_nbr(char *str, long int *nbr)
