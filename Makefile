@@ -5,14 +5,14 @@
 ## Login   <videau_f@epitech.net>
 ##
 ## Started on  Wed Apr 13 11:06:17 2016 florian videau
-## Last update Tue Apr 19 10:12:52 2016 Bastien DHIVER
+## Last update Wed Apr 20 11:30:48 2016 Bastien DHIVER
 ##
 
 CC	= gcc
 
 RM	= rm -f
 
-CFLAGS	+= -W -Wall -Wextra -pedantic -std=c99
+CFLAGS	+= -W -Wall -Wextra -pedantic
 CFLAGS	+= -I$(INCF)
 
 NAME	= ftrace
@@ -21,10 +21,12 @@ SRCF	= src/
 
 INCF	= include/
 
-SRCS	= $(SRCF)ftrace.c\
-	  $(SRCF)find_executable.c\
-	  $(SRCF)trace.c\
-	  $(SRCF)utils.c
+SRCS	= $(SRCF)ftrace.c		\
+	  $(SRCF)find_executable.c	\
+	  $(SRCF)trace.c		\
+	  $(SRCF)utils.c		\
+	  $(SRCF)print_signals.c	\
+	  $(SRCF)signals.c
 
 OBJS	= $(SRCS:.c=.o)
 

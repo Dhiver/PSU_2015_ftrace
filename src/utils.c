@@ -5,7 +5,7 @@
 ** Login   <dhiver_b@epitech.net>
 **
 ** Started on  Thu Mar 31 13:18:13 2016 Bastien DHIVER
-** Last update Tue Apr 19 11:07:45 2016 Bastien DHIVER
+** Last update Wed Apr 20 12:20:07 2016 Bastien DHIVER
 */
 
 #include <stdlib.h>
@@ -14,9 +14,9 @@
 #include <stdio.h>
 #include "ftrace.h"
 
-int	display_error(int errsav, int ret_code)
+int	display_error(int errsav)
 {
-  return (print_err("%s\n", strerror(errsav)), ret_code);
+  return (print_err("%s\n", strerror(errsav)), 1);
 }
 
 int	get_nbr(char *str, long int *nbr)
