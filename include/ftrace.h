@@ -5,14 +5,17 @@
 ** Login   <videau_f@epitech.net>
 **
 ** Started on  Tue Apr 12 14:07:13 2016 florian videau
-** Last update Wed Apr 20 12:20:05 2016 Bastien DHIVER
+** Last update Thu Apr 21 10:21:52 2016 florian videau
 */
 
 #ifndef FTRACE_H_
 # define FTRACE_H_
 
-# include <stdio.h>
+/* # define __USE_POSIX199309 1 */
 # include <signal.h>
+# include <stdio.h>
+# include <sys/types.h>
+# include <sys/wait.h>
 
 # define DEFAULT_PATH		"/usr/local/bin:/usr/bin:/bin"
 
@@ -49,7 +52,7 @@ int				display_error(int);
 /*
 ** print_signals.c
 */
-void				aff_signal(siginfo_t *);
+/* void				aff_signal(siginfo_t *); */
 
 /*
 ** signals.c

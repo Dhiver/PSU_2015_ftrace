@@ -1,14 +1,16 @@
 /*
 ** print_signals.c for ftrace in /home/work/work/projects/PSU_2015_ftrace_doc/PSU_2015_ftrace/src
-** 
+**
 ** Made by Bastien DHIVER
 ** Login   <dhiver_b@epitech.net>
-** 
+**
 ** Started on  Wed Apr 20 10:53:11 2016 Bastien DHIVER
-** Last update Wed Apr 20 10:57:47 2016 Bastien DHIVER
+** Last update Thu Apr 21 10:27:18 2016 florian videau
 */
 
 #define _GNU_SOURCE
+#include <errno.h>
+#include <sys/ptrace.h>
 #include <sys/types.h>
 #include <signal.h>
 #include <sys/wait.h>
@@ -67,3 +69,22 @@ void	aff_signal(siginfo_t *info)
   kill(g_pid, info->si_signo);
 }
 
+int		aff_end(int status)
+{
+  siginfo_t	info;
+
+  if (WIFEXITED(status))
+    {
+      if (!(WSTOPSIG(status) == SIGSEGV))
+	print_err("+++ exited with %d +++\n", WSTOPSIG(status));
+      return (0);
+    }
+  else if (WIFSTOPPED(status))
+    {
+      if (ptrace(PTRACE_GETSIGINFO, g_pid, NULL, &info))
+	return (display_error(errno), 1);
+      if (info.si_signo != SIGTRAP && info.si_signo != SIGSTOP)
+	return (print_err("--- "), aff_signal(&info), 0);
+    }
+  return (1);
+}
