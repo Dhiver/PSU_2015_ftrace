@@ -5,7 +5,7 @@
 ** Login   <dhiver_b@epitech.net>
 **
 ** Started on  Thu Mar 31 13:41:06 2016 Bastien DHIVER
-** Last update Wed Apr 20 12:44:17 2016 Bastien DHIVER
+** Last update Thu Apr 21 15:20:00 2016 florian videau
 */
 
 #define _GNU_SOURCE
@@ -16,7 +16,7 @@
 #include <sys/user.h>
 #include <sys/wait.h>
 #include <unistd.h>
-#include "ftrace.h"
+#include "../include/ftrace.h"
 
 int	be_the_child(t_args *args)
 {
@@ -39,19 +39,35 @@ int		inspect_regs(int pid)
   return (0);
 }
 
-int	be_the_parent_loop(int status, int pid)
+int	be_the_parent_rec(int status)
 {
-  while (1)
+
+  printf("Entering function : %s at %llx\n", "toto", (unsigned long long) 42);
+  while(/*pas de ret*/)
     {
-      if (!aff_end(status))
-	return (0);
-      if (inspect_regs(pid))
-	return (1);
-      if (ptrace(PTRACE_SINGLESTEP, pid, NULL, NULL) == -1)
-	return (display_error(errno), 1);
-      if (waitpid(pid, &status, 0) == -1)
-	return (display_error(errno), 1);
+      while (/*pas de call ni de ret*/)
+	{
+	  if (ptrace(PTRACE_SINGLESTEP, g_pid, NULL, NULL) == -1)
+	    return (display_error(errno), 1);
+	  if (waitpid(g_pid, &status, 0) == -1)
+	    return (display_error(errno), 1);
+	}
+      if (/*un call*/)
+	be_the_parent_rec(status);
     }
+  printf("Leaving function %s\n", "toto");
+  return (0);
+  /* while (1) */
+  /*   { */
+  /*     if (!aff_end(status)) */
+  /* 	return (0); */
+  /*     if (inspect_regs(pid)) */
+  /* 	return (1); */
+  /*     if (ptrace(PTRACE_SINGLESTEP, pid, NULL, NULL) == -1) */
+  /* 	return (display_error(errno), 1); */
+  /*     if (waitpid(pid, &status, 0) == -1) */
+  /* 	return (display_error(errno), 1); */
+  /*   } */
 }
 
 int	be_the_parent(void)
@@ -64,5 +80,12 @@ int	be_the_parent(void)
     return (display_error(errno), 1);
   if (waitpid(g_pid, &status, 0) == -1)
     return (display_error(errno), 1);
-  return (be_the_parent_loop(status, g_pid));
+  while (/*pas de call*/)
+    {
+      if (ptrace(PTRACE_SINGLESTEP, g_pid, NULL, NULL) == -1)
+	return (display_error(errno), 1);
+      if (waitpid(g_pid, &status, 0) == -1)
+	return (display_error(errno), 1);
+    }
+  return (be_the_parent_rec(status));
 }
