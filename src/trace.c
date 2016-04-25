@@ -5,7 +5,7 @@
 ** Login   <dhiver_b@epitech.net>
  **
 ** Started on  Thu Mar 31 13:41:06 2016 Bastien DHIVER
-** Last update Mon Apr 25 10:27:22 2016 florian videau
+** Last update Mon Apr 25 10:45:06 2016 florian videau
 */
 
 #define _GNU_SOURCE
@@ -27,25 +27,10 @@ int	be_the_child(t_args *args)
   return (1);
 }
 
-int		inspect_regs(int pid)
-{
-  t_regs	regs;
-
-  if (ptrace(PTRACE_GETREGS, pid, NULL, &regs) == -1)
-    return (display_error(errno), 1);
-  /* if ((long long)call->regs.orig_rax != -1) */
-  /*   main_printing(call); */
-  printf("I see orig_rax : %d, rax : %d\n", (int)regs.orig_rax, (int)regs.rax);
-  return (0);
-}
-
 int	be_the_parent_rec(int *status, t_call *call, unsigned long *opcode, int indent)
 {
   int	i;
 
-  i = -1;
-  while (++i < indent)
-    printf(" ");
   if (ptrace(PTRACE_SINGLESTEP, g_pid, NULL, NULL) == -1)
     return (display_error(errno), 1);
   if (waitpid(g_pid, status, 0) == -1)
@@ -53,18 +38,24 @@ int	be_the_parent_rec(int *status, t_call *call, unsigned long *opcode, int inde
   if (ptrace(PTRACE_GETREGS, g_pid, NULL, &(call->regs)) == -1)
     return (display_error(errno));
   *opcode = ptrace(PTRACE_PEEKTEXT, g_pid, call->regs.rip, call->regs);
+  i = -1;
+  while (++i < indent)
+    printf(" ");
   printf("Entering function : at %llx\n", (unsigned long long) call->regs.rip);
-  while(!RET(*opcode))
+  while(!RET(*opcode) && !WIFEXITED(*status))
     {
-      while (!CALL(*opcode) && !RET(*opcode))
+      while (!CALL(*opcode) && !RET(*opcode) && !WIFEXITED(*status))
   	{
   	  if (ptrace(PTRACE_SINGLESTEP, g_pid, NULL, NULL) == -1)
   	    return (display_error(errno), 1);
   	  if (waitpid(g_pid, status, 0) == -1)
   	    return (display_error(errno), 1);
-	  if (ptrace(PTRACE_GETREGS, g_pid, NULL, &(call->regs)) == -1)
-	    return (display_error(errno));
-	  *opcode = ptrace(PTRACE_PEEKTEXT, g_pid, call->regs.rip, call->regs);
+	  if (!WIFEXITED(*status))
+	    {
+	      if (ptrace(PTRACE_GETREGS, g_pid, NULL, &(call->regs)) == -1)
+		return (display_error(errno));
+	      *opcode = ptrace(PTRACE_PEEKTEXT, g_pid, call->regs.rip, call->regs);
+	    }
   	}
       if (SYSCALL(*opcode))
 	{
@@ -72,12 +63,28 @@ int	be_the_parent_rec(int *status, t_call *call, unsigned long *opcode, int inde
 	    return (display_error(errno));
 	  if (waitpid(g_pid, status, 0) == -1)
 	    return (display_error(errno));
-	  if (ptrace(PTRACE_GETREGS, g_pid, NULL, &call->regs) == -1)
-	    return (display_error(errno));
-	  i = -1;
-	  while (++i < indent)
-	    printf(" ");
-	  main_printing(call);
+	  if (!WIFEXITED(status))
+	    {
+	      if (ptrace(PTRACE_GETREGS, g_pid, NULL, &call->regs) == -1)
+		return (display_error(errno));
+	      *opcode = ptrace(PTRACE_PEEKTEXT, g_pid, call->regs.rip, call->regs);
+	      i = -1;
+	      while (++i < indent)
+		printf(" ");
+	      main_printing(call);
+	    }
+	  else
+	    printf("exit\n");
+	  /* if (ptrace(PTRACE_SINGLESTEP, g_pid, NULL, NULL) == -1) */
+	  /*   return (display_error(errno)); */
+	  /* if (waitpid(g_pid, status, 0) == -1) */
+	  /*   return (display_error(errno)); */
+	  /* if (ptrace(PTRACE_GETREGS, g_pid, NULL, &call->regs) == -1) */
+	  /*   return (display_error(errno)); */
+	  /* i = -1; */
+	  /* while (++i < indent) */
+	  /*   printf(" "); */
+	  /* main_printing(call); */
 	}
       if (RET(*opcode))
 	{
@@ -117,7 +124,7 @@ int	be_the_parent_rec(int *status, t_call *call, unsigned long *opcode, int inde
   i = -1;
   while (++i < indent)
     printf(" ");
-  printf("Leaving function qq\n");
+  printf("Leaving function\n");
   return (0);
 }
 
@@ -160,6 +167,7 @@ int	be_the_parent(t_call *call)
 	    {
 	      if (ptrace(PTRACE_GETREGS, g_pid, NULL, &call->regs) == -1)
 		return (display_error(errno));
+	      opcode = ptrace(PTRACE_PEEKTEXT, g_pid, call->regs.rip, call->regs);
 	      main_printing(call);
 	    }
 	  else
