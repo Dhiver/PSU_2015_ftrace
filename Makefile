@@ -5,7 +5,7 @@
 ## Login   <videau_f@epitech.net>
 ##
 ## Started on  Wed Apr 13 11:06:17 2016 florian videau
-## Last update Sat Apr 23 23:53:58 2016 florian videau
+## Last update Mon Apr 25 23:30:25 2016 Bastien DHIVER
 ##
 
 CC	= gcc
@@ -14,7 +14,8 @@ RM	= rm -f
 
 CFLAGS	+= -W -Wall -Wextra -pedantic -std=c99
 CFLAGS	+= -I$(INCF)
-CFLAGS  += -g3
+
+LDFLAGS	+= -lelf
 
 NAME	= ftrace
 
@@ -31,13 +32,14 @@ SRCS	= $(SRCF)ftrace.c		\
 	  $(SRCF)printing.c		\
 	  $(SRCF)signals.c		\
 	  $(SRCF)trace.c		\
-	  $(SRCF)utils.c
+	  $(SRCF)utils.c		\
+	  $(SRCF)load_elf.c
 
 OBJS	= $(SRCS:.c=.o)
 
 
 $(NAME): $(OBJS)
-	$(CC) $(OBJS) -o $(NAME)
+	$(CC) $(OBJS) -o $(NAME) $(LDFLAGS)
 
 all: $(NAME)
 

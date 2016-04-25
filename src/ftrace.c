@@ -5,7 +5,7 @@
 ** Login   <videau_f@epitech.net>
 **
 ** Started on  Tue Apr 12 11:59:11 2016 florian videau
-** Last update Sat Apr 23 22:24:54 2016 florian videau
+** Last update Mon Apr 25 23:34:00 2016 Bastien DHIVER
 */
 
 #define _GNU_SOURCE
@@ -17,7 +17,8 @@
 #include <signal.h>
 #include "../include/ftrace.h"
 
-pid_t	g_pid = 0;
+pid_t		g_pid = 0;
+t_bin_infos	g_bin;
 
 void	init_pr_type(t_pr_type *tab)
 {
@@ -43,7 +44,7 @@ int	run_process(t_args *args, t_call *call)
   args->av[0] = file_w_path;
   if ((g_pid = fork()) == -1)
     return (display_error(errno), 1);
-  return ((!g_pid) ? be_the_child(args) : be_the_parent(call));
+  return ((!g_pid) ? be_the_child(args) : be_the_parent(call, args->av[0]));
 }
 
 int		main(int ac, char **av, char **env)

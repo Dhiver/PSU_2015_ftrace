@@ -5,12 +5,13 @@
 ** Login   <videau_f@epitech.net>
 **
 ** Started on  Tue Apr 12 14:07:13 2016 florian videau
-** Last update Mon Apr 25 17:42:52 2016 florian videau
+** Last update Mon Apr 25 23:33:58 2016 Bastien DHIVER
 */
 
 #ifndef FTRACE_H_
 # define FTRACE_H_
 
+# include <gelf.h>
 # include <stdio.h>
 # include <sys/types.h>
 # include <sys/user.h>
@@ -37,7 +38,15 @@ typedef	enum			e_bool
   TRUE
 }				t_bool;
 
+typedef struct			s_bin_infos
+{
+  char				*name;
+  int				fd;
+  Elf				*e;
+}				t_bin_infos;
+
 extern pid_t			g_pid;
+extern t_bin_infos		g_bin;
 
 typedef	struct user_regs_struct	t_regs;
 
@@ -89,7 +98,7 @@ int				print_long(long_stuff, void *);
 **trace.c
 */
 int				be_the_child(t_args *arg);
-int				be_the_parent(t_call *call);
+int				be_the_parent(t_call *call, char *);
 
 /*
 ** utils.c
@@ -102,6 +111,11 @@ int				display_error(int);
 void				get_sigint(int);
 int				aff_end(int);
 
+/*
+** load_elf.c
+*/
+int				load_elf(char *);
+int				unload_elf(void);
 
 void				main_printing(t_call *);
 #endif /*FTRACE_H_*/
