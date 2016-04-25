@@ -1,7 +1,7 @@
 # TODO
 
 - [ ] Resolve names via adresses of all symboles in the binary (static and dynamic) Bastien
-	- [ ] Check for correct binary at all steps
+	- [/] Check for correct binary at all steps
 	- [ ] Get Ehdr
 	- [ ] Get Shdr
 	- [ ] Static symbols

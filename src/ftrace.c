@@ -5,7 +5,7 @@
 ** Login   <videau_f@epitech.net>
 **
 ** Started on  Tue Apr 12 11:59:11 2016 florian videau
-** Last update Mon Apr 25 23:34:00 2016 Bastien DHIVER
+** Last update Mon Apr 25 23:45:08 2016 Bastien DHIVER
 */
 
 #define _GNU_SOURCE
@@ -59,5 +59,5 @@ int		main(int ac, char **av, char **env)
   args.env = env;
   call.is_child = TRUE;
   init_pr_type(call.pr_type);
-  return (run_process(&args, &call));
+  return (run_process(&args, &call) || unload_elf());
 }

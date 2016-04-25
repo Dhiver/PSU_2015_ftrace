@@ -5,7 +5,7 @@
 ** Login   <dhiver_b@epitech.net>
  **
 ** Started on  Thu Mar 31 13:41:06 2016 Bastien DHIVER
-** Last update Mon Apr 25 23:35:30 2016 Bastien DHIVER
+** Last update Mon Apr 25 23:43:04 2016 Bastien DHIVER
 */
 
 #define _GNU_SOURCE
@@ -52,7 +52,7 @@ int	be_the_parent_rec(int *status, t_call *call, unsigned long *opcode, int inde
   i = -1;
   while (++i < indent)
     printf(" ");
-  printf("Entering function : at %llx\n", (unsigned long long) call->regs.rip);
+  printf("Entering function : at 0x%llx\n", (unsigned long long) call->regs.rip);
   while(!RET(*opcode) && !WIFEXITED(*status))
     {
       while (!CALL(*opcode) && !RET(*opcode) && !WIFEXITED(*status))
@@ -125,11 +125,11 @@ int	be_the_parent(t_call *call, char *pathname)
     {
       while (!opcode || !CALL(opcode))
 	if (one_more_step(&status, call, &opcode))
-	  return 1;
+	  return (1);
       if (SYSCALL(opcode))
 	{
 	  if (one_more_step(&status, call, &opcode))
-	    return 1;
+	    return (1);
 	  if (!WIFEXITED(status))
 	    main_printing(call);
 	  else
@@ -137,9 +137,9 @@ int	be_the_parent(t_call *call, char *pathname)
 	}
       else
 	if (be_the_parent_rec(&status, call, &opcode, 0))
-	  return 1;
+	  return (1);
 	else if (one_more_step(&status, call, &opcode))
-	  return 1;
+	  return (1);
     }
-  return 0;
+  return (0);
 }
