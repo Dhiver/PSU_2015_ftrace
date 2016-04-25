@@ -5,7 +5,7 @@
 ** Login   <dhiver_b@epitech.net>
  **
 ** Started on  Thu Mar 31 13:41:06 2016 Bastien DHIVER
-** Last update Mon Apr 25 10:45:06 2016 florian videau
+** Last update Mon Apr 25 17:44:28 2016 florian videau
 */
 
 #define _GNU_SOURCE
@@ -66,7 +66,7 @@ int	be_the_parent_rec(int *status, t_call *call, unsigned long *opcode, int inde
 	  if (!WIFEXITED(status))
 	    {
 	      if (ptrace(PTRACE_GETREGS, g_pid, NULL, &call->regs) == -1)
-		return (display_error(errno));
+	      	return (display_error(errno));
 	      *opcode = ptrace(PTRACE_PEEKTEXT, g_pid, call->regs.rip, call->regs);
 	      i = -1;
 	      while (++i < indent)
@@ -75,16 +75,6 @@ int	be_the_parent_rec(int *status, t_call *call, unsigned long *opcode, int inde
 	    }
 	  else
 	    printf("exit\n");
-	  /* if (ptrace(PTRACE_SINGLESTEP, g_pid, NULL, NULL) == -1) */
-	  /*   return (display_error(errno)); */
-	  /* if (waitpid(g_pid, status, 0) == -1) */
-	  /*   return (display_error(errno)); */
-	  /* if (ptrace(PTRACE_GETREGS, g_pid, NULL, &call->regs) == -1) */
-	  /*   return (display_error(errno)); */
-	  /* i = -1; */
-	  /* while (++i < indent) */
-	  /*   printf(" "); */
-	  /* main_printing(call); */
 	}
       if (RET(*opcode))
 	{
@@ -100,7 +90,6 @@ int	be_the_parent_rec(int *status, t_call *call, unsigned long *opcode, int inde
 	  while (++i < indent)
 	    printf(" ");
 	  printf("RELATIVE\n");
-	  /* printf("Entering function : %s at %llx\n", "toto", (unsigned long long) call->regs.rip); */
 	  be_the_parent_rec(status, call, opcode, indent + 1);
 	}
       else if (INDCALL(*opcode))
@@ -109,7 +98,6 @@ int	be_the_parent_rec(int *status, t_call *call, unsigned long *opcode, int inde
 	  while (++i < indent)
 	    printf(" ");
 	  printf("INDIRECT\n");
-	  /* printf("Entering function : %s at %llx\n", "toto", (unsigned long long) call->regs.rip); */
 	  be_the_parent_rec(status, call, opcode, indent + 1);
 	}
       if (ptrace(PTRACE_SINGLESTEP, g_pid, NULL, NULL) == -1)
@@ -138,10 +126,6 @@ int	be_the_parent(t_call *call)
 
   if (waitpid(g_pid, &status, 0) == -1)
     return (display_error(errno), 1);
-  /* if (ptrace(PTRACE_SINGLESTEP, g_pid, NULL, NULL) == -1) */
-  /*   return (display_error(errno), 1); */
-  /* if (waitpid(g_pid, &status, 0) == -1) */
-  /*   return (display_error(errno), 1); */
   if (ptrace(PTRACE_GETREGS, g_pid, NULL, &(call->regs)) == -1)
     return (display_error(errno));
   opcode = ptrace(PTRACE_PEEKTEXT, g_pid, call->regs.rip, call->regs);
