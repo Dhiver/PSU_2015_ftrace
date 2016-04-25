@@ -5,7 +5,7 @@
 ** Login   <dhiver_b@epitech.net>
  **
 ** Started on  Thu Mar 31 13:41:06 2016 Bastien DHIVER
-** Last update Mon Apr 25 17:44:28 2016 florian videau
+** Last update Mon Apr 25 18:50:19 2016 florian videau
 */
 
 #define _GNU_SOURCE
@@ -27,17 +27,28 @@ int	be_the_child(t_args *args)
   return (1);
 }
 
-int	be_the_parent_rec(int *status, t_call *call, unsigned long *opcode, int indent)
+int	one_more_step(int *status, t_call *call, unsigned long *opcode)
 {
-  int	i;
-
   if (ptrace(PTRACE_SINGLESTEP, g_pid, NULL, NULL) == -1)
     return (display_error(errno), 1);
   if (waitpid(g_pid, status, 0) == -1)
     return (display_error(errno), 1);
-  if (ptrace(PTRACE_GETREGS, g_pid, NULL, &(call->regs)) == -1)
-    return (display_error(errno));
-  *opcode = ptrace(PTRACE_PEEKTEXT, g_pid, call->regs.rip, call->regs);
+  if (!WIFEXITED(*status))
+    {
+      if (ptrace(PTRACE_GETREGS, g_pid, NULL, &(call->regs)) == -1)
+	return (display_error(errno), 1);
+      if (!(*opcode = ptrace(PTRACE_PEEKTEXT, g_pid, call->regs.rip, call->regs)))
+	return (display_error(errno), 1);
+    }
+  return 0;
+}
+
+int	be_the_parent_rec(int *status, t_call *call, unsigned long *opcode, int indent)
+{
+  int	i;
+
+  if (one_more_step(status, call, opcode))
+    return 1;
   i = -1;
   while (++i < indent)
     printf(" ");
@@ -45,29 +56,14 @@ int	be_the_parent_rec(int *status, t_call *call, unsigned long *opcode, int inde
   while(!RET(*opcode) && !WIFEXITED(*status))
     {
       while (!CALL(*opcode) && !RET(*opcode) && !WIFEXITED(*status))
-  	{
-  	  if (ptrace(PTRACE_SINGLESTEP, g_pid, NULL, NULL) == -1)
-  	    return (display_error(errno), 1);
-  	  if (waitpid(g_pid, status, 0) == -1)
-  	    return (display_error(errno), 1);
-	  if (!WIFEXITED(*status))
-	    {
-	      if (ptrace(PTRACE_GETREGS, g_pid, NULL, &(call->regs)) == -1)
-		return (display_error(errno));
-	      *opcode = ptrace(PTRACE_PEEKTEXT, g_pid, call->regs.rip, call->regs);
-	    }
-  	}
+	if (one_more_step(status, call, opcode))
+	  return 1;
       if (SYSCALL(*opcode))
 	{
-	  if (ptrace(PTRACE_SINGLESTEP, g_pid, NULL, NULL) == -1)
-	    return (display_error(errno));
-	  if (waitpid(g_pid, status, 0) == -1)
-	    return (display_error(errno));
+	  if (one_more_step(status, call, opcode))
+	    return 1;
 	  if (!WIFEXITED(status))
 	    {
-	      if (ptrace(PTRACE_GETREGS, g_pid, NULL, &call->regs) == -1)
-	      	return (display_error(errno));
-	      *opcode = ptrace(PTRACE_PEEKTEXT, g_pid, call->regs.rip, call->regs);
 	      i = -1;
 	      while (++i < indent)
 		printf(" ");
@@ -100,14 +96,8 @@ int	be_the_parent_rec(int *status, t_call *call, unsigned long *opcode, int inde
 	  printf("INDIRECT\n");
 	  be_the_parent_rec(status, call, opcode, indent + 1);
 	}
-      if (ptrace(PTRACE_SINGLESTEP, g_pid, NULL, NULL) == -1)
-	return (display_error(errno), 1);
-      if (waitpid(g_pid, status, 0) == -1)
-	return (display_error(errno), 1);
-      if (ptrace(PTRACE_GETREGS, g_pid, NULL, &(call->regs)) == -1)
-	return (display_error(errno));
-      *opcode = ptrace(PTRACE_PEEKTEXT, g_pid, call->regs.rip, call->regs);
-
+      if (one_more_step(status, call, opcode))
+	return 1;
     }
   i = -1;
   while (++i < indent)
@@ -132,50 +122,22 @@ int	be_the_parent(t_call *call)
   while (!WIFEXITED(status))
     {
       while (!opcode || !CALL(opcode))
-	{
-	  if (ptrace(PTRACE_SINGLESTEP, g_pid, NULL, NULL) == -1)
-	    return (display_error(errno), 1);
-	  if (waitpid(g_pid, &status, 0) == -1)
-	    return (display_error(errno), 1);
-	  if (ptrace(PTRACE_GETREGS, g_pid, NULL, &(call->regs)) == -1)
-	    return (display_error(errno));
-	  opcode = ptrace(PTRACE_PEEKTEXT, g_pid, call->regs.rip, call->regs);
-	}
+	if (one_more_step(&status, call, &opcode))
+	  return 1;
       if (SYSCALL(opcode))
 	{
-	  if (ptrace(PTRACE_SINGLESTEP, g_pid, NULL, NULL) == -1)
-	    return (display_error(errno));
-	  if (waitpid(g_pid, &status, 0) == -1)
-	    return (display_error(errno));
+	  if (one_more_step(&status, call, &opcode))
+	    return 1;
 	  if (!WIFEXITED(status))
-	    {
-	      if (ptrace(PTRACE_GETREGS, g_pid, NULL, &call->regs) == -1)
-		return (display_error(errno));
-	      opcode = ptrace(PTRACE_PEEKTEXT, g_pid, call->regs.rip, call->regs);
-	      main_printing(call);
-	    }
+	    main_printing(call);
 	  else
 	    printf("exit\n");
 	}
       else
-	{
-	  /* if (ptrace(PTRACE_SINGLESTEP, g_pid, NULL, NULL) == -1) */
-	  /*   return (display_error(errno), 1); */
-	  /* if (waitpid(g_pid, &status, 0) == -1) */
-	  /*   return (display_error(errno), 1); */
-	  /* if (ptrace(PTRACE_GETREGS, g_pid, NULL, &(call->regs)) == -1) */
-	  /*   return (display_error(errno)); */
-	  /* opcode = ptrace(PTRACE_PEEKTEXT, g_pid, call->regs.rip, call->regs); */
-	  if (be_the_parent_rec(&status, call, &opcode, 0))
-	    return 1;
-	  if (ptrace(PTRACE_SINGLESTEP, g_pid, NULL, NULL) == -1)
-	    return (display_error(errno), 1);
-	  if (waitpid(g_pid, &status, 0) == -1)
-	    return (display_error(errno), 1);
-	  if (ptrace(PTRACE_GETREGS, g_pid, NULL, &(call->regs)) == -1)
-	    return (display_error(errno));
-	  opcode = ptrace(PTRACE_PEEKTEXT, g_pid, call->regs.rip, call->regs);
-	}
+	if (be_the_parent_rec(&status, call, &opcode, 0))
+	  return 1;
+	else if (one_more_step(&status, call, &opcode))
+	  return 1;
     }
   return 0;
 }
