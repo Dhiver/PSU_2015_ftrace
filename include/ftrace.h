@@ -5,7 +5,7 @@
 ** Login   <videau_f@epitech.net>
 **
 ** Started on  Tue Apr 12 14:07:13 2016 florian videau
-** Last update Sun Apr 24 09:28:48 2016 florian videau
+** Last update Sun Apr 24 17:51:29 2016 florian videau
 */
 
 #ifndef FTRACE_H_
@@ -29,7 +29,7 @@
 
 # define CALL(opcode)		(SYSCALL(opcode) || RELCALL(opcode) || INDCALL(opcode))
 
-# define RET(opcode)		((opcode & 0xFF) == 0xC3)
+# define RET(opcode)		((opcode & 0xFF0000) == 0xC30000)
 
 typedef	enum			e_bool
 {
