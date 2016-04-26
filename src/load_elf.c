@@ -5,10 +5,9 @@
 ** Login   <dhiver_b@epitech.net>
 ** 
 ** Started on  Mon Apr 25 23:00:21 2016 Bastien DHIVER
-** Last update Mon Apr 25 23:36:15 2016 Bastien DHIVER
+** Last update Tue Apr 26 09:30:00 2016 Bastien DHIVER
 */
 
-#include <err.h>
 #include <gelf.h>
 #include <sys/stat.h>
 #include <fcntl.h>
@@ -22,23 +21,25 @@ int	load_elf(char *pathname)
 {
   g_bin.name = pathname;
   if (elf_version(EV_CURRENT) == EV_NONE)
-    errx(EXIT_FAILURE, "ELF lib initialisation failed: %s.", elf_errmsg(-1));
+    return (print_err("ELF lib initialisation failed: %s.",
+		      elf_errmsg(-1)), 1);
   if ((g_bin.fd = open(g_bin.name, O_RDONLY)) == -1)
-    errx(EXIT_FAILURE, "open %s failed: %s.", g_bin.name, strerror(errno));
+    return (print_err("open %s failed: %s.", g_bin.name, strerror(errno)), 1);
   if ((g_bin.e = elf_begin(g_bin.fd, ELF_C_READ, NULL)) == NULL)
-    errx(EXIT_FAILURE, "elf_begin() failed: %s.", elf_errmsg(-1));
+    return (print_err("elf_begin() failed: %s.", elf_errmsg(-1)), 1);
   if (elf_kind(g_bin.e) != ELF_K_ELF)
-    errx(EXIT_FAILURE, "%s is not an ELF object.", g_bin.name);
+    return (print_err("%s is not an ELF object.", g_bin.name), 1);
   if (gelf_getclass(g_bin.e) == ELFCLASSNONE)
-    errx(EXIT_FAILURE, "getclass() failed: %s.", elf_errmsg(-1));
-  return (EXIT_SUCCESS);
+    return (print_err("getclass() failed: %s.", elf_errmsg(-1)), 1);
+  return (0);
 }
 
 int	unload_elf(void)
 {
   if (elf_end(g_bin.e) == -1)
-    errx(EXIT_FAILURE, "elf_end() failed: %s.", elf_errmsg(-1));
+    return (print_err("elf_end() failed: %s.", elf_errmsg(-1)), 1);
   if (close(g_bin.fd) == -1)
-    errx(EXIT_FAILURE, "close() %s failed: %s.", g_bin.name, strerror(errno));
-  return (EXIT_SUCCESS);
+    return (print_err("close() %s failed: %s.", g_bin.name,
+		      strerror(errno)), 1);
+  return (0);
 }
