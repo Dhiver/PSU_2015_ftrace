@@ -5,7 +5,7 @@
 ** Login   <videau_f@epitech.net>
 **
 ** Started on  Tue Apr 12 14:07:13 2016 florian videau
-** Last update Wed Apr 27 15:54:57 2016 Bastien DHIVER
+** Last update Wed Apr 27 18:13:22 2016 florian videau
 */
 
 #ifndef FTRACE_H_
@@ -30,7 +30,13 @@
 
 # define CALL(opcode)		(SYSCALL(opcode) || RELCALL(opcode) || INDCALL(opcode))
 
-# define RET(opcode)		((opcode & 0xFF) == 0xC3)
+# define RET(opcode)		((opcode & 0xFF) == 0xC3 || (opcode & 0xFF) == 0xC2  || (opcode & 0xFF) == 0xCA  || (opcode & 0xFF) == 0xCB)
+
+typedef enum			e_call_type
+  {
+    RELATIVE,
+    INDIRECT
+  }				t_call_type;
 
 typedef	enum			e_bool
 {
@@ -70,6 +76,14 @@ typedef struct                  s_call
   long_stuff                    args_val[7];
   t_bool                        is_child;
 } t_call;
+
+typedef struct	s_rex
+{
+  char		w;
+  char		r;
+  char		x;
+  char		b;
+}		t_rex;
 
 /*
 **find_executable.c
