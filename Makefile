@@ -5,7 +5,7 @@
 ## Login   <videau_f@epitech.net>
 ##
 ## Started on  Wed Apr 13 11:06:17 2016 florian videau
-## Last update Mon Apr 25 23:30:25 2016 Bastien DHIVER
+## Last update Tue Apr 26 10:08:07 2016 Bastien DHIVER
 ##
 
 CC	= gcc
@@ -33,7 +33,8 @@ SRCS	= $(SRCF)ftrace.c		\
 	  $(SRCF)signals.c		\
 	  $(SRCF)trace.c		\
 	  $(SRCF)utils.c		\
-	  $(SRCF)load_elf.c
+	  $(SRCF)load_elf.c		\
+	  $(SRCF)get_name_from_addr.c
 
 OBJS	= $(SRCS:.c=.o)
 
