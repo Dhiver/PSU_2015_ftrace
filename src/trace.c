@@ -5,7 +5,7 @@
 ** Login   <dhiver_b@epitech.net>
  **
 ** Started on  Thu Mar 31 13:41:06 2016 Bastien DHIVER
-** Last update Tue Apr 26 10:56:32 2016 florian videau
+** Last update Tue Apr 26 18:44:45 2016 florian videau
 */
 
 #define _GNU_SOURCE
@@ -33,27 +33,29 @@ int	one_more_step(int *status, t_call *call, unsigned long *opcode)
     return (display_error(errno), 1);
   if (waitpid(g_pid, status, 0) == -1)
     return (display_error(errno), 1);
-  if (!WIFEXITED(*status))
+  if (aff_end(*status))
     {
       if (ptrace(PTRACE_GETREGS, g_pid, NULL, &(call->regs)) == -1)
 	return (display_error(errno), 1);
       if (!(*opcode = ptrace(PTRACE_PEEKTEXT, g_pid, call->regs.rip, call->regs)))
 	return (display_error(errno), 1);
+      return 0;
     }
-  return 0;
+  return 1;
 }
 
-int	be_the_parent_rec(int *status, t_call *call, unsigned long *opcode, int indent)
+int	be_the_parent_rec(int *status, t_call *call, unsigned long *opcode, int indent, t_call_type calltype)
 {
   int	i;
 
+  (void) calltype;
   if (one_more_step(status, call, opcode))
     return 1;
   i = -1;
   while (++i < indent)
     printf(" ");
   printf("Entering function : at 0x%llx\n", (unsigned long long) call->regs.rip);
-  while(!RET(*opcode) && !WIFEXITED(*status))
+  while(!RET(*opcode) && aff_end(*status))
     {
       while (!CALL(*opcode) && !RET(*opcode) && !WIFEXITED(*status))
 	if (one_more_step(status, call, opcode))
@@ -82,20 +84,13 @@ int	be_the_parent_rec(int *status, t_call *call, unsigned long *opcode, int inde
 	}
       else if (RELCALL(*opcode))
 	{
-	  i = -1;
-	  while (++i < indent)
-	    printf(" ");
-	  printf("RELATIVE\n");
-	  if (be_the_parent_rec(status, call, opcode, indent + 1))
+
+	  if (be_the_parent_rec(status, call, opcode, indent + 1, RELATIVE))
 	    return 1;
 	}
       else if (INDCALL(*opcode))
 	{
-	  i = -1;
-	  while (++i < indent)
-	    printf(" ");
-	  printf("INDIRECT\n");
-	  if (be_the_parent_rec(status, call, opcode, indent + 1))
+	  if (be_the_parent_rec(status, call, opcode, indent + 1, INDIRECT))
 	    return 1;
 	}
       if (one_more_step(status, call, opcode))
@@ -123,7 +118,7 @@ int	be_the_parent(t_call *call, char *pathname)
   if (ptrace(PTRACE_GETREGS, g_pid, NULL, &(call->regs)) == -1)
     return (display_error(errno));
   opcode = ptrace(PTRACE_PEEKTEXT, g_pid, call->regs.rip, call->regs);
-  while (!WIFEXITED(status))
+  while (aff_end(status))
     {
       while (!opcode || !CALL(opcode))
 	if (one_more_step(&status, call, &opcode))
@@ -135,11 +130,19 @@ int	be_the_parent(t_call *call, char *pathname)
 	  if (aff_end(status))
 	    main_printing(call);
 	}
-      else
-	if (be_the_parent_rec(&status, call, &opcode, 0))
-	  return (1);
-	else if (one_more_step(&status, call, &opcode))
-	  return (1);
+      else if (RELCALL(opcode))
+	{
+
+	  if (be_the_parent_rec(&status, call, &opcode, 0, RELATIVE))
+	    return 1;
+	}
+      else if (INDCALL(opcode))
+	{
+	  if (be_the_parent_rec(&status, call, &opcode, 0, INDIRECT))
+	    return 1;
+	}
+      if (one_more_step(&status, call, &opcode))
+	return (1);
     }
   return (0);
 }
