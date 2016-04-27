@@ -20,8 +20,8 @@
 	- [ ] print symbol name, else `func_0x8765FDE0@a.out`
 
 - [ ] Detect functions calls (Florian)
-	- [ ] Main recursive loop
-	- [ ] calls / syscalls / ret
+	- [X] Main recursive loop
+	- [X] calls / syscalls / ret
 	- [ ] jmp / jle / ...
 	- [ ] Mod R/M - FF/2
 - [ ] Final printing

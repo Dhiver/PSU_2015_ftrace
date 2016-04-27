@@ -5,7 +5,7 @@
 ** Login   <dhiver_b@epitech.net>
  **
 ** Started on  Thu Mar 31 13:41:06 2016 Bastien DHIVER
-** Last update Mon Apr 25 23:43:04 2016 Bastien DHIVER
+** Last update Tue Apr 26 10:56:32 2016 florian videau
 */
 
 #define _GNU_SOURCE
@@ -62,7 +62,7 @@ int	be_the_parent_rec(int *status, t_call *call, unsigned long *opcode, int inde
 	{
 	  if (one_more_step(status, call, opcode))
 	    return 1;
-	  if (!WIFEXITED(status))
+	  if (aff_end(*status))
 	    {
 	      i = -1;
 	      while (++i < indent)
@@ -70,7 +70,7 @@ int	be_the_parent_rec(int *status, t_call *call, unsigned long *opcode, int inde
 	      main_printing(call);
 	    }
 	  else
-	    printf("exit\n");
+	    return 1;
 	}
       if (RET(*opcode))
 	{
@@ -86,7 +86,8 @@ int	be_the_parent_rec(int *status, t_call *call, unsigned long *opcode, int inde
 	  while (++i < indent)
 	    printf(" ");
 	  printf("RELATIVE\n");
-	  be_the_parent_rec(status, call, opcode, indent + 1);
+	  if (be_the_parent_rec(status, call, opcode, indent + 1))
+	    return 1;
 	}
       else if (INDCALL(*opcode))
 	{
@@ -94,7 +95,8 @@ int	be_the_parent_rec(int *status, t_call *call, unsigned long *opcode, int inde
 	  while (++i < indent)
 	    printf(" ");
 	  printf("INDIRECT\n");
-	  be_the_parent_rec(status, call, opcode, indent + 1);
+	  if (be_the_parent_rec(status, call, opcode, indent + 1))
+	    return 1;
 	}
       if (one_more_step(status, call, opcode))
 	return 1;
@@ -130,10 +132,8 @@ int	be_the_parent(t_call *call, char *pathname)
 	{
 	  if (one_more_step(&status, call, &opcode))
 	    return (1);
-	  if (!WIFEXITED(status))
+	  if (aff_end(status))
 	    main_printing(call);
-	  else
-	    printf("exit\n");
 	}
       else
 	if (be_the_parent_rec(&status, call, &opcode, 0))
