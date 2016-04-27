@@ -5,7 +5,7 @@
 ## Login   <videau_f@epitech.net>
 ##
 ## Started on  Wed Apr 13 11:06:17 2016 florian videau
-## Last update Tue Apr 26 10:08:07 2016 Bastien DHIVER
+## Last update Wed Apr 27 18:50:46 2016 florian videau
 ##
 
 CC	= gcc
@@ -14,6 +14,8 @@ RM	= rm -f
 
 CFLAGS	+= -W -Wall -Wextra -pedantic -std=c99
 CFLAGS	+= -I$(INCF)
+
+CFLAGS  += -g3
 
 LDFLAGS	+= -lelf
 

@@ -5,7 +5,7 @@
 ** Login   <videau_f@epitech.net>
 **
 ** Started on  Tue Apr 12 14:07:13 2016 florian videau
-** Last update Wed Apr 27 16:52:42 2016 florian videau
+** Last update Wed Apr 27 18:13:22 2016 florian videau
 */
 
 #ifndef FTRACE_H_
@@ -76,6 +76,14 @@ typedef struct                  s_call
   long_stuff                    args_val[7];
   t_bool                        is_child;
 } t_call;
+
+typedef struct	s_rex
+{
+  char		w;
+  char		r;
+  char		x;
+  char		b;
+}		t_rex;
 
 /*
 **find_executable.c
