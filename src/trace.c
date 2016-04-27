@@ -5,7 +5,7 @@
 ** Login   <dhiver_b@epitech.net>
  **
 ** Started on  Thu Mar 31 13:41:06 2016 Bastien DHIVER
-** Last update Tue Apr 26 10:56:32 2016 florian videau
+** Last update Wed Apr 27 22:44:59 2016 Bastien DHIVER
 */
 
 #define _GNU_SOURCE
@@ -108,10 +108,7 @@ int	be_the_parent_rec(int *status, t_call *call, unsigned long *opcode, int inde
   return (0);
 }
 
-/*
-**_start function
-*/
-int	be_the_parent(t_call *call, char *pathname)
+int		be_the_parent(t_call *call, char *pathname)
 {
   int		status;
   unsigned long	opcode;

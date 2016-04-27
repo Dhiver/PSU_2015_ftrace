@@ -5,11 +5,13 @@
 ** Login   <dhiver_b@epitech.net>
 ** 
 ** Started on  Wed Apr 20 14:27:12 2016 Bastien DHIVER
-** Last update Wed Apr 27 15:58:14 2016 Bastien DHIVER
+** Last update Wed Apr 27 20:28:38 2016 Bastien DHIVER
 */
 
+#define _GNU_SOURCE
 #include <stdlib.h>
 #include <strings.h>
+#include <dlfcn.h>
 #include "ftrace.h"
 
 /*
@@ -37,6 +39,7 @@ int		get_name_from_addr(long_stuff addr)
   GElf_Sym	sym;
   int		count;
   int		i;
+  Dl_info	info;
 
   (void)addr;
   scn = NULL;
@@ -63,5 +66,8 @@ int		get_name_from_addr(long_stuff addr)
 	    }
 	}
     }
-  return (printf("func_0x%llX@%s", (long_stuff)addr, rindex(g_bin.name, '/') + 1), 1);
+  dladdr((void *)addr, &info);
+  if (info.dli_sname == NULL)
+    return (printf("func_0x%llX@%s", (long_stuff)addr, rindex(g_bin.name, '/') + 1), 0);
+  return (printf("Symbol name is '%s' in the shared lib '%s'\n", info.dli_sname, info.dli_fname), 0);
 }
