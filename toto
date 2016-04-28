@@ -1,0 +1,1446 @@
+Entering function : at 0x7f3ae961b710
+ Entering function : at 0x7f3ae96215d0
+ Leaving function
+ Entering function : at 0x7f3ae962bf90
+  Entering function : at 0x7f3ae962cd40
+  brk(NULL)                               = 0x221a000
+   Entering function : at 0x7f3ae962e7d0
+   Leaving function
+   Entering function : at 0x7f3ae962cda0
+   Leaving function
+   Entering function : at 0x7f3ae9618680
+    Entering function : at 0x7f3ae962c5f0
+    Leaving function
+    Entering function : at 0x7f3ae9621710
+     Entering function : at 0x7f3ae962e7d0
+     Leaving function
+     Entering function : at 0x7f3ae9617ab0
+     Leaving function
+     Entering function : at 0x7f3ae962f700
+     Leaving function
+     Entering function : at 0x7f3ae9621680
+      Entering function : at 0x7f3ae96181f0
+      Leaving function
+     Leaving function
+     Entering function : at 0x7f3ae962e7a0
+     Leaving function
+     Entering function : at 0x7f3ae96215d0
+     Leaving function
+     Entering function : at 0x7f3ae9621710
+      Entering function : at 0x7f3ae962e7d0
+      Leaving function
+      Entering function : at 0x7f3ae9617ab0
+      Leaving function
+      Entering function : at 0x7f3ae962f700
+      Leaving function
+      Entering function : at 0x7f3ae96215d0
+      Leaving function
+      Entering function : at 0x7f3ae962e7d0
+      Leaving function
+      Entering function : at 0x7f3ae9617a90
+      Leaving function
+      Entering function : at 0x7f3ae962f700
+       Entering function : at 0x7f3ae9621680
+        Entering function : at 0x7f3ae96181f0
+        Leaving function
+       Leaving function
+       Entering function : at 0x7f3ae962c410
+        Entering function : at 0x7f3ae962ee30
+        Leaving function
+       Leaving function
+       Entering function : at 0x7f3ae961ea10
+        Entering function : at 0x7f3ae96244c0
+         Entering function : at 0x7f3ae9617a90
+         Leaving function
+         Entering function : at 0x7f3ae962f4d0
+         Leaving function
+         Entering function : at 0x7f3ae962f4d0
+         Leaving function
+        Leaving function
+        Entering function : at 0x7f3ae9617a90
+        Leaving function
+        Entering function : at 0x7f3ae9617a90
+         Entering function : at 0x7f3ae962e190
+         mmap(NULL, 4096, 3, 34, -1, 0)          = 0x7f3ae9836000
+         Leaving function
+        Leaving function
+       Leaving function
+       Entering function : at 0x7f3ae9626140
+       Leaving function
+       Entering function : at 0x7f3ae9626130
+        Entering function : at 0x7f3ae962e0c0
+        access("/etc/ld.so.preload", 4)         = -1 ENOENT (No such file or directory)
+        Leaving function
+        Entering function : at 0x7f3ae96232e0
+         Entering function : at 0x7f3ae962e580
+         Leaving function
+         Entering function : at 0x7f3ae9625730
+          Entering function : at 0x7f3ae96181e0
+          Leaving function
+          Entering function : at 0x7f3ae962e2b0
+          Leaving function
+          Entering function : at 0x7f3ae96232a0
+           Entering function : at 0x7f3ae961ee90
+            Entering function : at 0x7f3ae9626910
+             Entering function : at 0x7f3ae962e7a0
+             Leaving function
+             Entering function : at 0x7f3ae962e7a0
+             Leaving function
+            Leaving function
+            Entering function : at 0x7f3ae9626910
+             Entering function : at 0x7f3ae962e7a0
+             Leaving function
+             Entering function : at 0x7f3ae962e7a0
+             Leaving function
+             Entering function : at 0x7f3ae962e7a0
+             Leaving function
+            Leaving function
+            Entering function : at 0x7f3ae962e7a0
+            Leaving function
+            Entering function : at 0x7f3ae9626910
+             Entering function : at 0x7f3ae962e7a0
+             Leaving function
+             Entering function : at 0x7f3ae962e7a0
+             Leaving function
+            Leaving function
+            Entering function : at 0x7f3ae962e7a0
+            Leaving function
+            Entering function : at 0x7f3ae962e580
+            Leaving function
+            Entering function : at 0x7f3ae962e7d0
+            Leaving function
+            Entering function : at 0x7f3ae962ba00
+             Entering function : at 0x7f3ae9626770
+              Entering function : at 0x7f3ae962e060
+              open("/etc/ld.so.cache", 524288)        = 3
+              Leaving function
+              Entering function : at 0x7f3ae962dfe0
+              fstat(3, {0x7fff0c4e5b90})              = 0
+               Entering function : at 0x7f3ae962e190
+               mmap(NULL, 156362, 1, 2, 3, 0)          = 0x7f3ae980f000
+               Leaving function
+               Entering function : at 0x7f3ae962e170
+               close(3)                                = 0
+               Leaving function
+              Leaving function
+              Entering function : at 0x7f3ae962ee30
+              Leaving function
+              Entering function : at 0x7f3ae962ee30
+              Leaving function
+              Entering function : at 0x7f3ae962b920
+              Leaving function
+              Entering function : at 0x7f3ae962b920
+              Leaving function
+              Entering function : at 0x7f3ae962b920
+              Leaving function
+              Entering function : at 0x7f3ae962b920
+              Leaving function
+              Entering function : at 0x7f3ae962b920
+              Leaving function
+              Entering function : at 0x7f3ae962b920
+              Leaving function
+              Entering function : at 0x7f3ae962b920
+              Leaving function
+             Leaving function
+             Entering function : at 0x7f3ae961c1b0
+              Entering function : at 0x7f3ae962e060
+              open("/lib64/libc.so.6", 524288)        = 3
+              Leaving function
+              Entering function : at 0x7f3ae962e080
+              read(3, "\177ELF\2\1\1\0\0\0\0\0\0\0\0\0\3\0>\0\1\0\0\0\20\34\2\0\0\0\0"..., 832) = 832
+              Leaving function
+              Entering function : at 0x7f3ae962ee30
+              Leaving function
+              Entering function : at 0x7f3ae962ee30
+              Leaving function
+              Entering function : at 0x7f3ae962ee30
+              Leaving function
+              Entering function : at 0x7f3ae962ee30
+              Leaving function
+             Leaving function
+             Entering function : at 0x7f3ae961bff0
+              Entering function : at 0x7f3ae962e7d0
+              Leaving function
+              Entering function : at 0x7f3ae9617a90
+              Leaving function
+              Entering function : at 0x7f3ae961cce0
+               Entering function : at 0x7f3ae9626140
+                Entering function : at 0x7f3ae962dfe0
+                fstat(3, {0x7fff0c4e5be0})              = 0
+                 Entering function : at 0x7f3ae9621710
+                  Entering function : at 0x7f3ae962e7d0
+                  Leaving function
+                  Entering function : at 0x7f3ae9617ab0
+                  Leaving function
+                  Entering function : at 0x7f3ae962f700
+                   Entering function : at 0x7f3ae962e7d0
+                   Leaving function
+                   Entering function : at 0x7f3ae9617a90
+                   Leaving function
+                   Entering function : at 0x7f3ae962f4d0
+                   Leaving function
+                  Leaving function
+                  Entering function : at 0x7f3ae9627ef0
+                  Leaving function
+                  Entering function : at 0x7f3ae962e190
+                  mmap(NULL, 3832352, 5, 2050, 3, 0)      = 0x7f3ae926f000
+                  Leaving function
+                  Entering function : at 0x7f3ae962e1e0
+                  mprotect(0x7f3ae940d000, 2097152, 0)    = 0
+                  Leaving function
+                  Entering function : at 0x7f3ae962e190
+                  mmap(0x7f3ae960d000, 24576, 3, 2066, 3, 1695744) = 0x7f3ae960d000
+                  Leaving function
+                  Entering function : at 0x7f3ae962f4c0
+                  Leaving function
+                  Entering function : at 0x7f3ae962e190
+                  mmap(0x7f3ae9613000, 14880, 3, 50, -1, 0) = 0x7f3ae9613000
+                  Leaving function
+                  Entering function : at 0x7f3ae962e170
+                  close(3)                                = 0
+                  Leaving function
+                  Entering function : at 0x7f3ae96215d0
+                  Leaving function
+                  Entering function : at 0x7f3ae9621680
+                   Entering function : at 0x7f3ae96181f0
+                   Leaving function
+                  Leaving function
+                 Leaving function
+                Leaving function
+               Leaving function
+              Leaving function
+              Entering function : at 0x7f3ae962e580
+              Leaving function
+              Entering function : at 0x7f3ae9625730
+               Entering function : at 0x7f3ae96181e0
+               Leaving function
+               Entering function : at 0x7f3ae962e2b0
+               Leaving function
+               Entering function : at 0x7f3ae96232a0
+                Entering function : at 0x7f3ae961ee90
+                 Entering function : at 0x7f3ae9626910
+                  Entering function : at 0x7f3ae962e7a0
+                  Leaving function
+                  Entering function : at 0x7f3ae962e7a0
+                  Leaving function
+                 Leaving function
+                 Entering function : at 0x7f3ae9626910
+                  Entering function : at 0x7f3ae962e7a0
+                  Leaving function
+                  Entering function : at 0x7f3ae962e7a0
+                  Leaving function
+                  Entering function : at 0x7f3ae962e7a0
+                  Leaving function
+                 Leaving function
+                Leaving function
+               Leaving function
+              Leaving function
+              Entering function : at 0x7f3ae9617a90
+              Leaving function
+              Entering function : at 0x7f3ae962f700
+               Entering function : at 0x7f3ae962f700
+                Entering function : at 0x7f3ae9617a90
+                Leaving function
+                Entering function : at 0x7f3ae962f700
+                 Entering function : at 0x7f3ae962f4c0
+                 Leaving function
+                 Entering function : at 0x7f3ae962f4c0
+                 Leaving function
+                Leaving function
+                Entering function : at 0x7f3ae96257f0
+                 Entering function : at 0x7f3ae96181e0
+                 Leaving function
+                 Entering function : at 0x7f3ae961b6d0
+                  Entering function : at 0x7f3ae9627230
+                   Entering function : at 0x7f3ae9626db0
+                    Entering function : at 0x7f3ae9626910
+                     Entering function : at 0x7f3ae962e7a0
+                     Leaving function
+                     Entering function : at 0x7f3ae962e7a0
+                     Leaving function
+                    Leaving function
+                    Entering function : at 0x7f3ae9626910
+                     Entering function : at 0x7f3ae962e7a0
+                     Leaving function
+                     Entering function : at 0x7f3ae962e7a0
+                     Leaving function
+                    Leaving function
+                    Entering function : at 0x7f3ae9626910
+                     Entering function : at 0x7f3ae962e7a0
+                     Leaving function
+                     Entering function : at 0x7f3ae962e7a0
+                     Leaving function
+                    Leaving function
+                    Entering function : at 0x7f3ae96269f0
+                     Entering function : at 0x7f3ae962e7a0
+                     Leaving function
+                    Leaving function
+                    Entering function : at 0x7f3ae9617ab0
+                    Leaving function
+                   Leaving function
+                   Entering function : at 0x7f3ae9626db0
+                    Entering function : at 0x7f3ae9617ab0
+                    Leaving function
+                   Leaving function
+                   Entering function : at 0x7f3ae9626db0
+                    Entering function : at 0x7f3ae9626910
+                     Entering function : at 0x7f3ae962e7a0
+                     Leaving function
+                     Entering function : at 0x7f3ae962e7a0
+                     Leaving function
+                    Leaving function
+                    Entering function : at 0x7f3ae9626910
+                     Entering function : at 0x7f3ae962e7a0
+                     Leaving function
+                     Entering function : at 0x7f3ae962e7a0
+                     Leaving function
+                    Leaving function
+                    Entering function : at 0x7f3ae9626910
+                     Entering function : at 0x7f3ae962e7a0
+                     Leaving function
+                     Entering function : at 0x7f3ae962e7a0
+                     Leaving function
+                    Leaving function
+                    Entering function : at 0x7f3ae9626910
+                     Entering function : at 0x7f3ae962e7a0
+                     Leaving function
+                     Entering function : at 0x7f3ae962e7a0
+                     Leaving function
+                     Entering function : at 0x7f3ae962e7a0
+                     Leaving function
+                    Leaving function
+                    Entering function : at 0x7f3ae96269f0
+                     Entering function : at 0x7f3ae962e7a0
+                     Leaving function
+                    Leaving function
+                    Entering function : at 0x7f3ae96269f0
+                     Entering function : at 0x7f3ae962e7a0
+                     Leaving function
+                    Leaving function
+                    Entering function : at 0x7f3ae9617ab0
+                    Leaving function
+                   Leaving function
+                   Entering function : at 0x7f3ae9626db0
+                    Entering function : at 0x7f3ae9617ab0
+                    Leaving function
+                   Leaving function
+                  Leaving function
+                 Leaving function
+                Leaving function
+                Entering function : at 0x7f3ae9617ec8
+                 Entering function : at 0x7f3ae9617ab0
+                  Entering function : at 0x7f3ae962e190
+                  mmap(NULL, 4096, 3, 34, -1, 0)          = 0x7f3ae980e000
+                  Leaving function
+                 Leaving function
+                 Entering function : at 0x7f3ae9627fd0
+                 Leaving function
+                 Entering function : at 0x7f3ae9628260
+                  Entering function : at 0x7f3ae9617a80
+                   Entering function : at 0x7f3ae962e190
+                   mmap(NULL, 4096, 3, 34, -1, 0)          = 0x7f3ae980d000
+                   Leaving function
+                  Leaving function
+                  Entering function : at 0x7f3ae9627ea0
+                   Entering function : at 0x7f3ae9617ab0
+                    Entering function : at 0x7f3ae962e190
+                    mmap(NULL, 4096, 3, 34, -1, 0)          = 0x7f3ae980c000
+                    Leaving function
+                   Leaving function
+                  Leaving function
+                 Leaving function
+                arch_prctl(4098, 139891002365696)       = 0
+                Leaving function
+                Entering function : at 0x7f3ae9621d40
+                 Entering function : at 0x7f3ae9620550
+                  Entering function : at 0x7f3ae961fbe0
+                   Entering function : at 0x7f3ae961fa60
+                    Entering function : at 0x7f3ae962e7a0
+                    Leaving function
+                   Leaving function
+                  Leaving function
+                 Leaving function
+                 Entering function : at 0x7f3ae9620550
+                  Entering function : at 0x7f3ae961fbe0
+                   Entering function : at 0x7f3ae961fa60
+                    Entering function : at 0x7f3ae962e7a0
+                    Leaving function
+                   Leaving function
+                  Leaving function
+                 Leaving function
+                 Entering function : at 0x7f3ae9620550
+                  Entering function : at 0x7f3ae961fbe0
+                   Entering function : at 0x7f3ae961fa60
+                    Entering function : at 0x7f3ae962e7a0
+                    Leaving function
+                   Leaving function
+                  Leaving function
+                 Leaving function
+                 Entering function : at 0x7f3ae9620550
+                  Entering function : at 0x7f3ae961fbe0
+                   Entering function : at 0x7f3ae961fa60
+                    Entering function : at 0x7f3ae962e7a0
+                    Leaving function
+                   Leaving function
+                  Leaving function
+                 Leaving function
+                 Entering function : at 0x7f3ae9620550
+                  Entering function : at 0x7f3ae961fbe0
+                   Entering function : at 0x7f3ae961fa60
+                    Entering function : at 0x7f3ae962e7a0
+                    Leaving function
+                   Leaving function
+                  Leaving function
+                 Leaving function
+                 Entering function : at 0x7f3ae9620550
+                  Entering function : at 0x7f3ae961fbe0
+                   Entering function : at 0x7f3ae961fa60
+                    Entering function : at 0x7f3ae962e7a0
+                    Leaving function
+                   Leaving function
+                  Leaving function
+                 Leaving function
+                 Entering function : at 0x7f3ae9620550
+                  Entering function : at 0x7f3ae961fbe0
+                   Entering function : at 0x7f3ae961fa60
+                    Entering function : at 0x7f3ae962e7a0
+                    Leaving function
+                   Leaving function
+                  Leaving function
+                 Leaving function
+                 Entering function : at 0x7f3ae9620550
+                  Entering function : at 0x7f3ae961fbe0
+                   Entering function : at 0x7f3ae961fa60
+                    Entering function : at 0x7f3ae962e7a0
+                    Leaving function
+                   Leaving function
+                  Leaving function
+                 Leaving function
+                 Entering function : at 0x7f3ae9620550
+                  Entering function : at 0x7f3ae961fbe0
+                   Entering function : at 0x7f3ae961fa60
+                    Entering function : at 0x7f3ae962e7a0
+                    Leaving function
+                   Leaving function
+                  Leaving function
+                 Leaving function
+                 Entering function : at 0x7f3ae9620550
+                  Entering function : at 0x7f3ae961fbe0
+                   Entering function : at 0x7f3ae9626910
+                    Entering function : at 0x7f3ae962e7a0
+                    Leaving function
+                    Entering function : at 0x7f3ae962e7a0
+                    Leaving function
+                   Leaving function
+                   Entering function : at 0x7f3ae9626910
+                    Entering function : at 0x7f3ae962e7a0
+                    Leaving function
+                    Entering function : at 0x7f3ae962e7a0
+                    Leaving function
+                   Leaving function
+                   Entering function : at 0x7f3ae961fa60
+                    Entering function : at 0x7f3ae962e7a0
+                    Leaving function
+                    Entering function : at 0x7f3ae962e7a0
+                    Leaving function
+                   Leaving function
+                  Leaving function
+                 Leaving function
+                 Entering function : at 0x7f3ae9620550
+                  Entering function : at 0x7f3ae961fbe0
+                   Entering function : at 0x7f3ae961fa60
+                    Entering function : at 0x7f3ae962e7a0
+                    Leaving function
+                   Leaving function
+                  Leaving function
+                 Leaving function
+                 Entering function : at 0x7f3ae9620550
+                  Entering function : at 0x7f3ae961fbe0
+                   Entering function : at 0x7f3ae961fa60
+                    Entering function : at 0x7f3ae962e7a0
+                    Leaving function
+                   Leaving function
+                  Leaving function
+                 Leaving function
+                 Entering function : at 0x7f3ae9620550
+                  Entering function : at 0x7f3ae961fbe0
+                   Entering function : at 0x7f3ae961fa60
+                    Entering function : at 0x7f3ae962e7a0
+                    Leaving function
+                   Leaving function
+                  Leaving function
+                 Leaving function
+                 Entering function : at 0x7f3ae9620550
+                  Entering function : at 0x7f3ae961fbe0
+                   Entering function : at 0x7f3ae961fa60
+                    Entering function : at 0x7f3ae962e7a0
+                    Leaving function
+                   Leaving function
+                  Leaving function
+                 Leaving function
+                 Entering function : at 0x7f3ae9620550
+                  Entering function : at 0x7f3ae961fbe0
+                   Entering function : at 0x7f3ae961fa60
+                    Entering function : at 0x7f3ae962e7a0
+                    Leaving function
+                   Leaving function
+                  Leaving function
+                 Leaving function
+                 Entering function : at 0x7f3ae9620550
+                  Entering function : at 0x7f3ae961fbe0
+                   Entering function : at 0x7f3ae961fa60
+                    Entering function : at 0x7f3ae962e7a0
+                    Leaving function
+                   Leaving function
+                  Leaving function
+                 Leaving function
+                 Entering function : at 0x7f3ae9620550
+                  Entering function : at 0x7f3ae961fbe0
+                   Entering function : at 0x7f3ae9626910
+                    Entering function : at 0x7f3ae962e7a0
+                    Leaving function
+                    Entering function : at 0x7f3ae962e7a0
+                    Leaving function
+                   Leaving function
+                   Entering function : at 0x7f3ae9626910
+                    Entering function : at 0x7f3ae962e7a0
+                    Leaving function
+                    Entering function : at 0x7f3ae962e7a0
+                    Leaving function
+                   Leaving function
+                   Entering function : at 0x7f3ae961fa60
+                    Entering function : at 0x7f3ae962e7a0
+                    Leaving function
+                    Entering function : at 0x7f3ae962e7a0
+                    Leaving function
+                   Leaving function
+                  Leaving function
+                 Leaving function
+                 Entering function : at 0x7f3ae9620550
+                  Entering function : at 0x7f3ae961fbe0
+                   Entering function : at 0x7f3ae961fa60
+                    Entering function : at 0x7f3ae962e7a0
+                    Leaving function
+                   Leaving function
+                  Leaving function
+                 Leaving function
+                 Entering function : at 0x7f3ae9620550
+                  Entering function : at 0x7f3ae961fbe0
+                   Entering function : at 0x7f3ae961fa60
+                    Entering function : at 0x7f3ae962e7a0
+                    Leaving function
+                   Leaving function
+                  Leaving function
+                 Leaving function
+                 Entering function : at 0x7f3ae9620550
+                  Entering function : at 0x7f3ae961fbe0
+                   Entering function : at 0x7f3ae961fa60
+                    Entering function : at 0x7f3ae962e7a0
+                    Leaving function
+                   Leaving function
+                  Leaving function
+                 Leaving function
+                 Entering function : at 0x7f3ae9620550
+                  Entering function : at 0x7f3ae961fbe0
+                   Entering function : at 0x7f3ae961fa60
+                    Entering function : at 0x7f3ae962e7a0
+                    Leaving function
+                   Leaving function
+                  Leaving function
+                 Leaving function
+                 Entering function : at 0x7f3ae9620550
+                  Entering function : at 0x7f3ae961fbe0
+                   Entering function : at 0x7f3ae961fa60
+                    Entering function : at 0x7f3ae962e7a0
+                    Leaving function
+                   Leaving function
+                  Leaving function
+                 Leaving function
+                 Entering function : at 0x7f3ae9620550
+                  Entering function : at 0x7f3ae961fbe0
+                   Entering function : at 0x7f3ae9626910
+                    Entering function : at 0x7f3ae962e7a0
+                    Leaving function
+                    Entering function : at 0x7f3ae962e7a0
+                    Leaving function
+                   Leaving function
+                   Entering function : at 0x7f3ae9626910
+                    Entering function : at 0x7f3ae962e7a0
+                    Leaving function
+                    Entering function : at 0x7f3ae962e7a0
+                    Leaving function
+                   Leaving function
+                   Entering function : at 0x7f3ae961fa60
+                    Entering function : at 0x7f3ae962e7a0
+                    Leaving function
+                    Entering function : at 0x7f3ae962e7a0
+                    Leaving function
+                   Leaving function
+                  Leaving function
+                 Leaving function
+                 Entering function : at 0x7f3ae9620550
+                  Entering function : at 0x7f3ae961fbe0
+                   Entering function : at 0x7f3ae961fa60
+                    Entering function : at 0x7f3ae962e7a0
+                    Leaving function
+                   Leaving function
+                  Leaving function
+                 Leaving function
+                 Entering function : at 0x7f3ae9620550
+                  Entering function : at 0x7f3ae961fbe0
+                   Entering function : at 0x7f3ae961fa60
+                    Entering function : at 0x7f3ae962e7a0
+                    Leaving function
+                   Leaving function
+                  Leaving function
+                 Leaving function
+                 Entering function : at 0x7f3ae9620550
+                  Entering function : at 0x7f3ae961fbe0
+                   Entering function : at 0x7f3ae961fa60
+                    Entering function : at 0x7f3ae962e7a0
+                    Leaving function
+                   Leaving function
+                  Leaving function
+                 Leaving function
+                 Entering function : at 0x7f3ae9620550
+                  Entering function : at 0x7f3ae961fbe0
+                   Entering function : at 0x7f3ae961fa60
+                    Entering function : at 0x7f3ae962e7a0
+                    Leaving function
+                   Leaving function
+                  Leaving function
+                 Leaving function
+                 Entering function : at 0x7f3ae9620550
+                  Entering function : at 0x7f3ae961fbe0
+                   Entering function : at 0x7f3ae961fa60
+                    Entering function : at 0x7f3ae962e7a0
+                    Leaving function
+                   Leaving function
+                  Leaving function
+                 Leaving function
+                 Entering function : at 0x7f3ae9620550
+                  Entering function : at 0x7f3ae961fbe0
+                   Entering function : at 0x7f3ae961fa60
+                    Entering function : at 0x7f3ae962e7a0
+                    Leaving function
+                   Leaving function
+                  Leaving function
+                 Leaving function
+                 Entering function : at 0x7f3ae9620550
+                  Entering function : at 0x7f3ae961fbe0
+                   Entering function : at 0x7f3ae961fa60
+                    Entering function : at 0x7f3ae962e7a0
+                    Leaving function
+                   Leaving function
+                  Leaving function
+                 Leaving function
+                 Entering function : at 0x7f3ae9620550
+                  Entering function : at 0x7f3ae961fbe0
+                   Entering function : at 0x7f3ae961fa60
+                    Entering function : at 0x7f3ae962e7a0
+                    Leaving function
+                   Leaving function
+                  Leaving function
+                 Leaving function
+                 Entering function : at 0x7f3ae9620550
+                  Entering function : at 0x7f3ae961fbe0
+                   Entering function : at 0x7f3ae961fa60
+                    Entering function : at 0x7f3ae962e7a0
+                    Leaving function
+                   Leaving function
+                  Leaving function
+                 Leaving function
+                 Entering function : at 0x7f3ae9620550
+                  Entering function : at 0x7f3ae961fbe0
+                   Entering function : at 0x7f3ae961fa60
+                    Entering function : at 0x7f3ae962e7a0
+                    Leaving function
+                   Leaving function
+                  Leaving function
+                 Leaving function
+                 Entering function : at 0x7f3ae9620550
+                  Entering function : at 0x7f3ae961fbe0
+                   Entering function : at 0x7f3ae961fa60
+                    Entering function : at 0x7f3ae962e7a0
+                    Leaving function
+                   Leaving function
+                  Leaving function
+                 Leaving function
+                 Entering function : at 0x7f3ae9620550
+                  Entering function : at 0x7f3ae961fbe0
+                   Entering function : at 0x7f3ae961fa60
+                    Entering function : at 0x7f3ae962e7a0
+                    Leaving function
+                   Leaving function
+                  Leaving function
+                 Leaving function
+                 Entering function : at 0x7f3ae9620550
+                  Entering function : at 0x7f3ae961fbe0
+                   Entering function : at 0x7f3ae961fa60
+                    Entering function : at 0x7f3ae962e7a0
+                    Leaving function
+                   Leaving function
+                  Leaving function
+                 Leaving function
+                 Entering function : at 0x7f3ae9620550
+                  Entering function : at 0x7f3ae961fbe0
+                   Entering function : at 0x7f3ae961fa60
+                    Entering function : at 0x7f3ae962e7a0
+                    Leaving function
+                   Leaving function
+                  Leaving function
+                 Leaving function
+                 Entering function : at 0x7f3ae9620550
+                  Entering function : at 0x7f3ae961fbe0
+                   Entering function : at 0x7f3ae961fa60
+                    Entering function : at 0x7f3ae962e7a0
+                    Leaving function
+                   Leaving function
+                  Leaving function
+                 Leaving function
+                 Entering function : at 0x7f3ae9620550
+                  Entering function : at 0x7f3ae961fbe0
+                   Entering function : at 0x7f3ae961fa60
+                    Entering function : at 0x7f3ae962e7a0
+                    Leaving function
+                   Leaving function
+                  Leaving function
+                 Leaving function
+                 Entering function : at 0x7f3ae9620550
+                  Entering function : at 0x7f3ae961fbe0
+                   Entering function : at 0x7f3ae961fa60
+                    Entering function : at 0x7f3ae962e7a0
+                    Leaving function
+                   Leaving function
+                  Leaving function
+                 Leaving function
+                 Entering function : at 0x7f3ae9620550
+                  Entering function : at 0x7f3ae961fbe0
+                   Entering function : at 0x7f3ae961fa60
+                    Entering function : at 0x7f3ae962e7a0
+                    Leaving function
+                   Leaving function
+                  Leaving function
+                 Leaving function
+                 Entering function : at 0x7f3ae9620550
+                  Entering function : at 0x7f3ae961fbe0
+                   Entering function : at 0x7f3ae961fa60
+                    Entering function : at 0x7f3ae962e7a0
+                    Leaving function
+                   Leaving function
+                  Leaving function
+                 Leaving function
+                 Entering function : at 0x7f3ae9620550
+                  Entering function : at 0x7f3ae961fbe0
+                   Entering function : at 0x7f3ae961fa60
+                    Entering function : at 0x7f3ae962e7a0
+                    Leaving function
+                   Leaving function
+                  Leaving function
+                 Leaving function
+                 Entering function : at 0x7f3ae9620550
+                  Entering function : at 0x7f3ae961fbe0
+                   Entering function : at 0x7f3ae961fa60
+                    Entering function : at 0x7f3ae962e7a0
+                    Leaving function
+                   Leaving function
+                  Leaving function
+                 Leaving function
+                 Entering function : at 0x7f3ae9620550
+                  Entering function : at 0x7f3ae961fbe0
+                   Entering function : at 0x7f3ae961fa60
+                    Entering function : at 0x7f3ae962e7a0
+                    Leaving function
+                   Leaving function
+                  Leaving function
+                 Leaving function
+                 Entering function : at 0x7f3ae9620550
+                  Entering function : at 0x7f3ae961fbe0
+                   Entering function : at 0x7f3ae961fa60
+                    Entering function : at 0x7f3ae962e7a0
+                    Leaving function
+                   Leaving function
+                  Leaving function
+                 Leaving function
+                 Entering function : at 0x7f3ae9620550
+                  Entering function : at 0x7f3ae961fbe0
+                  Leaving function
+                 Leaving function
+                 Entering function : at 0x7f3ae9620550
+                  Entering function : at 0x7f3ae961fbe0
+                   Entering function : at 0x7f3ae961fa60
+                    Entering function : at 0x7f3ae962e7a0
+                    Leaving function
+                   Leaving function
+                  Leaving function
+                 Leaving function
+                 Entering function : at 0x7f3ae9620550
+                  Entering function : at 0x7f3ae961fbe0
+                   Entering function : at 0x7f3ae961fa60
+                    Entering function : at 0x7f3ae962e7a0
+                    Leaving function
+                   Leaving function
+                  Leaving function
+                 Leaving function
+                 Entering function : at 0x7f3ae9620550
+                  Entering function : at 0x7f3ae961fbe0
+                   Entering function : at 0x7f3ae961fa60
+                    Entering function : at 0x7f3ae962e7a0
+                    Leaving function
+                   Leaving function
+                  Leaving function
+                 Leaving function
+                 Entering function : at 0x7f3ae9620550
+                  Entering function : at 0x7f3ae961fbe0
+                   Entering function : at 0x7f3ae961fa60
+                    Entering function : at 0x7f3ae962e7a0
+                    Leaving function
+                   Leaving function
+                  Leaving function
+                 Leaving function
+                 Entering function : at 0x7f3ae9620550
+                  Entering function : at 0x7f3ae961fbe0
+                   Entering function : at 0x7f3ae961fa60
+                    Entering function : at 0x7f3ae962e7a0
+                    Leaving function
+                   Leaving function
+                  Leaving function
+                 Leaving function
+                 Entering function : at 0x7f3ae9620550
+                  Entering function : at 0x7f3ae961fbe0
+                   Entering function : at 0x7f3ae961fa60
+                    Entering function : at 0x7f3ae962e7a0
+                    Leaving function
+                   Leaving function
+                  Leaving function
+                 Leaving function
+                 Entering function : at 0x7f3ae9620550
+                  Entering function : at 0x7f3ae961fbe0
+                   Entering function : at 0x7f3ae961fa60
+                    Entering function : at 0x7f3ae962e7a0
+                    Leaving function
+                   Leaving function
+                  Leaving function
+                 Leaving function
+                 Entering function : at 0x7f3ae9620550
+                  Entering function : at 0x7f3ae961fbe0
+                   Entering function : at 0x7f3ae961fa60
+                    Entering function : at 0x7f3ae962e7a0
+                    Leaving function
+                   Leaving function
+                  Leaving function
+                 Leaving function
+                 Entering function : at 0x7f3ae9620550
+                  Entering function : at 0x7f3ae961fbe0
+                   Entering function : at 0x7f3ae961fa60
+                    Entering function : at 0x7f3ae962e7a0
+                    Leaving function
+                   Leaving function
+                  Leaving function
+                 Leaving function
+                 Entering function : at 0x7f3ae9620550
+                  Entering function : at 0x7f3ae961fbe0
+                   Entering function : at 0x7f3ae961fa60
+                    Entering function : at 0x7f3ae962e7a0
+                    Leaving function
+                   Leaving function
+                  Leaving function
+                 Leaving function
+                 Entering function : at 0x7f3ae9620550
+                  Entering function : at 0x7f3ae961fbe0
+                   Entering function : at 0x7f3ae961fa60
+                    Entering function : at 0x7f3ae962e7a0
+                    Leaving function
+                   Leaving function
+                  Leaving function
+                 Leaving function
+                 Entering function : at 0x7f3ae9620550
+                  Entering function : at 0x7f3ae961fbe0
+                   Entering function : at 0x7f3ae961fa60
+                    Entering function : at 0x7f3ae962e7a0
+                    Leaving function
+                   Leaving function
+                  Leaving function
+                 Leaving function
+                 Entering function : at 0x7f3ae9620550
+                  Entering function : at 0x7f3ae961fbe0
+                   Entering function : at 0x7f3ae961fa60
+                    Entering function : at 0x7f3ae962e7a0
+                    Leaving function
+                   Leaving function
+                  Leaving function
+                 Leaving function
+                 Entering function : at 0x7f3ae9620550
+                  Entering function : at 0x7f3ae961fbe0
+                   Entering function : at 0x7f3ae961fa60
+                    Entering function : at 0x7f3ae962e7a0
+                    Leaving function
+                   Leaving function
+                  Leaving function
+                 Leaving function
+                 Entering function : at 0x7f3ae9620550
+                  Entering function : at 0x7f3ae961fbe0
+                   Entering function : at 0x7f3ae961fa60
+                    Entering function : at 0x7f3ae962e7a0
+                    Leaving function
+                   Leaving function
+                  Leaving function
+                 Leaving function
+                 Entering function : at 0x7f3ae9620550
+                  Entering function : at 0x7f3ae961fbe0
+                   Entering function : at 0x7f3ae961fa60
+                    Entering function : at 0x7f3ae962e7a0
+                    Leaving function
+                   Leaving function
+                  Leaving function
+                 Leaving function
+                 Entering function : at 0x7f3ae9620550
+                  Entering function : at 0x7f3ae961fbe0
+                   Entering function : at 0x7f3ae961fa60
+                    Entering function : at 0x7f3ae962e7a0
+                    Leaving function
+                   Leaving function
+                  Leaving function
+                 Leaving function
+                 Entering function : at 0x7f3ae9620550
+                  Entering function : at 0x7f3ae961fbe0
+                   Entering function : at 0x7f3ae961fa60
+                    Entering function : at 0x7f3ae962e7a0
+                    Leaving function
+                   Leaving function
+                  Leaving function
+                 Leaving function
+                 Entering function : at 0x7f3ae9620550
+                  Entering function : at 0x7f3ae961fbe0
+                   Entering function : at 0x7f3ae961fa60
+                    Entering function : at 0x7f3ae962e7a0
+                    Leaving function
+                   Leaving function
+                  Leaving function
+                 Leaving function
+                 Entering function : at 0x7f3ae9620550
+                  Entering function : at 0x7f3ae961fbe0
+                   Entering function : at 0x7f3ae9626910
+                    Entering function : at 0x7f3ae962e7a0
+                    Leaving function
+                    Entering function : at 0x7f3ae962e7a0
+                    Leaving function
+                   Leaving function
+                   Entering function : at 0x7f3ae9626910
+                    Entering function : at 0x7f3ae962e7a0
+                    Leaving function
+                    Entering function : at 0x7f3ae962e7a0
+                    Leaving function
+                   Leaving function
+                   Entering function : at 0x7f3ae961fa60
+                    Entering function : at 0x7f3ae962e7a0
+                    Leaving function
+                    Entering function : at 0x7f3ae962e7a0
+                    Leaving function
+                   Leaving function
+                  Leaving function
+                 Leaving function
+                 Entering function : at 0x7f3ae9620550
+                  Entering function : at 0x7f3ae961fbe0
+                   Entering function : at 0x7f3ae961fa60
+                    Entering function : at 0x7f3ae962e7a0
+                    Leaving function
+                   Leaving function
+                  Leaving function
+                 Leaving function
+                 Entering function : at 0x7f3ae9620550
+                  Entering function : at 0x7f3ae961fbe0
+                   Entering function : at 0x7f3ae961fa60
+                    Entering function : at 0x7f3ae962e7a0
+                    Leaving function
+                   Leaving function
+                  Leaving function
+                 Leaving function
+                 Entering function : at 0x7f3ae9620550
+                  Entering function : at 0x7f3ae961fbe0
+                   Entering function : at 0x7f3ae961fa60
+                    Entering function : at 0x7f3ae962e7a0
+                    Leaving function
+                   Leaving function
+                  Leaving function
+                 Leaving function
+                 Entering function : at 0x7f3ae9620550
+                  Entering function : at 0x7f3ae961fbe0
+                   Entering function : at 0x7f3ae961fa60
+                    Entering function : at 0x7f3ae962e7a0
+                    Leaving function
+                   Leaving function
+                  Leaving function
+                 Leaving function
+                 Entering function : at 0x7f3ae9620550
+                  Entering function : at 0x7f3ae961fbe0
+                   Entering function : at 0x7f3ae961fa60
+                    Entering function : at 0x7f3ae962e7a0
+                    Leaving function
+                   Leaving function
+                  Leaving function
+                 Leaving function
+                 Entering function : at 0x7f3ae9620550
+                  Entering function : at 0x7f3ae961fbe0
+                   Entering function : at 0x7f3ae961fa60
+                    Entering function : at 0x7f3ae962e7a0
+                    Leaving function
+                   Leaving function
+                  Leaving function
+                 Leaving function
+                 Entering function : at 0x7f3ae9620550
+                  Entering function : at 0x7f3ae961fbe0
+                   Entering function : at 0x7f3ae9626910
+                    Entering function : at 0x7f3ae962e7a0
+                    Leaving function
+                    Entering function : at 0x7f3ae962e7a0
+                    Leaving function
+                   Leaving function
+                   Entering function : at 0x7f3ae9626910
+                    Entering function : at 0x7f3ae962e7a0
+                    Leaving function
+                    Entering function : at 0x7f3ae962e7a0
+                    Leaving function
+                   Leaving function
+                   Entering function : at 0x7f3ae961fa60
+                    Entering function : at 0x7f3ae962e7a0
+                    Leaving function
+                    Entering function : at 0x7f3ae962e7a0
+                    Leaving function
+                   Leaving function
+                  Leaving function
+                 Leaving function
+                 Entering function : at 0x7f3ae9620550
+                  Entering function : at 0x7f3ae961fbe0
+                   Entering function : at 0x7f3ae961fa60
+                    Entering function : at 0x7f3ae962e7a0
+                    Leaving function
+                   Leaving function
+                  Leaving function
+                 Leaving function
+                 Entering function : at 0x7f3ae9620550
+                  Entering function : at 0x7f3ae961fbe0
+                   Entering function : at 0x7f3ae9626910
+                    Entering function : at 0x7f3ae962e7a0
+                    Leaving function
+                    Entering function : at 0x7f3ae962e7a0
+                    Leaving function
+                   Leaving function
+                   Entering function : at 0x7f3ae9626910
+                    Entering function : at 0x7f3ae962e7a0
+                    Leaving function
+                    Entering function : at 0x7f3ae962e7a0
+                    Leaving function
+                   Leaving function
+                   Entering function : at 0x7f3ae961fa60
+                    Entering function : at 0x7f3ae962e7a0
+                    Leaving function
+                    Entering function : at 0x7f3ae962e7a0
+                    Leaving function
+                   Leaving function
+                  Leaving function
+                 Leaving function
+                 Entering function : at 0x7f3ae9620550
+                  Entering function : at 0x7f3ae961fbe0
+                   Entering function : at 0x7f3ae961fa60
+                    Entering function : at 0x7f3ae962e7a0
+                    Leaving function
+                   Leaving function
+                  Leaving function
+                 Leaving function
+                 Entering function : at 0x7f3ae9620550
+                  Entering function : at 0x7f3ae961fbe0
+                   Entering function : at 0x7f3ae961fa60
+                    Entering function : at 0x7f3ae962e7a0
+                    Leaving function
+                   Leaving function
+                  Leaving function
+                 Leaving function
+                 Entering function : at 0x7f3ae92f4480
+                  Entering function : at 0x7f3ae9290d90
+                  Leaving function
+                 Leaving function
+                 Entering function : at 0x7f3ae9316f90
+                  Entering function : at 0x7f3ae9389b30
+                   Entering function : at 0x7f3ae9620550
+                    Entering function : at 0x7f3ae961fbe0
+                     Entering function : at 0x7f3ae961fa60
+                      Entering function : at 0x7f3ae962e7a0
+                      Leaving function
+                      Entering function : at 0x7f3ae962e7a0
+                      Leaving function
+                     Leaving function
+                    Leaving function
+                   Leaving function
+                  Leaving function
+                 Leaving function
+                 Entering function : at 0x7f3ae92f6770
+                 Leaving function
+                 Entering function : at 0x7f3ae9317040
+                  Entering function : at 0x7f3ae9389b30
+                   Entering function : at 0x7f3ae9620550
+                    Entering function : at 0x7f3ae961fbe0
+                     Entering function : at 0x7f3ae961fa60
+                      Entering function : at 0x7f3ae962e7a0
+                      Leaving function
+                     Leaving function
+                     Entering function : at 0x7f3ae961fa60
+                      Entering function : at 0x7f3ae962e7a0
+                      Leaving function
+                     Leaving function
+                     Entering function : at 0x7f3ae961fa60
+                      Entering function : at 0x7f3ae962e7a0
+                      Leaving function
+                     Leaving function
+                     Entering function : at 0x7f3ae961fa60
+                      Entering function : at 0x7f3ae962e7a0
+                      Leaving function
+                      Entering function : at 0x7f3ae962e7a0
+                      Leaving function
+                     Leaving function
+                    Leaving function
+                   Leaving function
+                  Leaving function
+                 Leaving function
+                 Entering function : at 0x7f3ae92f3c00
+                 Leaving function
+                 Entering function : at 0x7f3ae9621c00
+                  Entering function : at 0x7f3ae962e1e0
+                  mprotect(0x7f3ae960d000, 16384, 1)      = 0
+                  Leaving function
+                 Leaving function
+                Leaving function
+                Entering function : at 0x7f3ae9628a90
+                Leaving function
+                Entering function : at 0x7f3ae9621d40
+                 Entering function : at 0x7f3ae9620550
+                  Entering function : at 0x7f3ae961fbe0
+                  Leaving function
+                 Leaving function
+                 Entering function : at 0x7f3ae9621c00
+                  Entering function : at 0x7f3ae962e1e0
+                  mprotect(0x600000, 4096, 1)             = 0
+                  Leaving function
+                 Leaving function
+                Leaving function
+                Entering function : at 0x7f3ae96283a0
+                 Entering function : at 0x7f3ae962f4d0
+                 Leaving function
+                 Entering function : at 0x7f3ae962f4c0
+                 Leaving function
+                Leaving function
+                Entering function : at 0x7f3ae9621d40
+                 Entering function : at 0x7f3ae9620550
+                  Entering function : at 0x7f3ae961fbe0
+                   Entering function : at 0x7f3ae961fa60
+                    Entering function : at 0x7f3ae962e7a0
+                    Leaving function
+                   Leaving function
+                  Leaving function
+                 Leaving function
+                 Entering function : at 0x7f3ae9620550
+                  Entering function : at 0x7f3ae961fbe0
+                   Entering function : at 0x7f3ae961fa60
+                    Entering function : at 0x7f3ae962e7a0
+                    Leaving function
+                   Leaving function
+                  Leaving function
+                 Leaving function
+                 Entering function : at 0x7f3ae9620550
+                  Entering function : at 0x7f3ae961fbe0
+                   Entering function : at 0x7f3ae961fa60
+                    Entering function : at 0x7f3ae962e7a0
+                    Leaving function
+                    Entering function : at 0x7f3ae962e7a0
+                    Leaving function
+                   Leaving function
+                  Leaving function
+                 Leaving function
+                 Entering function : at 0x7f3ae9620550
+                  Entering function : at 0x7f3ae961fbe0
+                   Entering function : at 0x7f3ae961fa60
+                    Entering function : at 0x7f3ae962e7a0
+                    Leaving function
+                    Entering function : at 0x7f3ae962e7a0
+                    Leaving function
+                   Leaving function
+                  Leaving function
+                 Leaving function
+                 Entering function : at 0x7f3ae9620550
+                  Entering function : at 0x7f3ae961fbe0
+                   Entering function : at 0x7f3ae961fa60
+                    Entering function : at 0x7f3ae962e7a0
+                    Leaving function
+                    Entering function : at 0x7f3ae962e7a0
+                    Leaving function
+                   Leaving function
+                  Leaving function
+                 Leaving function
+                 Entering function : at 0x7f3ae9620550
+                  Entering function : at 0x7f3ae961fbe0
+                   Entering function : at 0x7f3ae961fa60
+                    Entering function : at 0x7f3ae962e7a0
+                    Leaving function
+                   Leaving function
+                  Leaving function
+                 Leaving function
+                 Entering function : at 0x7f3ae9620550
+                  Entering function : at 0x7f3ae961fbe0
+                   Entering function : at 0x7f3ae961fa60
+                    Entering function : at 0x7f3ae962e7a0
+                    Leaving function
+                    Entering function : at 0x7f3ae962e7a0
+                    Leaving function
+                   Leaving function
+                  Leaving function
+                 Leaving function
+                 Entering function : at 0x7f3ae9620550
+                  Entering function : at 0x7f3ae961fbe0
+                   Entering function : at 0x7f3ae961fa60
+                    Entering function : at 0x7f3ae962e7a0
+                    Leaving function
+                    Entering function : at 0x7f3ae962e7a0
+                    Leaving function
+                   Leaving function
+                  Leaving function
+                 Leaving function
+                 Entering function : at 0x7f3ae9620550
+                  Entering function : at 0x7f3ae961fbe0
+                   Entering function : at 0x7f3ae961fa60
+                    Entering function : at 0x7f3ae962e7a0
+                    Leaving function
+                    Entering function : at 0x7f3ae962e7a0
+                    Leaving function
+                   Leaving function
+                  Leaving function
+                 Leaving function
+                 Entering function : at 0x7f3ae9621c00
+                  Entering function : at 0x7f3ae962e1e0
+                  mprotect(0x7f3ae9837000, 4096, 1)       = 0
+                  Leaving function
+                 Leaving function
+                Leaving function
+                Entering function : at 0x7f3ae962c250
+                 Entering function : at 0x7f3ae9626140
+                  Entering function : at 0x7f3ae9626130
+                   Entering function : at 0x7f3ae962bf50
+                    Entering function : at 0x7f3ae962e1c0
+                    munmap(0x7f3ae980f000, 156362)          = 0
+                    Leaving function
+                   Leaving function
+                  Leaving function
+                 Leaving function
+                Leaving function
+                Entering function : at 0x7f3ae9625960
+                 Entering function : at 0x7f3ae9625850
+                 Leaving function
+                 Entering function : at 0x7f3ae9625850
+                  Entering function : at 0x7f3ae9290860
+                   Entering function : at 0x7f3ae9389b30
+                    Entering function : at 0x7f3ae9620550
+                     Entering function : at 0x7f3ae961fbe0
+                      Entering function : at 0x7f3ae961fa60
+                       Entering function : at 0x7f3ae962e7a0
+                       Leaving function
+                       Entering function : at 0x7f3ae962e7a0
+                       Leaving function
+                      Leaving function
+                     Leaving function
+                    Leaving function
+                   Leaving function
+                   Entering function : at 0x7f3ae9389b30
+                    Entering function : at 0x7f3ae9620550
+                     Entering function : at 0x7f3ae961fbe0
+                      Entering function : at 0x7f3ae961fa60
+                       Entering function : at 0x7f3ae962e7a0
+                       Leaving function
+                      Leaving function
+                      Entering function : at 0x7f3ae961fa60
+                       Entering function : at 0x7f3ae962e7a0
+                       Leaving function
+                      Leaving function
+                      Entering function : at 0x7f3ae961fa60
+                       Entering function : at 0x7f3ae962e7a0
+                       Leaving function
+                       Entering function : at 0x7f3ae962e7a0
+                       Leaving function
+                      Leaving function
+                     Leaving function
+                    Leaving function
+                   Leaving function
+                   Entering function : at 0x7f3ae9353e80
+                    Entering function : at 0x7f3ae92f1f80
+                    Leaving function
+                   Leaving function
+                   Entering function : at 0x7f3ae929d6a0
+                   Leaving function
+                  Leaving function
+                  Entering function : at 0x7f3ae92905f0
+                   Entering function : at 0x7f3ae9308730
+                    Entering function : at 0x7f3ae9308470
+                    Leaving function
+                    Entering function : at 0x7f3ae9308470
+                    Leaving function
+                   Leaving function
+                   Entering function : at 0x7f3ae9308730
+                    Entering function : at 0x7f3ae9308470
+                    Leaving function
+                    Entering function : at 0x7f3ae9308470
+                    Leaving function
+                   Leaving function
+                  Leaving function
+                 Leaving function
+                 Entering function : at 0x7f3ae9625850
+                 Leaving function
+                Leaving function
+                Entering function : at 0x400480
+                 Entering function : at 0x7f3ae9624c00
+                  Entering function : at 0x7f3ae9620550
+                   Entering function : at 0x7f3ae961fbe0
+                    Entering function : at 0x7f3ae9626910
+                     Entering function : at 0x7f3ae962e7a0
+                     Leaving function
+                     Entering function : at 0x7f3ae962e7a0
+                     Leaving function
+                    Leaving function
+                    Entering function : at 0x7f3ae961fa60
+                     Entering function : at 0x7f3ae962e7a0
+                     Leaving function
+                     Entering function : at 0x7f3ae962e7a0
+                     Leaving function
+                    Leaving function
+                   Leaving function
+                  Leaving function
+                 Leaving function
+                 Entering function : at 0x7f3ae92a6d80
+                  Entering function : at 0x7f3ae92a6bc0
+                  Leaving function
+                 Leaving function
+                 Entering function : at 0x4005e0
+                  Entering function : at 0x400440
+                  Leaving function
+                  Entering function : at 0x400570
+                  Leaving function
+                 Leaving function
+                 Entering function : at 0x7f3ae92a3f00
+                 Leaving function
+                 Entering function : at 0x4005bd
+                  Entering function : at 0x40059d
+                   Entering function : at 0x400470
+                    Entering function : at 0x7f3ae9624c00
+                     Entering function : at 0x7f3ae9620550
+                      Entering function : at 0x7f3ae961fbe0
+                       Entering function : at 0x7f3ae9626910
+                        Entering function : at 0x7f3ae962e7a0
+                        Leaving function
+                        Entering function : at 0x7f3ae962e7a0
+                        Leaving function
+                       Leaving function
+                       Entering function : at 0x7f3ae961fa60
+                        Entering function : at 0x7f3ae962e7a0
+                        Leaving function
+                        Entering function : at 0x7f3ae962e7a0
+                        Leaving function
+                       Leaving function
+                      Leaving function
+                     Leaving function
+                    Leaving function
+                    Entering function : at 0x7f3ae92f0280
+                    Leaving function
+                    Entering function : at 0x7f3ae92e2e90
+                     Entering function : at 0x7f3ae92e3aa0
+                      Entering function : at 0x7f3ae92e4720
+                       Entering function : at 0x7f3ae92d7ab0
+                        Entering function : at 0x7f3ae92e29b0
+                        fstat(1, {0x7fff0c4e6300})              = 0
+                         Entering function : at 0x7f3ae9350100
+                         mmap(NULL, 4096, 3, 34, -1, 0)          = 0x7f3ae9835000
+                         Leaving function
+                         Entering function : at 0x7f3ae92e46a0
+                         Leaving function
+                        Leaving function
+                       Leaving function
+                      Leaving function
+                      Entering function : at 0x7f3ae92e47b0
+                      Leaving function
+                     Leaving function
+                    Leaving function
+                   Leaving function
+                   Entering function : at 0x4005ad
+                    Entering function : at 0x400470
+                     Entering function : at 0x7f3ae92f0280
+                     Leaving function
+                     Entering function : at 0x7f3ae92e2e90
+                      Entering function : at 0x7f3ae92f3e30
+                      Leaving function
+                     Leaving function
+                    Leaving function
+                   Leaving function
+                   Entering function : at 0x4004a0
+                    Entering function : at 0x7f3ae9624c00
+                     Entering function : at 0x7f3ae9620550
+                      Entering function : at 0x7f3ae961fbe0
+                       Entering function : at 0x7f3ae9626910
+                        Entering function : at 0x7f3ae962e7a0
+                        Leaving function
+                        Entering function : at 0x7f3ae962e7a0
+                        Leaving function
+                       Leaving function
+                       Entering function : at 0x7f3ae961fa60
+                        Entering function : at 0x7f3ae962e7a0
+                        Leaving function
+                        Entering function : at 0x7f3ae962e7a0
+                        Leaving function
+                       Leaving function
+                      Leaving function
+                     Leaving function
+                    Leaving function
+                    Entering function : at 0x7f3ae92a6a40
+                     Entering function : at 0x7f3ae92a7090
+                      Entering function : at 0x7f3ae928e410
+                      Leaving function
+                     Leaving function
+                     Entering function : at 0x7f3ae9625d10
+                      Entering function : at 0x7f3ae96181f0
+                      Leaving function
+                      Entering function : at 0x7f3ae9625a80
+                       Entering function : at 0x7f3ae962f4c0
+                       Leaving function
+                       Entering function : at 0x7f3ae962f4c0
+                       Leaving function
+                       Entering function : at 0x7f3ae962f4c0
+                       Leaving function
+                      Leaving function
+                      Entering function : at 0x7f3ae9618200
+                      Leaving function
+                      Entering function : at 0x400550
+                       Entering function : at 0x4004e0
+                       Leaving function
+                       Entering function : at 0x400654
+                       Leaving function
+                      Leaving function
+                      Entering function : at 0x7f3ae92e4f80
+                       Entering function : at 0x7f3ae92e4d40
+                        Entering function : at 0x7f3ae92e3aa0
+                         Entering function : at je suis dans toto()
+je suis dans tutu()
+0x7f3ae92e2090
+                          Entering function : at 0x7f3ae92e29c0
+                           Entering function : at 0x7f3ae9347ce0
+                           write(1, "je suis dans toto()\12je suis dans tutu()\12\0\0\0\0\0\0\0\0\0"..., 40) = 40
+                           Leaving function
+                          Leaving function
+                         Leaving function
+                        Leaving function
+                       Leaving function
+                       Entering function : at 0x7f3ae92e2000
+                        Entering function : at 0x7f3ae92e4940
+                         Entering function : at 0x7f3ae92e1f30
+                         Leaving function
+                         Entering function : at 0x7f3ae92e46a0
+                         Leaving function
+                        Leaving function
+                       Leaving function
+                      Leaving function
+                      Entering function : at 0x7f3ae9326150
++++ exited with 0 +++
