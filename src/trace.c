@@ -4,7 +4,7 @@
 ** Made by Bastien DHIVER
 ** Login   <dhiver_b@epitech.net>
  **
-** Last update Thu Apr 28 23:18:05 2016 Bastien DHIVER
+** Last update Thu Apr 28 23:20:17 2016 Bastien DHIVER
 */
 
 #define _GNU_SOURCE
@@ -196,8 +196,6 @@ unsigned long addr_indirect(unsigned long opcode, t_call *call, t_rex *rex)
 {
   unsigned char	rmb;
   unsigned long	addr;
-  int	off_rip;
-  int	off_reg;
   unsigned long addb;
 
   addr = opcode;
@@ -239,7 +237,6 @@ unsigned long addr_indirect(unsigned long opcode, t_call *call, t_rex *rex)
     }
   else if (rmb >= 0x10 && rmb <= 0x17)
     {
-      off_rip = 2;
       if (!rex->b && rmb == 0x10)
 	addr = ptrace(PTRACE_PEEKTEXT, g_pid, call->regs.rax);
       else if (!rex->b && rmb == 0x11)
@@ -250,16 +247,12 @@ unsigned long addr_indirect(unsigned long opcode, t_call *call, t_rex *rex)
 	addr = ptrace(PTRACE_PEEKTEXT, g_pid, call->regs.rbx);
       else if (rmb == 0x14)
 	{
-	  off_rip = 3;
 	  addr = ptrace(PTRACE_PEEKTEXT, g_pid, get_sib((opcode & 0xFF0000) >> 16, call, rex, 0, g_pid));
-	  if ((((opcode & 0xFF0000) >> 16) & 0x07) == 5)
-	    off_rip = 7;
 	}
       else if (rmb == 0x15)
 	{
 	  addb = ptrace(PTRACE_PEEKTEXT, g_pid, call->regs.rip + 2) & 0xFFFFFFFF;
 	  addr = ptrace(PTRACE_PEEKTEXT, g_pid, call->regs.rip + 6 + addb);
-	  off_rip = 6;
 	}
       else if (!rex->b && rmb == 0x16)
 	addr = ptrace(PTRACE_PEEKTEXT, g_pid, call->regs.rsi);
@@ -280,7 +273,6 @@ unsigned long addr_indirect(unsigned long opcode, t_call *call, t_rex *rex)
     }
   else if (rmb >= 0x50 && rmb <= 0x57)
     {
-      off_rip = 3;
       addb = (opcode & 0xFF0000) >> 16;
       if (!rex->b && rmb == 0x50)
 	addr = ptrace(PTRACE_PEEKTEXT, g_pid, call->regs.rax + addb);
@@ -293,7 +285,6 @@ unsigned long addr_indirect(unsigned long opcode, t_call *call, t_rex *rex)
       else if (rmb == 0x54)
 	{
 	addr = ptrace(PTRACE_PEEKTEXT, g_pid, get_sib((opcode & 0xFF0000) >> 16, call, rex, 1, g_pid) + addb);
-	off_rip = 4;
 	}
       else if (!rex->b && rmb == 0x55)
 	addr = ptrace(PTRACE_PEEKTEXT, g_pid, call->regs.rbp + addb);
@@ -319,7 +310,6 @@ unsigned long addr_indirect(unsigned long opcode, t_call *call, t_rex *rex)
   else if (rmb >= 0x90 && rmb <= 0x97)
     {
       addb = ptrace(PTRACE_PEEKTEXT, g_pid, call->regs.rip + 2) & 0xFFFFFFFF;
-      off_reg = 6;
       if (!rex->b && rmb == 0x90)
 	addr = ptrace(PTRACE_PEEKTEXT, g_pid, call->regs.rax + addb);
       else if (!rex->b && rmb == 0x91)
@@ -331,7 +321,6 @@ unsigned long addr_indirect(unsigned long opcode, t_call *call, t_rex *rex)
       else if (rmb == 0x94)
 	{
 	  addr = ptrace(PTRACE_PEEKTEXT, g_pid, get_sib((opcode & 0xFF0000) >> 16, call, rex, 2, g_pid) + addb);
-	  off_reg = 7;
 	}
       else if (!rex->b && rmb == 0x95)
 	addr = ptrace(PTRACE_PEEKTEXT, g_pid, call->regs.rbp + addb);

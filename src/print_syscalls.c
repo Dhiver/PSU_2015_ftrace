@@ -5,7 +5,7 @@
 ** Login   <dhiver_b@epitech.net>
 ** 
 ** Started on  Thu Apr 28 15:18:08 2016 Bastien DHIVER
-** Last update Thu Apr 28 23:08:47 2016 Bastien DHIVER
+** Last update Thu Apr 28 23:22:19 2016 Bastien DHIVER
 */
 
 #include <string.h>
@@ -41,7 +41,7 @@ void	print_arg_loop(t_call *call, int during)
   i = -1;
   while (++i < during)
     {
-      printf("%llx", call->args_val[i]);
+      printf("0x%llx", call->args_val[i]);
       if (i != during - 1)
 	printf(", ");
     }
@@ -54,7 +54,7 @@ void		print_ret(t_call *call)
   type = g_syscalls[call->regs.orig_rax].ret;
   if (type == E_UNKN && printf("?"))
     return ;
-  printf("%llx", call->regs.rax);
+  printf("0x%llx", call->regs.rax);
 }
 
 void		aff_syscall(t_call *call)
@@ -64,7 +64,7 @@ void		aff_syscall(t_call *call)
     return ;
   printf("(");
   print_arg_loop(call, strlen(g_syscalls[call->regs.orig_rax].args));
-  printf(")");
+  printf(") = ");
   print_ret(call);
   printf("\n");
 }
