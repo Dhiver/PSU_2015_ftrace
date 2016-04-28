@@ -5,7 +5,7 @@
 ** Login   <dhiver_b@epitech.net>
 ** 
 ** Started on  Wed Apr 20 14:27:12 2016 Bastien DHIVER
-** Last update Thu Apr 28 11:06:53 2016 Bastien DHIVER
+** Last update Thu Apr 28 11:30:19 2016 Bastien DHIVER
 */
 
 #define _GNU_SOURCE
@@ -14,18 +14,12 @@
 #include <dlfcn.h>
 #include "ftrace.h"
 
-/*
-** Return 1 if symbol is a static function
-*/
 int	sym_is_static(GElf_Sym *sym)
 {
   return ((GELF_ST_TYPE(sym->st_info) == STT_FUNC) &&
 	  (sym->st_shndx != SHT_NULL));
 }
 
-/*
-** Return 1 if symbol is associated with a function
-*/
 int	sym_is_dynamic(GElf_Sym *sym)
 {
   return ((GELF_ST_TYPE(sym->st_info) == STT_FUNC));

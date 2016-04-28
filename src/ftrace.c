@@ -5,7 +5,7 @@
 ** Login   <videau_f@epitech.net>
 **
 ** Started on  Tue Apr 12 11:59:11 2016 florian videau
-** Last update Mon Apr 25 23:45:08 2016 Bastien DHIVER
+** Last update Thu Apr 28 21:12:56 2016 Bastien DHIVER
 */
 
 #define _GNU_SOURCE
@@ -15,25 +15,10 @@
 #include <string.h>
 #include <unistd.h>
 #include <signal.h>
-#include "../include/ftrace.h"
+#include "ftrace.h"
 
 pid_t		g_pid = 0;
 t_bin_infos	g_bin;
-
-void	init_pr_type(t_pr_type *tab)
-{
-  tab[E_UNKN].ft_p = &print_unkn;
-  tab[E_INT].ft_p = &print_int;
-  tab[E_STR].ft_p = &print_str;
-  tab[E_ADDR].ft_p = &print_addr;
-  tab[E_STRUC].ft_p = &print_struc;
-  tab[E_SIZE_T].ft_p = &print_size_t;
-  tab[E_INT_2].ft_p = &print_two_int;
-  tab[E_USI_L].ft_p = &print_usi_l;
-  tab[E_STRSTR].ft_p = &print_strstr;
-  tab[E_LONG].ft_p = &print_long;
-  tab[E_END].ft_p = NULL;
-}
 
 int	run_process(t_args *args, t_call *call)
 {
@@ -57,7 +42,5 @@ int		main(int ac, char **av, char **env)
   signal(SIGINT, &get_sigint);
   args.av = av + 1;
   args.env = env;
-  call.is_child = TRUE;
-  init_pr_type(call.pr_type);
   return (run_process(&args, &call) || unload_elf());
 }

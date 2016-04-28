@@ -32,7 +32,7 @@
 
 - [ ] /proc/self/maps
 - [ ] man dlinfo
-- [ ] man dladd
+- [ ] man dladdr
 - [ ] man `dl_iterate_phdr`
 - [ ] `link_map`
 - [ ] Look in given binary

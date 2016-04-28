@@ -4,7 +4,7 @@
 ## Made by florian videau
 ## Login   <videau_f@epitech.net>
 ##
-## Last update Wed Apr 27 22:47:21 2016 Bastien DHIVER
+## Last update Thu Apr 28 23:05:52 2016 Bastien DHIVER
 ##
 
 CC	= gcc
@@ -24,11 +24,8 @@ INCF	= include/
 
 SRCS	= $(SRCF)ftrace.c		\
 	  $(SRCF)find_executable.c	\
-	  $(SRCF)print_fct.c		\
-	  $(SRCF)print_fct_again.c	\
 	  $(SRCF)print_signals.c	\
-          $(SRCF)print_strs.c		\
-	  $(SRCF)printing.c		\
+	  $(SRCF)print_syscalls.c	\
 	  $(SRCF)signals.c		\
 	  $(SRCF)trace.c		\
 	  $(SRCF)utils.c		\

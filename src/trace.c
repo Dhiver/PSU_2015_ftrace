@@ -4,7 +4,7 @@
 ** Made by Bastien DHIVER
 ** Login   <dhiver_b@epitech.net>
  **
-** Last update Wed Apr 27 22:47:40 2016 Bastien DHIVER
+** Last update Thu Apr 28 23:10:57 2016 Bastien DHIVER
 */
 
 #define _GNU_SOURCE
@@ -15,7 +15,7 @@
 #include <sys/user.h>
 #include <sys/wait.h>
 #include <unistd.h>
-#include "../include/ftrace.h"
+#include "ftrace.h"
 
 int	be_the_child(t_args *args)
 {
@@ -32,7 +32,7 @@ int	one_more_step(int *status, t_call *call, unsigned long *opcode)
     return (display_error(errno), 1);
   if (waitpid(g_pid, status, 0) == -1)
     return (display_error(errno), 1);
-  if (aff_end(*status))
+  if (aff_end_signal(*status))
     {
       if (ptrace(PTRACE_GETREGS, g_pid, NULL, &(call->regs)) == -1)
 	return (display_error(errno), 1);
@@ -81,30 +81,30 @@ unsigned long	be_the_parent_rec(int *status, t_call *call, t_rex *rex, int inden
   (void) calltype;
   /* addr = addr; */
   if (one_more_step(status, call, &opcode))
-    return 0;
+    return (0);
   i = -1;
   while (++i < indent)
     printf(" ");
-  printf("Entering function : at 0x%llx\n", (unsigned long long) call->regs.rip);
-  while(!RET(opcode) && aff_end(*status))
+  printf("Entering function : at 0x%llx\n", (unsigned long long)call->regs.rip);
+  while(!RET(opcode) && aff_end_signal(*status))
     {
       bzero(&rex, sizeof(t_rex));
       while (!CALL(opcode) && !RET(opcode) && !WIFEXITED(*status))
 	if (one_more_step(status, call, &opcode))
-	  return 0;
+	  return (0);
       if (SYSCALL(opcode))
 	{
 	  if (one_more_step(status, call, &opcode))
-	    return 0;
-	  if (aff_end(*status))
+	    return (0);
+	  if (aff_end_signal(*status))
 	    {
 	      i = -1;
 	      while (++i < indent)
 		printf(" ");
-	      main_printing(call);
+	      aff_syscall(call);
 	    }
 	  else
-	    return 0;
+	    return (0);
 	}
       /* if ((opcode & 0xF0) == 0x40) */
       /* 	{ */
@@ -150,12 +150,20 @@ int		be_the_parent(t_call *call, char *pathname)
 
   if (load_elf(pathname))
     return (1);
+  if (gelf_getclass(g_bin.e) == ELFCLASS32)
+    {
+#define ELF_IS_32_
+    }
+  if (gelf_getclass(g_bin.e) != ELFCLASS32)
+    {
+#undef ELF_IS_32_
+    }
   if (waitpid(g_pid, &status, 0) == -1)
     return (display_error(errno), 1);
   if (ptrace(PTRACE_GETREGS, g_pid, NULL, &(call->regs)) == -1)
     return (display_error(errno));
   opcode = ptrace(PTRACE_PEEKTEXT, g_pid, call->regs.rip, call->regs);
-  while (aff_end(status))
+  while (aff_end_signal(status))
     {
       bzero(&rex, sizeof(t_rex));
       while (!opcode || !CALL(opcode))
@@ -165,8 +173,8 @@ int		be_the_parent(t_call *call, char *pathname)
 	{
 	  if (one_more_step(&status, call, &opcode))
 	    return (1);
-	  if (aff_end(status))
-	    main_printing(call);
+	  if (aff_end_signal(status))
+	    aff_syscall(call);
 	}
       if (RELCALL(opcode))
 	{

@@ -5,7 +5,7 @@
 ** Login   <videau_f@epitech.net>
 **
 ** Started on  Tue Apr 12 14:07:13 2016 florian videau
-** Last update Wed Apr 27 18:13:22 2016 florian videau
+** Last update Thu Apr 28 21:22:57 2016 Bastien DHIVER
 */
 
 #ifndef FTRACE_H_
@@ -15,12 +15,10 @@
 # include <stdio.h>
 # include <sys/types.h>
 # include <sys/user.h>
-# include "syscalls.h"
 
 # define DEFAULT_PATH		"/usr/local/bin:/usr/bin:/bin"
-# define PRINT_SPACE		(40)
-# define MAX_PRINT_CHAR		(32)
-# define MAX_PRINT_SPEC		(62)
+# define SIGNAL_RCV_MSG		"Received signal %s\n"
+# define SIGNAL_UNKN		"UNKNOWN"
 
 # define print_err(...)		fprintf(stderr, __VA_ARGS__)
 
@@ -69,47 +67,27 @@ typedef struct			s_pr_type
   int				(*ft_p)(long_stuff, void *);
 }				t_pr_type;
 
-typedef struct                  s_call
+typedef struct			s_call
 {
-  t_pr_type                     pr_type[E_END + 1];
-  t_regs                        regs;
-  long_stuff                    args_val[7];
-  t_bool                        is_child;
-} t_call;
+  t_regs			regs;
+  long_stuff			args_val[7];
+}				t_call;
 
-typedef struct	s_rex
+typedef struct			s_rex
 {
-  char		w;
-  char		r;
-  char		x;
-  char		b;
-}		t_rex;
+  char				w;
+  char				r;
+  char				x;
+  char				b;
+}				t_rex;
 
 /*
-**find_executable.c
+** find_executable.c
 */
 char				*find_executable(char *name);
 
 /*
-** print_fct.c
-*/
-int				print_unkn(long_stuff, void *);
-int				print_int(long_stuff, void *);
-int				print_str(long_stuff, void *);
-int				print_addr(long_stuff, void *);
-int				print_struc(long_stuff, void *);
-
-/*
-** print_fct_again.c
-*/
-int				print_size_t(long_stuff, void *);
-int				print_two_int(long_stuff, void *);
-int				print_usi_l(long_stuff, void *);
-int				print_strstr(long_stuff, void *);
-int				print_long(long_stuff, void *);
-
-/*
-**trace.c
+** trace.c
 */
 int				be_the_child(t_args *arg);
 int				be_the_parent(t_call *call, char *);
@@ -136,6 +114,14 @@ int				unload_elf(void);
 */
 int				get_name_from_addr(long_stuff);
 
-void				main_printing(t_call *);
+/*
+** print_syscalls.c
+*/
+void				aff_syscall(t_call *);
+
+/*
+** print_signals.c
+*/
+int				aff_end_signal(int);
 
 #endif /* !FTRACE_H_ */
