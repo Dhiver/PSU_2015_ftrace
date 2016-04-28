@@ -4,7 +4,7 @@
 ** Made by Bastien DHIVER
 ** Login   <dhiver_b@epitech.net>
  **
-** Last update Thu Apr 28 12:54:37 2016 florian videau
+** Last update Thu Apr 28 16:47:22 2016 florian videau
 */
 
 #define _GNU_SOURCE
@@ -200,6 +200,7 @@ unsigned long addr_indirect(unsigned long opcode, t_call *call, t_rex *rex)
   int	off_reg;
   unsigned long addb;
 
+  addr = opcode;
   rmb = (opcode & 0xFF00) >> 8;
   if (rmb >= 0xD0 && rmb <= 0xD7)
     {
@@ -369,7 +370,9 @@ unsigned long	be_the_parent_rec(int *status, t_call *call, t_rex *rex, int inden
   i = -1;
   while (++i < indent)
     printf(" ");
-  printf("Entering function : at 0x%llx\n", (unsigned long long) addr);
+  printf("Entering function ");
+  get_name_from_addr(addr);
+  printf(" : at 0x%llx\n", (unsigned long long) addr);
   if (one_more_step(status, call, &opcode))
     return 0;
   while(!RET(opcode) && aff_end(*status))
