@@ -2,6 +2,9 @@
 
 - [ ] Resolve names via adresses of all symboles in the binary (static and dynamic) Bastien
 	- [ ] Dynamic
+		- [ ] Section de type SHT_REL
+		- [ ] Elf64_Rel
+		- [ ] r_info
 
 - [ ] Detect functions calls (Florian)
 	- [X] Main recursive loop

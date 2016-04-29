@@ -4,7 +4,7 @@
 ** Made by Bastien DHIVER
 ** Login   <dhiver_b@epitech.net>
  **
-** Last update Thu Apr 28 23:20:17 2016 Bastien DHIVER
+** Last update Fri Apr 29 13:41:43 2016 Bastien DHIVER
 */
 
 #define _GNU_SOURCE
@@ -432,7 +432,7 @@ int		be_the_parent(t_call *call, char *pathname)
     {
 #define ELF_IS_32_
     }
-  if (gelf_getclass(g_bin.e) != ELFCLASS32)
+  else
     {
 #undef ELF_IS_32_
     }
