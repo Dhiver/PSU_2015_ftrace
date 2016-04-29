@@ -5,7 +5,7 @@
 ** Login   <dhiver_b@epitech.net>
 **
 ** Started on  Wed Apr 20 14:27:12 2016 Bastien DHIVER
-** Last update Thu Apr 28 23:13:17 2016 Bastien DHIVER
+** Last update Fri Apr 29 18:19:17 2016 Bastien DHIVER
 */
 
 #define _GNU_SOURCE
@@ -33,10 +33,7 @@ int		get_name_from_addr(long_stuff addr)
   GElf_Sym	sym;
   int		count;
   int		i;
-  Dl_info	info;
-  char		*err;
 
-  (void)addr;
   scn = NULL;
   while ((scn = elf_nextscn(g_bin.e, scn)) != NULL)
     {
@@ -61,9 +58,5 @@ int		get_name_from_addr(long_stuff addr)
 	    }
 	}
     }
-  if (!dladdr((void *)addr, &info) && (err = dlerror()))
-    return (print_err("dladdr() failed: %s.\n", err), 1);
-  if (info.dli_sname && info.dli_saddr && info.dli_saddr == (void *)addr)
-    return (printf("Symbol name is '%s' in the shared lib '%s'\n", info.dli_sname, info.dli_fname), 0);
   return (printf("func_0x%llX@%s", (long_stuff)addr, rindex(g_bin.name, '/') + 1), 0);
 }
