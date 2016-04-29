@@ -4,7 +4,7 @@
 ** Made by Bastien DHIVER
 ** Login   <dhiver_b@epitech.net>
  **
-** Last update Thu Apr 28 23:20:17 2016 Bastien DHIVER
+** Last update Fri Apr 29 09:41:07 2016 florian videau
 */
 
 #define _GNU_SOURCE
@@ -397,8 +397,7 @@ unsigned long	be_the_parent_rec(int *status, t_call *call, t_rex *rex, int inden
 	  i = -1;
 	  while (++i < indent)
 	    printf(" ");
-	  printf("Leaving function\n");
-	  return opcode;
+	  return (printf("Leaving function "), get_name_from_addr(addr), printf("\n"), opcode);
 	}
       else if (RELCALL(opcode))
 	{
@@ -416,8 +415,7 @@ unsigned long	be_the_parent_rec(int *status, t_call *call, t_rex *rex, int inden
   i = -1;
   while (++i < indent)
     printf(" ");
-  printf("Leaving function\n");
-  return (opcode);
+  return (printf("Leaving function "), get_name_from_addr(addr), printf("\n"), opcode);
 }
 
 int		be_the_parent(t_call *call, char *pathname)
