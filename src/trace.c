@@ -4,13 +4,14 @@
 ** Made by Bastien DHIVER
 ** Login   <dhiver_b@epitech.net>
  **
-** Last update Fri Apr 29 13:28:48 2016 florian videau
+** Last update Fri Apr 29 18:01:11 2016 florian videau
 */
 
 #define _GNU_SOURCE
 #include <errno.h>
 #include <fcntl.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <strings.h>
 #include <sys/ptrace.h>
 #include <sys/user.h>
@@ -72,7 +73,7 @@ unsigned long	addr_relative(t_call *call, unsigned long opcode, char rexw)
 }
 
 static unsigned long	get_sib(unsigned char sib, t_call *call, t_rex *rex,
-				char mod, int pid)
+				char mod)
 {
   char			scale, index, base;
   unsigned long		result = 0;
@@ -181,7 +182,7 @@ static unsigned long	get_sib(unsigned char sib, t_call *call, t_rex *rex,
       else if (mod)
 	result += call->regs.rbp;
       else
-	result += ptrace(PTRACE_PEEKTEXT, pid, call->regs.rip + 3) & 0xFFFFFFFF;
+	result += ptrace(PTRACE_PEEKTEXT, g_pid, call->regs.rip + 3) & 0xFFFFFFFF;
       break;
     case 6:
       if (rex->b)
@@ -199,163 +200,217 @@ static unsigned long	get_sib(unsigned char sib, t_call *call, t_rex *rex,
   return (result);
 }
 
+unsigned long	*tab_no_D0rmbD7(t_call *call)
+{
+  unsigned long	*tab;
+
+  tab = malloc(8 * sizeof(long));
+
+  tab[0] = call->regs.rax;
+  tab[1] = call->regs.rcx;
+  tab[2] = call->regs.rdx;
+  tab[3] = call->regs.rbx;
+  tab[4] = call->regs.rsp;
+  tab[5] = call->regs.rbp;
+  tab[6] = call->regs.rsi;
+  tab[7] = call->regs.rdi;
+  return tab;
+}
+
+unsigned long	*tab_yes_D0rmbD7(t_call *call)
+{
+  unsigned long	*tab;
+
+  tab = malloc(8 * sizeof(long));
+
+  tab[0] = call->regs.r8;
+  tab[1] = call->regs.r9;
+  tab[2] = call->regs.r10;
+  tab[3] = call->regs.r11;
+  tab[4] = call->regs.r12;
+  tab[5] = call->regs.r13;
+  tab[6] = call->regs.r14;
+  tab[7] = call->regs.r15;
+  return tab;
+}
+
+unsigned long	D0rmbD7(t_call *call, t_rex *rex, unsigned long rmb)
+{
+  unsigned long	*tab;
+  unsigned long addr;
+
+  if (!rex->b)
+    tab = tab_no_D0rmbD7(call);
+  else
+    tab = tab_yes_D0rmbD7(call);
+  addr = tab[rmb & 0x0F];
+  free(tab);
+  return addr;
+}
+
+unsigned long	*tab_no_l0rmb17(t_call *call, t_rex *rex, unsigned long opcode)
+{
+  unsigned long	*tab;
+
+  tab = malloc(8 * sizeof(long));
+
+  tab[0] = ptrace(PTRACE_PEEKTEXT, g_pid, call->regs.rax);
+  tab[1] = ptrace(PTRACE_PEEKTEXT, g_pid, call->regs.rcx);
+  tab[2] = ptrace(PTRACE_PEEKTEXT, g_pid, call->regs.rdx);
+  tab[3] = ptrace(PTRACE_PEEKTEXT, g_pid, call->regs.rbx);
+  tab[4] = ptrace(PTRACE_PEEKTEXT, g_pid, get_sib((opcode & 0xFF0000) >> 16, call, rex, 0));
+  tab[5] = ptrace(PTRACE_PEEKTEXT, g_pid, call->regs.rip + 6 + (ptrace(PTRACE_PEEKTEXT, g_pid, call->regs.rip + 2) & 0xFFFFFFFF));
+  tab[6] = ptrace(PTRACE_PEEKTEXT, g_pid, call->regs.rsi);
+  tab[7] = ptrace(PTRACE_PEEKTEXT, g_pid, call->regs.rdi);
+  return tab;
+}
+
+unsigned long	*tab_yes_l0rmb17(t_call *call, t_rex *rex, unsigned long opcode)
+{
+  unsigned long	*tab;
+
+  tab = malloc(8 * sizeof(long));
+
+  tab[0] = ptrace(PTRACE_PEEKTEXT, g_pid, call->regs.r8);
+  tab[1] = ptrace(PTRACE_PEEKTEXT, g_pid, call->regs.r9);
+  tab[2] = ptrace(PTRACE_PEEKTEXT, g_pid, call->regs.r10);
+  tab[3] = ptrace(PTRACE_PEEKTEXT, g_pid, call->regs.r11);
+  tab[4] = ptrace(PTRACE_PEEKTEXT, g_pid, get_sib((opcode & 0xFF0000) >> 16, call, rex, 0));
+  tab[5] = ptrace(PTRACE_PEEKTEXT, g_pid, call->regs.rip + 6 + (ptrace(PTRACE_PEEKTEXT, g_pid, call->regs.rip + 2) & 0xFFFFFFFF));
+  tab[6] = ptrace(PTRACE_PEEKTEXT, g_pid, call->regs.r14);
+  tab[7] = ptrace(PTRACE_PEEKTEXT, g_pid, call->regs.r15);
+  return tab;
+}
+
+unsigned long	l0rmb17(t_call *call, t_rex *rex, unsigned long rmb, unsigned long opcode)
+{
+  unsigned long	*tab;
+  unsigned long addr;
+
+  if (!rex->b)
+    tab = tab_no_l0rmb17(call, rex, opcode);
+  else
+    tab = tab_yes_l0rmb17(call, rex, opcode);
+  addr = tab[rmb & 0x0F];
+  free(tab);
+  return addr;
+}
+
+unsigned long	*tab_no_S0rmb57(t_call *call, t_rex *rex, unsigned long addr, unsigned long opcode)
+{
+  unsigned long	*tab;
+
+  tab = malloc(8 * sizeof(long));
+
+  tab[0] = ptrace(PTRACE_PEEKTEXT, g_pid, call->regs.rax + addr);
+  tab[1] = ptrace(PTRACE_PEEKTEXT, g_pid, call->regs.rcx + addr);
+  tab[2] = ptrace(PTRACE_PEEKTEXT, g_pid, call->regs.rdx + addr);
+  tab[3] = ptrace(PTRACE_PEEKTEXT, g_pid, call->regs.rbx);
+  tab[4] = ptrace(PTRACE_PEEKTEXT, g_pid, get_sib((opcode & 0xFF0000) >> 16, call, rex, 1) + addr);
+  tab[5] = ptrace(PTRACE_PEEKTEXT, g_pid, call->regs.rbp + addr);
+  tab[6] = ptrace(PTRACE_PEEKTEXT, g_pid, call->regs.rsi + addr);
+  tab[7] = ptrace(PTRACE_PEEKTEXT, g_pid, call->regs.rdi + addr);
+  return tab;
+}
+
+unsigned long	*tab_yes_S0rmb57(t_call *call, t_rex *rex, unsigned long addr, unsigned long opcode)
+{
+  unsigned long	*tab;
+
+  tab = malloc(8 * sizeof(long));
+
+  tab[0] = ptrace(PTRACE_PEEKTEXT, g_pid, call->regs.r8 + addr);
+  tab[1] = ptrace(PTRACE_PEEKTEXT, g_pid, call->regs.r9 + addr);
+  tab[2] = ptrace(PTRACE_PEEKTEXT, g_pid, call->regs.r10 + addr);
+  tab[3] = ptrace(PTRACE_PEEKTEXT, g_pid, call->regs.r11 + addr);
+  tab[4] = ptrace(PTRACE_PEEKTEXT, g_pid, get_sib((opcode & 0xFF0000) >> 16, call, rex, 1) + addr);
+  tab[5] = ptrace(PTRACE_PEEKTEXT, g_pid, call->regs.r13 + addr);
+  tab[6] = ptrace(PTRACE_PEEKTEXT, g_pid, call->regs.r14 + addr);
+  tab[7] = ptrace(PTRACE_PEEKTEXT, g_pid, call->regs.r15 + addr);
+  return tab;
+}
+
+unsigned long	S0rmb57(t_call *call, t_rex *rex, unsigned long rmb, unsigned long opcode)
+{
+  unsigned long	*tab;
+  unsigned long addr;
+
+  if (!rex->b)
+    tab = tab_no_S0rmb57(call, rex, (opcode & 0xFF0000) >> 16, opcode);
+  else
+    tab = tab_yes_S0rmb57(call, rex, (opcode & 0xFF0000) >> 16, opcode);
+  addr = tab[rmb & 0x0F];
+  free(tab);
+  return addr;
+}
+
+unsigned long	*tab_no_J0rmb97(t_call *call, t_rex *rex, unsigned long addr, unsigned long opcode)
+{
+  unsigned long	*tab;
+
+  tab = malloc(8 * sizeof(long));
+
+  tab[0] = ptrace(PTRACE_PEEKTEXT, g_pid, call->regs.rax + addr);
+  tab[1] = ptrace(PTRACE_PEEKTEXT, g_pid, call->regs.rcx + addr);
+  tab[2] = ptrace(PTRACE_PEEKTEXT, g_pid, call->regs.rdx + addr);
+  tab[3] = ptrace(PTRACE_PEEKTEXT, g_pid, call->regs.rbx);
+  tab[4] = ptrace(PTRACE_PEEKTEXT, g_pid, get_sib((opcode & 0xFF0000) >> 16, call, rex, 2) + addr);
+  tab[5] = ptrace(PTRACE_PEEKTEXT, g_pid, call->regs.rbp + addr);
+  tab[6] = ptrace(PTRACE_PEEKTEXT, g_pid, call->regs.rsi + addr);
+  tab[7] = ptrace(PTRACE_PEEKTEXT, g_pid, call->regs.rdi + addr);
+  return tab;
+}
+
+unsigned long	*tab_yes_J0rmb97(t_call *call, t_rex *rex, unsigned long addr, unsigned long opcode)
+{
+  unsigned long	*tab;
+
+  tab = malloc(8 * sizeof(long));
+
+  tab[0] = ptrace(PTRACE_PEEKTEXT, g_pid, call->regs.r8 + addr);
+  tab[1] = ptrace(PTRACE_PEEKTEXT, g_pid, call->regs.r9 + addr);
+  tab[2] = ptrace(PTRACE_PEEKTEXT, g_pid, call->regs.r10 + addr);
+  tab[3] = ptrace(PTRACE_PEEKTEXT, g_pid, call->regs.r11 + addr);
+  tab[4] = ptrace(PTRACE_PEEKTEXT, g_pid, get_sib((opcode & 0xFF0000) >> 16, call, rex, 2) + addr);
+  tab[5] = ptrace(PTRACE_PEEKTEXT, g_pid, call->regs.r13 + addr);
+  tab[6] = ptrace(PTRACE_PEEKTEXT, g_pid, call->regs.r14 + addr);
+  tab[7] = ptrace(PTRACE_PEEKTEXT, g_pid, call->regs.r15 + addr);
+  return tab;
+}
+
+
+unsigned long	J0rmb97(t_call *call, t_rex *rex, unsigned long rmb, unsigned long opcode)
+{
+  unsigned long	*tab;
+  unsigned long addr;
+
+  if (!rex->b)
+    tab = tab_no_J0rmb97(call, rex, ptrace(PTRACE_PEEKTEXT, g_pid, call->regs.rip + 2) & 0xFFFFFFFF, opcode);
+  else
+    tab = tab_yes_J0rmb97(call, rex, (opcode & 0xFF0000) >> 16, opcode);
+  addr = tab[rmb & 0x0F];
+  free(tab);
+  return addr;
+}
+
 unsigned long addr_indirect(unsigned long opcode, t_call *call, t_rex *rex)
 {
   unsigned char	rmb;
-  unsigned long	addr;
-  unsigned long addb;
 
-  addr = opcode;
   rmb = (opcode & 0xFF00) >> 8;
   if (rmb >= 0xD0 && rmb <= 0xD7)
-    {
-      if (!rex->b && rmb == 0xD0)
-	addr = call->regs.rax;
-      else if (!rex->b && rmb == 0xD1)
-	addr = call->regs.rcx;
-      else if (!rex->b && rmb == 0xD2)
-	addr = call->regs.rdx;
-      else if (!rex->b && rmb == 0xD3)
-	addr = call->regs.rbx;
-      else if (!rex->b && rmb == 0xD4)
-	addr = call->regs.rsp;
-      else if (!rex->b && rmb == 0xD5)
-	addr = call->regs.rbp;
-      else if (!rex->b && rmb == 0xD6)
-	addr = call->regs.rsi;
-      else if (!rex->b && rmb == 0xD7)
-	addr = call->regs.rdi;
-      else if (rex->b && rmb == 0xD0)
-	addr = call->regs.r8;
-      else if (rex->b && rmb == 0xD1)
-	addr = call->regs.r9;
-      else if (rex->b && rmb == 0xD2)
-	addr = call->regs.r10;
-      else if (rex->b && rmb == 0xD3)
-	addr = call->regs.r11;
-      else if (rex->b && rmb == 0xD4)
-	addr = call->regs.r12;
-      else if (rex->b && rmb == 0xD5)
-	addr = call->regs.r13;
-      else if (rex->b && rmb == 0xD6)
-	addr = call->regs.r14;
-      else if (rex->b && rmb == 0xD7)
-	addr = call->regs.r15;
-    }
+      return D0rmbD7(call, rex, rmb);
   else if (rmb >= 0x10 && rmb <= 0x17)
-    {
-      if (!rex->b && rmb == 0x10)
-	addr = ptrace(PTRACE_PEEKTEXT, g_pid, call->regs.rax);
-      else if (!rex->b && rmb == 0x11)
-	addr = ptrace(PTRACE_PEEKTEXT, g_pid, call->regs.rcx);
-      else if (!rex->b && rmb == 0x12)
-	addr = ptrace(PTRACE_PEEKTEXT, g_pid, call->regs.rdx);
-      else if (!rex->b && rmb == 0x13)
-	addr = ptrace(PTRACE_PEEKTEXT, g_pid, call->regs.rbx);
-      else if (rmb == 0x14)
-	{
-	  addr = ptrace(PTRACE_PEEKTEXT, g_pid, get_sib((opcode & 0xFF0000) >> 16, call, rex, 0, g_pid));
-	}
-      else if (rmb == 0x15)
-	{
-	  addb = ptrace(PTRACE_PEEKTEXT, g_pid, call->regs.rip + 2) & 0xFFFFFFFF;
-	  addr = ptrace(PTRACE_PEEKTEXT, g_pid, call->regs.rip + 6 + addb);
-	}
-      else if (!rex->b && rmb == 0x16)
-	addr = ptrace(PTRACE_PEEKTEXT, g_pid, call->regs.rsi);
-      else if (!rex->b && rmb == 0x17)
-	addr = ptrace(PTRACE_PEEKTEXT, g_pid, call->regs.rdi);
-      else if (rex->b && rmb == 0x10)
-	addr = ptrace(PTRACE_PEEKTEXT, g_pid, call->regs.r8);
-      else if (rex->b && rmb == 0x11)
-	addr = ptrace(PTRACE_PEEKTEXT, g_pid, call->regs.r9);
-      else if (rex->b && rmb == 0x12)
-	addr = ptrace(PTRACE_PEEKTEXT, g_pid, call->regs.r10);
-      else if (rex->b && rmb == 0x13)
-	addr = ptrace(PTRACE_PEEKTEXT, g_pid, call->regs.r11);
-      else if (rex->b && rmb == 0x16)
-	addr = ptrace(PTRACE_PEEKTEXT, g_pid, call->regs.r14);
-      else if (rex->b && rmb == 0x17)
-	addr = ptrace(PTRACE_PEEKTEXT, g_pid, call->regs.r15);
-    }
+    return l0rmb17(call, rex, rmb, opcode);
   else if (rmb >= 0x50 && rmb <= 0x57)
-    {
-      addb = (opcode & 0xFF0000) >> 16;
-      if (!rex->b && rmb == 0x50)
-	addr = ptrace(PTRACE_PEEKTEXT, g_pid, call->regs.rax + addb);
-      else if (!rex->b && rmb == 0x51)
-	addr = ptrace(PTRACE_PEEKTEXT, g_pid, call->regs.rcx + addb);
-      else if (!rex->b && rmb == 0x52)
-	addr = ptrace(PTRACE_PEEKTEXT, g_pid, call->regs.rdx + addb);
-      else if (!rex->b && rmb == 0x53)
-	addr = ptrace(PTRACE_PEEKTEXT, g_pid, call->regs.rbx + addb);
-      else if (rmb == 0x54)
-	{
-	addr = ptrace(PTRACE_PEEKTEXT, g_pid, get_sib((opcode & 0xFF0000) >> 16, call, rex, 1, g_pid) + addb);
-	}
-      else if (!rex->b && rmb == 0x55)
-	addr = ptrace(PTRACE_PEEKTEXT, g_pid, call->regs.rbp + addb);
-      else if (!rex->b && rmb == 0x56)
-	addr = ptrace(PTRACE_PEEKTEXT, g_pid, call->regs.rsi + addb);
-      else if (!rex->b && rmb == 0x57)
-	addr = ptrace(PTRACE_PEEKTEXT, g_pid, call->regs.rdi + addb);
-      else if (rex->b && rmb == 0x50)
-	addr = ptrace(PTRACE_PEEKTEXT, g_pid, call->regs.r8 + addb);
-      else if (rex->b && rmb == 0x51)
-	addr = ptrace(PTRACE_PEEKTEXT, g_pid, call->regs.r9 + addb);
-      else if (rex->b && rmb == 0x52)
-	addr = ptrace(PTRACE_PEEKTEXT, g_pid, call->regs.r10 + addb);
-      else if (rex->b && rmb == 0x53)
-	addr = ptrace(PTRACE_PEEKTEXT, g_pid, call->regs.r11 + addb);
-      else if (rex->b && rmb == 0x55)
-	addr = ptrace(PTRACE_PEEKTEXT, g_pid, call->regs.r13 + addb);
-      else if (rex->b && rmb == 0x56)
-	addr = ptrace(PTRACE_PEEKTEXT, g_pid, call->regs.r14 + addb);
-      else if (rex->b && rmb == 0x57)
-	addr = ptrace(PTRACE_PEEKTEXT, g_pid, call->regs.r15 + addb);
-    }
+    return S0rmb57(call, rex, rmb, opcode);
   else if (rmb >= 0x90 && rmb <= 0x97)
-    {
-      addb = ptrace(PTRACE_PEEKTEXT, g_pid, call->regs.rip + 2) & 0xFFFFFFFF;
-      if (!rex->b && rmb == 0x90)
-	addr = ptrace(PTRACE_PEEKTEXT, g_pid, call->regs.rax + addb);
-      else if (!rex->b && rmb == 0x91)
-	addr = ptrace(PTRACE_PEEKTEXT, g_pid, call->regs.rcx + addb);
-      else if (!rex->b && rmb == 0x92)
-	addr = ptrace(PTRACE_PEEKTEXT, g_pid, call->regs.rdx + addb);
-      else if (!rex->b && rmb == 0x93)
-	addr = ptrace(PTRACE_PEEKTEXT, g_pid, call->regs.rbx + addb);
-      else if (rmb == 0x94)
-	{
-	  addr = ptrace(PTRACE_PEEKTEXT, g_pid, get_sib((opcode & 0xFF0000) >> 16, call, rex, 2, g_pid) + addb);
-	}
-      else if (!rex->b && rmb == 0x95)
-	addr = ptrace(PTRACE_PEEKTEXT, g_pid, call->regs.rbp + addb);
-      else if (!rex->b && rmb == 0x96)
-	addr = ptrace(PTRACE_PEEKTEXT, g_pid, call->regs.rsi + addb);
-      else if (!rex->b && rmb == 0x97)
-	addr = ptrace(PTRACE_PEEKTEXT, g_pid, call->regs.rdi + addb);
-      else if (rex->b && rmb == 0x90)
-	addr = ptrace(PTRACE_PEEKTEXT, g_pid, call->regs.r8 + addb);
-      else if (rex->b && rmb == 0x91)
-	addr = ptrace(PTRACE_PEEKTEXT, g_pid, call->regs.r9 + addb);
-      else if (rex->b && rmb == 0x92)
-	addr = ptrace(PTRACE_PEEKTEXT, g_pid, call->regs.r10 + addb);
-      else if (rex->b && rmb == 0x93)
-	addr = ptrace(PTRACE_PEEKTEXT, g_pid, call->regs.r11 + addb);
-      else if (rex->b && rmb == 0x95)
-	addr = ptrace(PTRACE_PEEKTEXT, g_pid, call->regs.r13 + addb);
-      else if (rex->b && rmb == 0x96)
-	addr = ptrace(PTRACE_PEEKTEXT, g_pid, call->regs.r14 + addb);
-      else if (rex->b && rmb == 0x97)
-	addr = ptrace(PTRACE_PEEKTEXT, g_pid, call->regs.r15 + addb);
-    }
-  return (addr);
+    return J0rmb97(call, rex, rmb, opcode);
+  return (0);
 }
 
-unsigned long	be_the_parent_rec(int *status, t_call *call, t_rex *rex, int indent, t_call_type calltype)
+unsigned long	be_the_parent_rec(int *status, t_call *call, t_rex *rex, t_call_type calltype)
 {
-  int		i;
   unsigned long addr;
   unsigned long opcode;
 
@@ -363,12 +418,9 @@ unsigned long	be_the_parent_rec(int *status, t_call *call, t_rex *rex, int inden
     return (display_error(errno), 0);
   addr = (calltype == RELATIVE ? addr_relative(call, opcode, rex->w) :
 	  addr_indirect(opcode, call, rex));
-  i = -1;
-  while (++i < indent)
-    printf(" ");
   printf("Entering function ");
   get_name_from_addr(addr);
-  printf(" : at 0x%llx\n", (unsigned long long) addr);
+  printf(" at 0x%llx\n", (unsigned long long) addr);
   if (one_more_step(status, call, &opcode))
     return 0;
   while(!RET(opcode) && aff_end_signal(*status))
@@ -382,12 +434,7 @@ unsigned long	be_the_parent_rec(int *status, t_call *call, t_rex *rex, int inden
 	  if (one_more_step(status, call, &opcode))
 	    return (0);
 	  if (aff_end_signal(*status))
-	    {
-	      i = -1;
-	      while (++i < indent)
-		printf(" ");
 	      aff_syscall(call);
-	    }
 	  else
 	    return (0);
 	}
@@ -400,28 +447,20 @@ unsigned long	be_the_parent_rec(int *status, t_call *call, t_rex *rex, int inden
       	  opcode = ptrace(PTRACE_PEEKTEXT, g_pid, ++call->regs.rip);
       	}
       if (RET(opcode))
-	{
-	  i = -1;
-	  while (++i < indent)
-	    printf(" ");
 	  return (printf("Leaving function "), get_name_from_addr(addr), printf("\n"), opcode);
-	}
       else if (RELCALL(opcode))
 	{
-	  if (!(opcode = be_the_parent_rec(status, call, rex, indent + 1, RELATIVE)))
+	  if (!(opcode = be_the_parent_rec(status, call, rex, RELATIVE)))
 	    return 0;
 	}
       else if (INDCALL(opcode))
 	{
-	  if (!(be_the_parent_rec(status, call, rex, indent + 1, INDIRECT)))
+	  if (!(be_the_parent_rec(status, call, rex, INDIRECT)))
 	    return 0;
 	}
       if (one_more_step(status, call, &opcode))
 	return 0;
     }
-  i = -1;
-  while (++i < indent)
-    printf(" ");
   return (printf("Leaving function "), get_name_from_addr(addr), printf("\n"), opcode);
 }
 
@@ -461,12 +500,12 @@ int		be_the_parent(t_call *call, char *pathname)
 	}
       if (RELCALL(opcode))
 	{
-	  if (!(opcode = be_the_parent_rec(&status, call, &rex, 0, RELATIVE)))
+	  if (!(opcode = be_the_parent_rec(&status, call, &rex, RELATIVE)))
 	    return 1;
 	}
       else if (INDCALL(opcode))
 	{
-	  if (!(opcode = be_the_parent_rec(&status, call, &rex, 0, INDIRECT)))
+	  if (!(opcode = be_the_parent_rec(&status, call, &rex, INDIRECT)))
 	    return 1;
 	}
       if (one_more_step(&status, call, &opcode))
