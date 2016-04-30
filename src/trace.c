@@ -4,7 +4,7 @@
 ** Made by Bastien DHIVER
 ** Login   <dhiver_b@epitech.net>
  **
-** Last update Sat Apr 30 18:57:33 2016 florian videau
+** Last update Sat Apr 30 23:57:03 2016 Bastien DHIVER
 */
 
 #define _GNU_SOURCE
@@ -17,7 +17,7 @@
 #include <sys/user.h>
 #include <sys/wait.h>
 #include <unistd.h>
-#include "../include/ftrace.h"
+#include "ftrace.h"
 
 int	be_the_child(t_args *args)
 {
@@ -59,7 +59,6 @@ unsigned long	addr_relative(t_call *call, unsigned long opcode, char rexw)
   offset = (int)((opcode >> 8));
   if (rexw)
     {
-      printf("BITE\n");
       offset = ptrace(PTRACE_PEEKTEXT, g_pid, call->regs.rip + 1);
       call_addr = call->regs.rip + offset + 9;
     }
@@ -158,14 +157,15 @@ unsigned long	be_the_parent_rec(int *status, t_call *call, t_rex *rex, t_call_ty
 {
   unsigned long addr;
   unsigned long opcode;
+  char		*fct_name;
 
   if (!(opcode = ptrace(PTRACE_PEEKTEXT, g_pid, call->regs.rip, call->regs)))
     return (display_error(errno), 0);
   addr = (calltype == RELATIVE ? addr_relative(call, opcode, rex->w) :
 	  addr_indirect(opcode, call, rex));
-  printf("Entering function ");
-  get_name_from_addr(addr);
-  printf(" at 0x%llx\n", (unsigned long long) addr);
+  fct_name = get_name_from_addr(addr);
+  printf("Entering function %s at 0x%llx\n", fct_name, (long_stuff)addr);
+  free(fct_name);
   if (one_more_step(status, call, &opcode))
     return 0;
   while(!RET(opcode) && aff_end_signal(*status))
@@ -192,7 +192,11 @@ unsigned long	be_the_parent_rec(int *status, t_call *call, t_rex *rex, t_call_ty
       	  opcode = ptrace(PTRACE_PEEKTEXT, g_pid, ++call->regs.rip);
       	}
       if (RET(opcode))
-	  return (printf("Leaving function "), get_name_from_addr(addr), printf("\n"), opcode);
+	{
+	  fct_name = get_name_from_addr(addr);
+	  printf("Leaving function %s\n", fct_name);
+	  return (free(fct_name), opcode);
+	}
       else if (RELCALL(opcode))
 	{
 	  if (!(opcode = be_the_parent_rec(status, call, rex, RELATIVE)))
@@ -204,7 +208,9 @@ unsigned long	be_the_parent_rec(int *status, t_call *call, t_rex *rex, t_call_ty
       if (one_more_step(status, call, &opcode))
 	return 0;
     }
-  return (printf("Leaving function "), get_name_from_addr(addr), printf("\n"), opcode);
+  fct_name = get_name_from_addr(addr);
+  printf("Leaving function %s\n", fct_name);
+  return (free(fct_name), opcode);
 }
 
 int		be_the_parent(t_call *call, char *pathname)

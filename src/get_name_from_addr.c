@@ -5,58 +5,69 @@
 ** Login   <dhiver_b@epitech.net>
 **
 ** Started on  Wed Apr 20 14:27:12 2016 Bastien DHIVER
-** Last update Fri Apr 29 18:19:17 2016 Bastien DHIVER
+** Last update Sat Apr 30 23:57:59 2016 Bastien DHIVER
 */
 
 #define _GNU_SOURCE
 #include <stdlib.h>
 #include <strings.h>
+#include <string.h>
 #include <dlfcn.h>
 #include "ftrace.h"
 
-int	sym_is_static(GElf_Sym *sym)
+char		*iterat_over_static_sym(GElf_Shdr *shdr, Elf_Data *data,
+				       long_stuff addr)
 {
-  return ((GELF_ST_TYPE(sym->st_info) == STT_FUNC) &&
-	  (sym->st_shndx != SHT_NULL));
+  GElf_Sym	sym;
+  int		count;
+  int		i;
+
+  count = shdr->sh_size / shdr->sh_entsize;
+  i = -1;
+  while (++i < count)
+    {
+      if (gelf_getsym(data, i, &sym) == NULL)
+	return (print_err("gelf_getsym() failed: %s.",
+			  elf_errmsg(-1)), NULL);
+      if ((!sym.st_name) || sym.st_value == 0)
+	continue;
+      else if ((long_stuff)sym.st_value == addr)
+	return (elf_strptr(g_bin.e, shdr->sh_link, sym.st_name));
+    }
+  return (NULL);
 }
 
-int	sym_is_dynamic(GElf_Sym *sym)
-{
-  return ((GELF_ST_TYPE(sym->st_info) == STT_FUNC));
-}
-
-int		get_name_from_addr(long_stuff addr)
+char		*static_name_resolv(long_stuff addr)
 {
   GElf_Shdr	shdr;
   Elf_Scn	*scn;
   Elf_Data	*data;
-  GElf_Sym	sym;
-  int		count;
-  int		i;
+  char		*res;
 
   scn = NULL;
   while ((scn = elf_nextscn(g_bin.e, scn)) != NULL)
     {
       if (gelf_getshdr(scn, &shdr) != &shdr)
-	return (print_err("gelf_getshdr() failed: %s.", elf_errmsg(-1)), 1);
+	return (print_err("gelf_getshdr() failed: %s.", elf_errmsg(-1)), NULL);
       if (shdr.sh_type == SHT_SYMTAB)
 	{
 	  if ((data = elf_getdata(scn, NULL)) == NULL)
 	    return (print_err("elf_getdata() failed: %s.",
-			      elf_errmsg(-1)), 1);
-	  count = shdr.sh_size / shdr.sh_entsize;
-	  i = -1;
-	  while (++i < count)
-	    {
-	      if (gelf_getsym(data, i, &sym) == NULL)
-		return (print_err("gelf_getsym() failed: %s.",
-				  elf_errmsg(-1)), 1);
-	      if ((!sym.st_name) || sym.st_value == 0)
-		continue;
-	      else if ((long_stuff)sym.st_value == (long_stuff)addr)
-		return (printf("%s", elf_strptr(g_bin.e, shdr.sh_link, sym.st_name)), 0);
-	    }
+			      elf_errmsg(-1)), NULL);
+	  if ((res = iterat_over_static_sym(&shdr, data, addr)) != NULL)
+	    return (res);
 	}
     }
-  return (printf("func_0x%llX@%s", (long_stuff)addr, rindex(g_bin.name, '/') + 1), 0);
+  return (NULL);
+}
+
+char	*get_name_from_addr(long_stuff addr)
+{
+  char	*res;
+
+  if ((res = static_name_resolv(addr)) != NULL)
+    return (strdup(res));
+  /* dynamic resolv */
+  asprintf(&res, "func_0x%llX@%s", addr, rindex(g_bin.name, '/') + 1);
+  return (res);
 }

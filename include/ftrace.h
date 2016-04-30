@@ -5,7 +5,7 @@
 ** Login   <videau_f@epitech.net>
 **
 ** Started on  Tue Apr 12 14:07:13 2016 florian videau
-** Last update Sat Apr 30 18:58:23 2016 florian videau
+** Last update Sat Apr 30 23:51:17 2016 Bastien DHIVER
 */
 
 #ifndef FTRACE_H_
@@ -112,7 +112,7 @@ int				unload_elf(void);
 /*
 ** get_name_from_addr.c
 */
-int				get_name_from_addr(long_stuff);
+char				*get_name_from_addr(long_stuff);
 
 /*
 ** print_syscalls.c
