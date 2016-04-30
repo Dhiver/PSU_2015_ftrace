@@ -5,7 +5,7 @@
 ** Login   <videau_f@epitech.net>
 **
 ** Started on  Tue Apr 12 14:07:13 2016 florian videau
-** Last update Sat Apr 30 23:51:17 2016 Bastien DHIVER
+** Last update Sun May 01 00:05:13 2016 Bastien DHIVER
 */
 
 #ifndef FTRACE_H_
@@ -124,6 +124,15 @@ void				aff_syscall(t_call *);
 */
 int				aff_end_signal(int);
 
+/*
+** static_name_resolv.c
+*/
+char				*static_name_resolv(long_stuff);
+
+/*
+** dynamic_name_resolv.c
+*/
+char				*dynamic_name_resolv(long_stuff);
 
 unsigned long	get_sib(unsigned char sib, t_call *call, t_rex *rex,
 				char mod);
