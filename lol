@@ -341,7 +341,7 @@ Disassembly of section .text:
   4005a1:	bf 64 06 40 00       	mov    $0x400664,%edi
   4005a6:	e8 c5 fe ff ff       	callq  400470 <puts@plt>
   4005ab:	5d                   	pop    %rbp
-  4005ac:	c3                   	retq
+  4005ac:	c3                   	retq   
 
 00000000004005ad <tutu>:
   4005ad:	55                   	push   %rbp
@@ -349,7 +349,7 @@ Disassembly of section .text:
   4005b1:	bf 78 06 40 00       	mov    $0x400678,%edi
   4005b6:	e8 b5 fe ff ff       	callq  400470 <puts@plt>
   4005bb:	5d                   	pop    %rbp
-  4005bc:	c3                   	retq
+  4005bc:	c3                   	retq   
 
 00000000004005bd <main>:
   4005bd:	55                   	push   %rbp
@@ -359,7 +359,7 @@ Disassembly of section .text:
   4005cb:	bf 00 00 00 00       	mov    $0x0,%edi
   4005d0:	e8 cb fe ff ff       	callq  4004a0 <exit@plt>
   4005d5:	66 2e 0f 1f 84 00 00 	nopw   %cs:0x0(%rax,%rax,1)
-  4005dc:	00 00 00
+  4005dc:	00 00 00 
   4005df:	90                   	nop
 
 00000000004005e0 <__libc_csu_init>:

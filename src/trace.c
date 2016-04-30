@@ -4,7 +4,7 @@
 ** Made by Bastien DHIVER
 ** Login   <dhiver_b@epitech.net>
  **
-** Last update Fri Apr 29 18:20:45 2016 Bastien DHIVER
+** Last update Sat Apr 30 17:34:51 2016 florian videau
 */
 
 #define _GNU_SOURCE
@@ -72,131 +72,140 @@ unsigned long	addr_relative(t_call *call, unsigned long opcode, char rexw)
   return call_addr;
 }
 
+int	my_power_rec(int nbr, int power)
+{
+  return (power?nbr * my_power_rec(nbr, power -1):1);
+}
+
+unsigned long	*tab_no_sib_index(t_call *call)
+{
+  unsigned long	*tab;
+
+  tab = malloc(8 * sizeof(long));
+
+  tab[0] = call->regs.rax;
+  tab[1] = call->regs.rcx;
+  tab[2] = call->regs.rdx;
+  tab[3] = call->regs.rbx;
+  tab[4] = call->regs.rsp;
+  tab[5] = call->regs.rbp;
+  tab[6] = call->regs.rsi;
+  tab[7] = call->regs.rdi;
+  return tab;
+}
+
+unsigned long	*tab_yes_sib_index(t_call *call)
+{
+  unsigned long	*tab;
+
+  tab = malloc(8 * sizeof(long));
+
+  tab[0] = call->regs.r8;
+  tab[1] = call->regs.r9;
+  tab[2] = call->regs.r10;
+  tab[3] = call->regs.r11;
+  tab[4] = call->regs.r12;
+  tab[5] = call->regs.r13;
+  tab[6] = call->regs.r14;
+  tab[7] = call->regs.r15;
+  return tab;
+}
+
+unsigned long	sib_index(t_call *call, t_rex *rex, unsigned long rmb)
+{
+  unsigned long	*tab;
+  unsigned long addr;
+
+  if (!rex->x)
+    tab = tab_no_sib_index(call);
+  else
+    tab = tab_yes_sib_index(call);
+  addr = tab[rmb];
+  free(tab);
+  return addr;
+}
+
+unsigned long	*tab_yes_sib_base(t_call *call)
+{
+  unsigned long	*tab;
+
+  tab = malloc(8 * sizeof(long));
+
+  tab[0] = call->regs.r8;
+  tab[1] = call->regs.r9;
+  tab[2] = call->regs.r10;
+  tab[3] = call->regs.r11;
+  tab[4] = call->regs.r12;
+  tab[5] = call->regs.r13;
+  tab[6] = call->regs.r14;
+  tab[7] = call->regs.r15;
+  return tab;
+}
+
+unsigned long	*tab_no_b_sib_base(t_call *call)
+{
+  unsigned long	*tab;
+
+  tab = malloc(8 * sizeof(long));
+
+  tab[0] = call->regs.rax;
+  tab[1] = call->regs.rcx;
+  tab[2] = call->regs.rdx;
+  tab[3] = call->regs.rbx;
+  tab[4] = call->regs.rsp;
+  tab[5] = call->regs.rbp;
+  tab[6] = call->regs.rsi;
+  tab[7] = call->regs.rdi;
+  return tab;
+}
+
+unsigned long	*tab_no_sib_base(t_call *call)
+{
+  unsigned long	*tab;
+
+  tab = malloc(8 * sizeof(long));
+
+  tab[0] = call->regs.rax;
+  tab[1] = call->regs.rcx;
+  tab[2] = call->regs.rdx;
+  tab[3] = call->regs.rbx;
+  tab[4] = call->regs.rsp;
+  tab[5] = ptrace(PTRACE_PEEKTEXT, g_pid, call->regs.rip + 3) & 0xFFFFFFFF;
+  tab[6] = call->regs.rsi;
+  tab[7] = call->regs.rdi;
+  return tab;
+}
+
+unsigned long	sib_base(t_call *call, t_rex *rex, unsigned long rmb, char mod)
+{
+  unsigned long	*tab;
+  unsigned long addr;
+
+  if (rex->b && mod)
+    tab = tab_yes_sib_base(call);
+  else if (mod)
+    tab = tab_no_b_sib_base(call);
+  else
+    tab = tab_no_sib_base(call);
+  addr = tab[rmb];
+  free(tab);
+  return addr;
+}
+
 static unsigned long	get_sib(unsigned char sib, t_call *call, t_rex *rex,
 				char mod)
 {
-  char			scale, index, base;
-  unsigned long		result = 0;
+  char			scale;
+  char			index;
+  char			base;
+  unsigned long		result;
 
   scale = sib & 0xC0;
   index = sib & 0x38;
   base = sib & 0x07;
-  switch (index)
-    {
-    case 0:
-	if (rex->x)
-	  result += call->regs.r8;
-	else
-	  result += call->regs.rax;
-      break;
-    case 1:
-      if (rex->x)
-	result += call->regs.r9;
-      else
-	result += call->regs.rcx;
-      break;
-    case 2:
-      if (rex->x)
-	result += call->regs.r10;
-      else
-	result += call->regs.rdx;
-      break;
-    case 3:
-      if (rex->x)
-	result += call->regs.r11;
-      else
-	result += call->regs.rbx;
-      break;
-    case 4:
-      if (rex->x)
-	result += call->regs.r12;
-      break;
-    case 5:
-      if (rex->x)
-	result += call->regs.r13;
-      else
-	result += call->regs.rbp;
-      break;
-    case 6:
-      if (rex->x)
-	result += call->regs.r14;
-      else
-	result += call->regs.rsi;
-      break;
-    case 7:
-      if (rex->x)
-	result += call->regs.r15;
-      else
-	result += call->regs.rdi;
-      break;
-    }
-  switch (scale)
-    {
-    case 0:
-      break;
-    case 1:
-      result *= 2;
-      break;
-    case 2:
-      result *= 4;
-      break;
-    case 3:
-      result *= 8;
-      break;
-    }
-  switch (base)
-    {
-    case 0:
-      if (rex->b)
-	result += call->regs.r8;
-      else
-	result += call->regs.rax;
-      break;
-    case 1:
-      if (rex->b)
-	result += call->regs.r9;
-      else
-	result += call->regs.rcx;
-      break;
-    case 2:
-      if (rex->b)
-	result += call->regs.r10;
-      else
-	result += call->regs.rdx;
-      break;
-    case 3:
-      if (rex->b)
-	result += call->regs.r11;
-      else
-	result += call->regs.rbx;
-      break;
-    case 4:
-      if (rex->b)
-	result += call->regs.r12;
-      else
-	result += call->regs.rsp;
-      break;
-    case 5:
-      if (rex->b && mod)
-	result += call->regs.r13;
-      else if (mod)
-	result += call->regs.rbp;
-      else
-	result += ptrace(PTRACE_PEEKTEXT, g_pid, call->regs.rip + 3) & 0xFFFFFFFF;
-      break;
-    case 6:
-      if (rex->b)
-	result += call->regs.r14;
-      else
-	result += call->regs.rsi;
-      break;
-    case 7:
-      if (rex->b)
-	result += call->regs.r15;
-      else
-	result += call->regs.rdi;
-      break;
-    }
+  result = index >= 0 && index <= 7 ? sib_index(call, rex, index) : 0;
+  result *= (scale > 0 && scale < 4?my_power_rec(2, scale):1);
+  result += base >= 0 && base <= 7 ? sib_base(call, rex, base, mod) : 0;
   return (result);
 }
 
@@ -454,10 +463,8 @@ unsigned long	be_the_parent_rec(int *status, t_call *call, t_rex *rex, t_call_ty
 	    return 0;
 	}
       else if (INDCALL(opcode))
-	{
-	  if (!(be_the_parent_rec(status, call, rex, INDIRECT)))
-	    return 0;
-	}
+	if (!(be_the_parent_rec(status, call, rex, INDIRECT)))
+	  return 0;
       if (one_more_step(status, call, &opcode))
 	return 0;
     }
