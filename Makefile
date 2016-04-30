@@ -4,7 +4,7 @@
 ## Made by florian videau
 ## Login   <videau_f@epitech.net>
 ##
-## Last update Thu Apr 28 23:20:34 2016 Bastien DHIVER
+## Last update Sat Apr 30 18:59:37 2016 florian videau
 ##
 
 CC	= gcc
@@ -30,7 +30,12 @@ SRCS	= $(SRCF)ftrace.c		\
 	  $(SRCF)trace.c		\
 	  $(SRCF)utils.c		\
 	  $(SRCF)load_elf.c		\
-	  $(SRCF)get_name_from_addr.c
+	  $(SRCF)get_name_from_addr.c	\
+	  $(SRCF)J0rmb97.c		\
+	  $(SRCF)S0rmb57.c		\
+	  $(SRCF)l0rmb17.c		\
+	  $(SRCF)D0rmbD7.c		\
+	  $(SRCF)sib_base.c
 
 OBJS	= $(SRCS:.c=.o)
 

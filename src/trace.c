@@ -4,7 +4,7 @@
 ** Made by Bastien DHIVER
 ** Login   <dhiver_b@epitech.net>
  **
-** Last update Sat Apr 30 17:34:51 2016 florian videau
+** Last update Sat Apr 30 18:57:33 2016 florian videau
 */
 
 #define _GNU_SOURCE
@@ -64,11 +64,7 @@ unsigned long	addr_relative(t_call *call, unsigned long opcode, char rexw)
       call_addr = call->regs.rip + offset + 9;
     }
   else
-    {
-      /* int val; */
-      /* val = offset & 0xFFFFFF; */
-      call_addr = call->regs.rip + offset + 5;
-    }
+    call_addr = call->regs.rip + offset + 5;
   return call_addr;
 }
 
@@ -125,74 +121,7 @@ unsigned long	sib_index(t_call *call, t_rex *rex, unsigned long rmb)
   return addr;
 }
 
-unsigned long	*tab_yes_sib_base(t_call *call)
-{
-  unsigned long	*tab;
-
-  tab = malloc(8 * sizeof(long));
-
-  tab[0] = call->regs.r8;
-  tab[1] = call->regs.r9;
-  tab[2] = call->regs.r10;
-  tab[3] = call->regs.r11;
-  tab[4] = call->regs.r12;
-  tab[5] = call->regs.r13;
-  tab[6] = call->regs.r14;
-  tab[7] = call->regs.r15;
-  return tab;
-}
-
-unsigned long	*tab_no_b_sib_base(t_call *call)
-{
-  unsigned long	*tab;
-
-  tab = malloc(8 * sizeof(long));
-
-  tab[0] = call->regs.rax;
-  tab[1] = call->regs.rcx;
-  tab[2] = call->regs.rdx;
-  tab[3] = call->regs.rbx;
-  tab[4] = call->regs.rsp;
-  tab[5] = call->regs.rbp;
-  tab[6] = call->regs.rsi;
-  tab[7] = call->regs.rdi;
-  return tab;
-}
-
-unsigned long	*tab_no_sib_base(t_call *call)
-{
-  unsigned long	*tab;
-
-  tab = malloc(8 * sizeof(long));
-
-  tab[0] = call->regs.rax;
-  tab[1] = call->regs.rcx;
-  tab[2] = call->regs.rdx;
-  tab[3] = call->regs.rbx;
-  tab[4] = call->regs.rsp;
-  tab[5] = ptrace(PTRACE_PEEKTEXT, g_pid, call->regs.rip + 3) & 0xFFFFFFFF;
-  tab[6] = call->regs.rsi;
-  tab[7] = call->regs.rdi;
-  return tab;
-}
-
-unsigned long	sib_base(t_call *call, t_rex *rex, unsigned long rmb, char mod)
-{
-  unsigned long	*tab;
-  unsigned long addr;
-
-  if (rex->b && mod)
-    tab = tab_yes_sib_base(call);
-  else if (mod)
-    tab = tab_no_b_sib_base(call);
-  else
-    tab = tab_no_sib_base(call);
-  addr = tab[rmb];
-  free(tab);
-  return addr;
-}
-
-static unsigned long	get_sib(unsigned char sib, t_call *call, t_rex *rex,
+unsigned long	get_sib(unsigned char sib, t_call *call, t_rex *rex,
 				char mod)
 {
   char			scale;
@@ -207,199 +136,6 @@ static unsigned long	get_sib(unsigned char sib, t_call *call, t_rex *rex,
   result *= (scale > 0 && scale < 4?my_power_rec(2, scale):1);
   result += base >= 0 && base <= 7 ? sib_base(call, rex, base, mod) : 0;
   return (result);
-}
-
-unsigned long	*tab_no_D0rmbD7(t_call *call)
-{
-  unsigned long	*tab;
-
-  tab = malloc(8 * sizeof(long));
-
-  tab[0] = call->regs.rax;
-  tab[1] = call->regs.rcx;
-  tab[2] = call->regs.rdx;
-  tab[3] = call->regs.rbx;
-  tab[4] = call->regs.rsp;
-  tab[5] = call->regs.rbp;
-  tab[6] = call->regs.rsi;
-  tab[7] = call->regs.rdi;
-  return tab;
-}
-
-unsigned long	*tab_yes_D0rmbD7(t_call *call)
-{
-  unsigned long	*tab;
-
-  tab = malloc(8 * sizeof(long));
-
-  tab[0] = call->regs.r8;
-  tab[1] = call->regs.r9;
-  tab[2] = call->regs.r10;
-  tab[3] = call->regs.r11;
-  tab[4] = call->regs.r12;
-  tab[5] = call->regs.r13;
-  tab[6] = call->regs.r14;
-  tab[7] = call->regs.r15;
-  return tab;
-}
-
-unsigned long	D0rmbD7(t_call *call, t_rex *rex, unsigned long rmb)
-{
-  unsigned long	*tab;
-  unsigned long addr;
-
-  if (!rex->b)
-    tab = tab_no_D0rmbD7(call);
-  else
-    tab = tab_yes_D0rmbD7(call);
-  addr = tab[rmb & 0x0F];
-  free(tab);
-  return addr;
-}
-
-unsigned long	*tab_no_l0rmb17(t_call *call, t_rex *rex, unsigned long opcode)
-{
-  unsigned long	*tab;
-
-  tab = malloc(8 * sizeof(long));
-
-  tab[0] = ptrace(PTRACE_PEEKTEXT, g_pid, call->regs.rax);
-  tab[1] = ptrace(PTRACE_PEEKTEXT, g_pid, call->regs.rcx);
-  tab[2] = ptrace(PTRACE_PEEKTEXT, g_pid, call->regs.rdx);
-  tab[3] = ptrace(PTRACE_PEEKTEXT, g_pid, call->regs.rbx);
-  tab[4] = ptrace(PTRACE_PEEKTEXT, g_pid, get_sib((opcode & 0xFF0000) >> 16, call, rex, 0));
-  tab[5] = ptrace(PTRACE_PEEKTEXT, g_pid, call->regs.rip + 6 + (ptrace(PTRACE_PEEKTEXT, g_pid, call->regs.rip + 2) & 0xFFFFFFFF));
-  tab[6] = ptrace(PTRACE_PEEKTEXT, g_pid, call->regs.rsi);
-  tab[7] = ptrace(PTRACE_PEEKTEXT, g_pid, call->regs.rdi);
-  return tab;
-}
-
-unsigned long	*tab_yes_l0rmb17(t_call *call, t_rex *rex, unsigned long opcode)
-{
-  unsigned long	*tab;
-
-  tab = malloc(8 * sizeof(long));
-
-  tab[0] = ptrace(PTRACE_PEEKTEXT, g_pid, call->regs.r8);
-  tab[1] = ptrace(PTRACE_PEEKTEXT, g_pid, call->regs.r9);
-  tab[2] = ptrace(PTRACE_PEEKTEXT, g_pid, call->regs.r10);
-  tab[3] = ptrace(PTRACE_PEEKTEXT, g_pid, call->regs.r11);
-  tab[4] = ptrace(PTRACE_PEEKTEXT, g_pid, get_sib((opcode & 0xFF0000) >> 16, call, rex, 0));
-  tab[5] = ptrace(PTRACE_PEEKTEXT, g_pid, call->regs.rip + 6 + (ptrace(PTRACE_PEEKTEXT, g_pid, call->regs.rip + 2) & 0xFFFFFFFF));
-  tab[6] = ptrace(PTRACE_PEEKTEXT, g_pid, call->regs.r14);
-  tab[7] = ptrace(PTRACE_PEEKTEXT, g_pid, call->regs.r15);
-  return tab;
-}
-
-unsigned long	l0rmb17(t_call *call, t_rex *rex, unsigned long rmb, unsigned long opcode)
-{
-  unsigned long	*tab;
-  unsigned long addr;
-
-  if (!rex->b)
-    tab = tab_no_l0rmb17(call, rex, opcode);
-  else
-    tab = tab_yes_l0rmb17(call, rex, opcode);
-  addr = tab[rmb & 0x0F];
-  free(tab);
-  return addr;
-}
-
-unsigned long	*tab_no_S0rmb57(t_call *call, t_rex *rex, unsigned long addr, unsigned long opcode)
-{
-  unsigned long	*tab;
-
-  tab = malloc(8 * sizeof(long));
-
-  tab[0] = ptrace(PTRACE_PEEKTEXT, g_pid, call->regs.rax + addr);
-  tab[1] = ptrace(PTRACE_PEEKTEXT, g_pid, call->regs.rcx + addr);
-  tab[2] = ptrace(PTRACE_PEEKTEXT, g_pid, call->regs.rdx + addr);
-  tab[3] = ptrace(PTRACE_PEEKTEXT, g_pid, call->regs.rbx);
-  tab[4] = ptrace(PTRACE_PEEKTEXT, g_pid, get_sib((opcode & 0xFF0000) >> 16, call, rex, 1) + addr);
-  tab[5] = ptrace(PTRACE_PEEKTEXT, g_pid, call->regs.rbp + addr);
-  tab[6] = ptrace(PTRACE_PEEKTEXT, g_pid, call->regs.rsi + addr);
-  tab[7] = ptrace(PTRACE_PEEKTEXT, g_pid, call->regs.rdi + addr);
-  return tab;
-}
-
-unsigned long	*tab_yes_S0rmb57(t_call *call, t_rex *rex, unsigned long addr, unsigned long opcode)
-{
-  unsigned long	*tab;
-
-  tab = malloc(8 * sizeof(long));
-
-  tab[0] = ptrace(PTRACE_PEEKTEXT, g_pid, call->regs.r8 + addr);
-  tab[1] = ptrace(PTRACE_PEEKTEXT, g_pid, call->regs.r9 + addr);
-  tab[2] = ptrace(PTRACE_PEEKTEXT, g_pid, call->regs.r10 + addr);
-  tab[3] = ptrace(PTRACE_PEEKTEXT, g_pid, call->regs.r11 + addr);
-  tab[4] = ptrace(PTRACE_PEEKTEXT, g_pid, get_sib((opcode & 0xFF0000) >> 16, call, rex, 1) + addr);
-  tab[5] = ptrace(PTRACE_PEEKTEXT, g_pid, call->regs.r13 + addr);
-  tab[6] = ptrace(PTRACE_PEEKTEXT, g_pid, call->regs.r14 + addr);
-  tab[7] = ptrace(PTRACE_PEEKTEXT, g_pid, call->regs.r15 + addr);
-  return tab;
-}
-
-unsigned long	S0rmb57(t_call *call, t_rex *rex, unsigned long rmb, unsigned long opcode)
-{
-  unsigned long	*tab;
-  unsigned long addr;
-
-  if (!rex->b)
-    tab = tab_no_S0rmb57(call, rex, (opcode & 0xFF0000) >> 16, opcode);
-  else
-    tab = tab_yes_S0rmb57(call, rex, (opcode & 0xFF0000) >> 16, opcode);
-  addr = tab[rmb & 0x0F];
-  free(tab);
-  return addr;
-}
-
-unsigned long	*tab_no_J0rmb97(t_call *call, t_rex *rex, unsigned long addr, unsigned long opcode)
-{
-  unsigned long	*tab;
-
-  tab = malloc(8 * sizeof(long));
-
-  tab[0] = ptrace(PTRACE_PEEKTEXT, g_pid, call->regs.rax + addr);
-  tab[1] = ptrace(PTRACE_PEEKTEXT, g_pid, call->regs.rcx + addr);
-  tab[2] = ptrace(PTRACE_PEEKTEXT, g_pid, call->regs.rdx + addr);
-  tab[3] = ptrace(PTRACE_PEEKTEXT, g_pid, call->regs.rbx);
-  tab[4] = ptrace(PTRACE_PEEKTEXT, g_pid, get_sib((opcode & 0xFF0000) >> 16, call, rex, 2) + addr);
-  tab[5] = ptrace(PTRACE_PEEKTEXT, g_pid, call->regs.rbp + addr);
-  tab[6] = ptrace(PTRACE_PEEKTEXT, g_pid, call->regs.rsi + addr);
-  tab[7] = ptrace(PTRACE_PEEKTEXT, g_pid, call->regs.rdi + addr);
-  return tab;
-}
-
-unsigned long	*tab_yes_J0rmb97(t_call *call, t_rex *rex, unsigned long addr, unsigned long opcode)
-{
-  unsigned long	*tab;
-
-  tab = malloc(8 * sizeof(long));
-
-  tab[0] = ptrace(PTRACE_PEEKTEXT, g_pid, call->regs.r8 + addr);
-  tab[1] = ptrace(PTRACE_PEEKTEXT, g_pid, call->regs.r9 + addr);
-  tab[2] = ptrace(PTRACE_PEEKTEXT, g_pid, call->regs.r10 + addr);
-  tab[3] = ptrace(PTRACE_PEEKTEXT, g_pid, call->regs.r11 + addr);
-  tab[4] = ptrace(PTRACE_PEEKTEXT, g_pid, get_sib((opcode & 0xFF0000) >> 16, call, rex, 2) + addr);
-  tab[5] = ptrace(PTRACE_PEEKTEXT, g_pid, call->regs.r13 + addr);
-  tab[6] = ptrace(PTRACE_PEEKTEXT, g_pid, call->regs.r14 + addr);
-  tab[7] = ptrace(PTRACE_PEEKTEXT, g_pid, call->regs.r15 + addr);
-  return tab;
-}
-
-
-unsigned long	J0rmb97(t_call *call, t_rex *rex, unsigned long rmb, unsigned long opcode)
-{
-  unsigned long	*tab;
-  unsigned long addr;
-
-  if (!rex->b)
-    tab = tab_no_J0rmb97(call, rex, ptrace(PTRACE_PEEKTEXT, g_pid, call->regs.rip + 2) & 0xFFFFFFFF, opcode);
-  else
-    tab = tab_yes_J0rmb97(call, rex, (opcode & 0xFF0000) >> 16, opcode);
-  addr = tab[rmb & 0x0F];
-  free(tab);
-  return addr;
 }
 
 unsigned long addr_indirect(unsigned long opcode, t_call *call, t_rex *rex)

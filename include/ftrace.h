@@ -5,7 +5,7 @@
 ** Login   <videau_f@epitech.net>
 **
 ** Started on  Tue Apr 12 14:07:13 2016 florian videau
-** Last update Thu Apr 28 21:22:57 2016 Bastien DHIVER
+** Last update Sat Apr 30 18:58:23 2016 florian videau
 */
 
 #ifndef FTRACE_H_
@@ -123,5 +123,18 @@ void				aff_syscall(t_call *);
 ** print_signals.c
 */
 int				aff_end_signal(int);
+
+
+unsigned long	get_sib(unsigned char sib, t_call *call, t_rex *rex,
+				char mod);
+unsigned long	J0rmb97(t_call *call, t_rex *rex, unsigned long rmb, unsigned long opcode);
+
+unsigned long	S0rmb57(t_call *call, t_rex *rex, unsigned long rmb, unsigned long opcode);
+
+unsigned long	l0rmb17(t_call *call, t_rex *rex, unsigned long rmb, unsigned long opcode);
+
+unsigned long	D0rmbD7(t_call *call, t_rex *rex, unsigned long rmb);
+
+unsigned long	sib_base(t_call *call, t_rex *rex, unsigned long rmb, char mod);
 
 #endif /* !FTRACE_H_ */
