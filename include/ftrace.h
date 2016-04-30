@@ -5,12 +5,13 @@
 ** Login   <videau_f@epitech.net>
 **
 ** Started on  Tue Apr 12 14:07:13 2016 florian videau
-** Last update Sun May 01 00:05:13 2016 Bastien DHIVER
+** Last update Sun May 01 00:08:53 2016 Bastien DHIVER
 */
 
 #ifndef FTRACE_H_
 # define FTRACE_H_
 
+# define _GNU_SOURCE
 # include <gelf.h>
 # include <stdio.h>
 # include <sys/types.h>
