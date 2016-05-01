@@ -1,10 +1,11 @@
 /*
-** trace.c for strace in /home/work/work/projects/PSU_2015_strace_doc/PSU_2015_strace/src
-**
+** trace.c for ftrace in /home/work/work/projects/PSU_2015_ftrace_doc/PSU_2015_ftrace/src
+** 
 ** Made by Bastien DHIVER
 ** Login   <dhiver_b@epitech.net>
- **
-** Last update Sun May 01 03:07:48 2016 Bastien DHIVER
+** 
+** Started on  Sun May 01 08:56:04 2016 Bastien DHIVER
+** Last update Sun May 01 08:56:17 2016 Bastien DHIVER
 */
 
 #define _GNU_SOURCE
