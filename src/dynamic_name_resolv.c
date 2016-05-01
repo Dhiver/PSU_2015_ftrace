@@ -5,7 +5,7 @@
 ** Login   <dhiver_b@epitech.net>
 ** 
 ** Started on  Sun May 01 00:04:01 2016 Bastien DHIVER
-** Last update Sun May 01 04:27:18 2016 Bastien DHIVER
+** Last update Sun May 01 08:51:55 2016 Bastien DHIVER
 */
 
 #define _GNU_SOURCE
@@ -53,7 +53,7 @@ char		*find_sym_in_dyn_lib(long_stuff addr, char *lib_path, long_stuff begin_add
     {
       i = -1;
       gelf_getshdr(scn, &shdr);
-      if (shdr.sh_type == SHT_SYMTAB && (data = elf_getdata(scn, NULL))
+      if (shdr.sh_type == SHT_SYMTAB && (data = elf_getdata(scn, NULL)) && data->d_size != 0
 	  && (count = shdr.sh_size / shdr.sh_entsize))
 	while (++i < count && gelf_getsym(data, i, &sym))
 	  if (sym.st_name && sym.st_value && (GELF_ST_TYPE(sym.st_info) == STT_FUNC))
