@@ -5,7 +5,7 @@
 ** Login   <videau_f@epitech.net>
 **
 ** Started on  Sun May  1 10:16:35 2016 florian videau
-** Last update Sun May  1 10:21:56 2016 florian videau
+** Last update Sun May 01 10:59:54 2016 Bastien DHIVER
 */
 
 #include <sys/ptrace.h>
@@ -25,11 +25,6 @@ unsigned long	addr_relative(t_call *call, unsigned long opcode, char rexw)
   else
     call_addr = call->regs.rip + offset + 5;
   return (call_addr);
-}
-
-int	my_power_rec(int nbr, int power)
-{
-  return (power ? (nbr * my_power_rec(nbr, power -1)) : 1);
 }
 
 unsigned long	get_sib(unsigned char sib, t_call *call, t_rex *rex,
