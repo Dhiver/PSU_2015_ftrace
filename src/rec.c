@@ -5,7 +5,7 @@
 ** Login   <videau_f@epitech.net>
 **
 ** Started on  Sun May  1 10:45:33 2016 florian videau
-** Last update Sun May  1 11:31:57 2016 florian videau
+** Last update Sun May  1 12:33:00 2016 florian videau
 */
 
 #include <errno.h>
@@ -15,13 +15,41 @@
 #include <sys/wait.h>
 #include "../include/ftrace.h"
 
-unsigned long		loop_rec(unsigned long *opcode, int *status,
-				 t_call *call, unsigned long addr)
+int	 test_call(unsigned long *opcode, char *fct_name, int *status,
+		   t_call *call)
 {
   t_rex		rex;
-  char		*fct_name;
 
   bzero(&rex, sizeof(t_rex));
+  if ((*opcode & 0xF0) == 0x40)
+    {
+      rex.w = *opcode & 0x8;
+      rex.r = *opcode & 0x4;
+      rex.x = *opcode & 0x2;
+      rex.b = *opcode & 0x1;
+      *opcode = ptrace(PTRACE_PEEKTEXT, g_pid, ++call->regs.rip);
+    }
+  if (RET(*opcode))
+    {
+      printf("Leaving function %s\n", fct_name);
+      return (free(fct_name), 1);
+    }
+  else if (RELCALL(*opcode))
+    {
+      if (!(*opcode = be_the_parent_rec(status, call, &rex, RELATIVE)))
+	return (0);
+    }
+  else if (INDCALL(*opcode))
+    if (!(*opcode = be_the_parent_rec(status, call, &rex, INDIRECT)))
+      return (0);
+  return 2;
+}
+
+int		loop_rec(unsigned long *opcode, int *status,
+				 t_call *call, char *fct_name)
+{
+  int		test_ret;
+
   while (!CALL(*opcode) && !RET(*opcode) && (*opcode & 0xF0) != 0x40
 	 && !WIFEXITED(*status))
     if (one_more_step(status, call, opcode))
@@ -35,28 +63,10 @@ unsigned long		loop_rec(unsigned long *opcode, int *status,
       else
 	return (0);
     }
-  if ((*opcode & 0xF0) == 0x40)
-    {
-      rex.w = *opcode & 0x8;
-      rex.r = *opcode & 0x4;
-      rex.x = *opcode & 0x2;
-      rex.b = *opcode & 0x1;
-      *opcode = ptrace(PTRACE_PEEKTEXT, g_pid, ++call->regs.rip);
-    }
-  if (RET(*opcode))
-    {
-      fct_name = get_name_from_addr(addr);
-      printf("Leaving function %s\n", fct_name);
-      return (free(fct_name), 1);
-    }
-  else if (RELCALL(*opcode))
-    {
-      if (!(*opcode = be_the_parent_rec(status, call, &rex, RELATIVE)))
-	return (0);
-    }
-  else if (INDCALL(*opcode))
-    if (!(*opcode = be_the_parent_rec(status, call, &rex, INDIRECT)))
-      return (0);
+  if (!(test_ret = test_call(opcode, fct_name, status, call)))
+    return 0;
+  else if (test_ret == 1)
+    return 1;
   if (one_more_step(status, call, opcode))
     return (0);
   return 2;
@@ -76,17 +86,15 @@ unsigned long	be_the_parent_rec(int *status, t_call *call,
 	  addr_indirect(opcode, call, rex));
   fct_name = get_name_from_addr(addr);
   printf("Entering function %s at 0x%llx\n", fct_name, (long_stuff)addr);
-  free(fct_name);
   if (one_more_step(status, call, &opcode))
     return (0);
   while (!RET(opcode) && aff_end_signal(*status))
     {
-      if (!(loop_return = loop_rec(&opcode, status, call, addr)))
+      if (!(loop_return = loop_rec(&opcode, status, call, fct_name)))
 	return 0;
       else if (loop_return == 1)
 	return opcode;
     }
-  fct_name = get_name_from_addr(addr);
   printf("Leaving function %s\n", fct_name);
   return (free(fct_name), opcode);
 }
