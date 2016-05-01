@@ -5,7 +5,7 @@
 ** Login   <videau_f@epitech.net>
 **
 ** Started on  Tue Apr 12 14:07:13 2016 florian videau
-** Last update Sun May  1 10:22:02 2016 florian videau
+** Last update Sun May  1 10:36:45 2016 florian videau
 */
 
 #ifndef FTRACE_H_
@@ -25,11 +25,15 @@
 
 # define SYSCALL(opcode)        ((opcode & 0x0000FFFF) == 0x0000050f)
 # define RELCALL(opcode)	((opcode & 0xFF) == 0xe8)
-# define INDCALL(opcode)	((opcode & 0xFF) == 0xFF && (opcode & 0x3800) == 0x1000)
+# define INDCALL(op)		((op & 0xFF) == 0xFF && (op & 0x3800) == 0x1000)
 
-# define CALL(opcode)		(SYSCALL(opcode) || RELCALL(opcode) || INDCALL(opcode))
+# define CALL(op)		(SYSCALL(op) || RELCALL(op) || INDCALL(op))
 
-# define RET(opcode)		((opcode & 0xFF) == 0xC3 || (opcode & 0xFF) == 0xC2  || (opcode & 0xFF) == 0xCA  || (opcode & 0xFF) == 0xCB)
+# define R_1(op)		((op & 0xFF) == 0xC3 || (op & 0xFF) == 0xC2)
+
+# define R_2(op)		((op & 0xFF) == 0xCA  || (op & 0xFF) == 0xCB)
+
+# define RET(op)		(R_1(op) || R_2(op))
 
 typedef enum			e_call_type
   {
