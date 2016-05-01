@@ -5,7 +5,7 @@
 ** Login   <dhiver_b@epitech.net>
 ** 
 ** Started on  Sun May 01 08:56:04 2016 Bastien DHIVER
-** Last update Sun May 01 08:56:17 2016 Bastien DHIVER
+** Last update Sun May 01 09:26:08 2016 Bastien DHIVER
 */
 
 #define _GNU_SOURCE
@@ -25,9 +25,9 @@ int	be_the_child(t_args *args)
   int	fd;
 
   if ((fd = open("/dev/null", O_WRONLY)) == -1)
-    return 1;
+    return (1);
   if (dup2(fd, 1) == -1 || dup2(fd, 2) == -1)
-    return 1;
+    return (1);
   if (ptrace(PTRACE_TRACEME, 0, NULL, NULL) == -1)
     return (display_error(errno), 1);
   if (execve(args->av[0], args->av, args->env) == -1)
@@ -45,11 +45,12 @@ int	one_more_step(int *status, t_call *call, unsigned long *opcode)
     {
       if (ptrace(PTRACE_GETREGS, g_pid, NULL, &(call->regs)) == -1)
 	return (display_error(errno), 1);
-      if (!(*opcode = ptrace(PTRACE_PEEKTEXT, g_pid, call->regs.rip, call->regs)))
+      if (!(*opcode = ptrace(PTRACE_PEEKTEXT, g_pid,
+			     call->regs.rip, call->regs)))
 	return (display_error(errno), 1);
-      return 0;
+      return (0);
     }
-  return 1;
+  return (1);
 }
 
 unsigned long	addr_relative(t_call *call, unsigned long opcode, char rexw)
@@ -65,12 +66,12 @@ unsigned long	addr_relative(t_call *call, unsigned long opcode, char rexw)
     }
   else
     call_addr = call->regs.rip + offset + 5;
-  return call_addr;
+  return (call_addr);
 }
 
 int	my_power_rec(int nbr, int power)
 {
-  return (power?nbr * my_power_rec(nbr, power -1):1);
+  return (power ? (nbr * my_power_rec(nbr, power -1)) : 1);
 }
 
 unsigned long	*tab_no_sib_index(t_call *call)
@@ -87,7 +88,7 @@ unsigned long	*tab_no_sib_index(t_call *call)
   tab[5] = call->regs.rbp;
   tab[6] = call->regs.rsi;
   tab[7] = call->regs.rdi;
-  return tab;
+  return (tab);
 }
 
 unsigned long	*tab_yes_sib_index(t_call *call)
@@ -104,7 +105,7 @@ unsigned long	*tab_yes_sib_index(t_call *call)
   tab[5] = call->regs.r13;
   tab[6] = call->regs.r14;
   tab[7] = call->regs.r15;
-  return tab;
+  return (tab);
 }
 
 unsigned long	sib_index(t_call *call, t_rex *rex, unsigned long rmb)
@@ -118,7 +119,7 @@ unsigned long	sib_index(t_call *call, t_rex *rex, unsigned long rmb)
     tab = tab_yes_sib_index(call);
   addr = tab[rmb];
   free(tab);
-  return addr;
+  return (addr);
 }
 
 unsigned long	get_sib(unsigned char sib, t_call *call, t_rex *rex,
@@ -133,7 +134,7 @@ unsigned long	get_sib(unsigned char sib, t_call *call, t_rex *rex,
   index = sib & 0x38;
   base = sib & 0x07;
   result = index >= 0 && index <= 7 ? sib_index(call, rex, index) : 0;
-  result *= (scale > 0 && scale < 4?my_power_rec(2, scale):1);
+  result *= (scale > 0 && scale < 4 ? my_power_rec(2, scale) : 1);
   result += base >= 0 && base <= 7 ? sib_base(call, rex, base, mod) : 0;
   return (result);
 }
@@ -144,17 +145,18 @@ unsigned long addr_indirect(unsigned long opcode, t_call *call, t_rex *rex)
 
   rmb = (opcode & 0xFF00) >> 8;
   if (rmb >= 0xD0 && rmb <= 0xD7)
-      return D0rmbD7(call, rex, rmb);
+      return (D0rmbD7(call, rex, rmb));
   else if (rmb >= 0x10 && rmb <= 0x17)
-    return l0rmb17(call, rex, rmb, opcode);
+    return (l0rmb17(call, rex, rmb, opcode));
   else if (rmb >= 0x50 && rmb <= 0x57)
-    return S0rmb57(call, rex, rmb, opcode);
+    return (S0rmb57(call, rex, rmb, opcode));
   else if (rmb >= 0x90 && rmb <= 0x97)
-    return J0rmb97(call, rex, rmb, opcode);
+    return (J0rmb97(call, rex, rmb, opcode));
   return (0);
 }
 
-unsigned long	be_the_parent_rec(int *status, t_call *call, t_rex *rex, t_call_type calltype)
+unsigned long	be_the_parent_rec(int *status, t_call *call,
+				  t_rex *rex, t_call_type calltype)
 {
   unsigned long addr;
   unsigned long opcode;
@@ -168,11 +170,12 @@ unsigned long	be_the_parent_rec(int *status, t_call *call, t_rex *rex, t_call_ty
   printf("Entering function %s at 0x%llx\n", fct_name, (long_stuff)addr);
   free(fct_name);
   if (one_more_step(status, call, &opcode))
-    return 0;
-  while(!RET(opcode) && aff_end_signal(*status))
+    return (0);
+  while (!RET(opcode) && aff_end_signal(*status))
     {
       bzero(rex, sizeof(t_rex));
-      while (!CALL(opcode) && !RET(opcode) && (opcode & 0xF0) != 0x40 && !WIFEXITED(*status))
+      while (!CALL(opcode) && !RET(opcode) && (opcode & 0xF0) != 0x40
+	     && !WIFEXITED(*status))
 	if (one_more_step(status, call, &opcode))
 	  return (0);
       if (SYSCALL(opcode))
@@ -185,13 +188,13 @@ unsigned long	be_the_parent_rec(int *status, t_call *call, t_rex *rex, t_call_ty
 	    return (0);
 	}
       if ((opcode & 0xF0) == 0x40)
-      	{
-      	  rex->w = opcode & 0x8;
-      	  rex->r = opcode & 0x4;
-      	  rex->x = opcode & 0x2;
-      	  rex->b = opcode & 0x1;
-      	  opcode = ptrace(PTRACE_PEEKTEXT, g_pid, ++call->regs.rip);
-      	}
+	{
+	  rex->w = opcode & 0x8;
+	  rex->r = opcode & 0x4;
+	  rex->x = opcode & 0x2;
+	  rex->b = opcode & 0x1;
+	  opcode = ptrace(PTRACE_PEEKTEXT, g_pid, ++call->regs.rip);
+	}
       if (RET(opcode))
 	{
 	  fct_name = get_name_from_addr(addr);
@@ -201,13 +204,13 @@ unsigned long	be_the_parent_rec(int *status, t_call *call, t_rex *rex, t_call_ty
       else if (RELCALL(opcode))
 	{
 	  if (!(opcode = be_the_parent_rec(status, call, rex, RELATIVE)))
-	    return 0;
+	    return (0);
 	}
       else if (INDCALL(opcode))
 	if (!(be_the_parent_rec(status, call, rex, INDIRECT)))
-	  return 0;
+	  return (0);
       if (one_more_step(status, call, &opcode))
-	return 0;
+	return (0);
     }
   fct_name = get_name_from_addr(addr);
   printf("Leaving function %s\n", fct_name);
@@ -243,12 +246,12 @@ int		be_the_parent(t_call *call, char *pathname)
       if (RELCALL(opcode))
 	{
 	  if (!(opcode = be_the_parent_rec(&status, call, &rex, RELATIVE)))
-	    return 1;
+	    return (1);
 	}
       else if (INDCALL(opcode))
 	{
 	  if (!(opcode = be_the_parent_rec(&status, call, &rex, INDIRECT)))
-	    return 1;
+	    return (1);
 	}
       if (one_more_step(&status, call, &opcode))
 	return (1);

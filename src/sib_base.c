@@ -5,20 +5,18 @@
 ** Login   <videau_f@epitech.net>
 **
 ** Started on  Sat Apr 30 18:56:58 2016 florian videau
-** Last update Sat Apr 30 18:57:51 2016 florian videau
+** Last update Sun May 01 09:20:40 2016 Bastien DHIVER
 */
 
 #include <stdlib.h>
 #include <sys/ptrace.h>
-#include "../include/ftrace.h"
-
+#include "ftrace.h"
 
 unsigned long	*tab_yes_sib_base(t_call *call)
 {
   unsigned long	*tab;
 
   tab = malloc(8 * sizeof(long));
-
   tab[0] = call->regs.r8;
   tab[1] = call->regs.r9;
   tab[2] = call->regs.r10;
@@ -27,7 +25,7 @@ unsigned long	*tab_yes_sib_base(t_call *call)
   tab[5] = call->regs.r13;
   tab[6] = call->regs.r14;
   tab[7] = call->regs.r15;
-  return tab;
+  return (tab);
 }
 
 unsigned long	*tab_no_b_sib_base(t_call *call)
@@ -35,7 +33,6 @@ unsigned long	*tab_no_b_sib_base(t_call *call)
   unsigned long	*tab;
 
   tab = malloc(8 * sizeof(long));
-
   tab[0] = call->regs.rax;
   tab[1] = call->regs.rcx;
   tab[2] = call->regs.rdx;
@@ -44,7 +41,7 @@ unsigned long	*tab_no_b_sib_base(t_call *call)
   tab[5] = call->regs.rbp;
   tab[6] = call->regs.rsi;
   tab[7] = call->regs.rdi;
-  return tab;
+  return (tab);
 }
 
 unsigned long	*tab_no_sib_base(t_call *call)
@@ -52,7 +49,6 @@ unsigned long	*tab_no_sib_base(t_call *call)
   unsigned long	*tab;
 
   tab = malloc(8 * sizeof(long));
-
   tab[0] = call->regs.rax;
   tab[1] = call->regs.rcx;
   tab[2] = call->regs.rdx;
@@ -61,10 +57,11 @@ unsigned long	*tab_no_sib_base(t_call *call)
   tab[5] = ptrace(PTRACE_PEEKTEXT, g_pid, call->regs.rip + 3) & 0xFFFFFFFF;
   tab[6] = call->regs.rsi;
   tab[7] = call->regs.rdi;
-  return tab;
+  return (tab);
 }
 
-unsigned long	sib_base(t_call *call, t_rex *rex, unsigned long rmb, char mod)
+unsigned long	sib_base(t_call *call, t_rex *rex,
+			 unsigned long rmb, char mod)
 {
   unsigned long	*tab;
   unsigned long addr;
@@ -77,5 +74,5 @@ unsigned long	sib_base(t_call *call, t_rex *rex, unsigned long rmb, char mod)
     tab = tab_no_sib_base(call);
   addr = tab[rmb];
   free(tab);
-  return addr;
+  return (addr);
 }
