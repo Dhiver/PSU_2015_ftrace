@@ -5,7 +5,7 @@
 ** Login   <videau_f@epitech.net>
 **
 ** Started on  Sun May  1 10:45:33 2016 florian videau
-** Last update Sun May  1 12:33:00 2016 florian videau
+** Last update Sun May  1 16:46:47 2016 florian videau
 */
 
 #include <errno.h>
@@ -13,7 +13,7 @@
 #include <strings.h>
 #include <sys/ptrace.h>
 #include <sys/wait.h>
-#include "../include/ftrace.h"
+#include "ftrace.h"
 
 int	 test_call(unsigned long *opcode, char *fct_name, int *status,
 		   t_call *call)

@@ -5,7 +5,7 @@
 ** Login   <videau_f@epitech.net>
 **
 ** Started on  Sun May  1 10:16:35 2016 florian videau
-** Last update Sun May 01 10:59:54 2016 Bastien DHIVER
+** Last update Sun May  1 16:49:21 2016 florian videau
 */
 
 #include <sys/ptrace.h>
@@ -27,7 +27,7 @@ unsigned long	addr_relative(t_call *call, unsigned long opcode, char rexw)
   return (call_addr);
 }
 
-unsigned long	get_sib(unsigned char sib, t_call *call, t_rex *rex,
+unsigned long		get_sib(unsigned char sib, t_call *call, t_rex *rex,
 				char mod)
 {
   char			scale;
