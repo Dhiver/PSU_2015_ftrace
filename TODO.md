@@ -13,4 +13,9 @@
 - [ ] Final printing
 	- [x] Hide child output printing
 	- [ ] Finalize (norm / valgrind / segv...)
+		- [ ] No -g in Makefile
+		- [ ] Norm
+		- [ ] Valgrind
+		- [ ] Segv
+		- [ ] Check for return cascade
 
