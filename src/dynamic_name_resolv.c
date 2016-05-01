@@ -5,7 +5,7 @@
 ** Login   <dhiver_b@epitech.net>
 ** 
 ** Started on  Sun May 01 00:04:01 2016 Bastien DHIVER
-** Last update Sun May 01 09:07:31 2016 Bastien DHIVER
+** Last update Sun May 01 10:08:59 2016 Bastien DHIVER
 */
 
 #define _GNU_SOURCE
@@ -117,6 +117,7 @@ char		*dynamic_name_resolv(long_stuff addr)
     return (print_err("asprintf() failed: %s.\n", strerror(errno)), NULL);
   if ((maps_file = fopen(path, "r")) == NULL)
     return (print_err("fopen() failed: %s.\n", strerror(errno)), NULL);
+  free(path);
   while ((err = getline(&line, &len, maps_file)) != -1
 	 && !(line[strlen(line) - 1] = 0))
     if ((ret = in_any_dynamic_lib(addr, line)) != NULL)
