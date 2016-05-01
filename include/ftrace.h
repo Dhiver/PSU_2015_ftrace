@@ -5,7 +5,7 @@
 ** Login   <videau_f@epitech.net>
 **
 ** Started on  Tue Apr 12 14:07:13 2016 florian videau
-** Last update Sun May 01 09:48:18 2016 Bastien DHIVER
+** Last update Sun May  1 10:22:02 2016 florian videau
 */
 
 #ifndef FTRACE_H_
@@ -165,5 +165,17 @@ unsigned long			D0rmbD7(t_call *, t_rex *, unsigned long);
 */
 unsigned long			sib_base(t_call *, t_rex *,
 					 unsigned long, char);
+/*
+** sib_index.c
+*/
+unsigned long	sib_index(t_call *call, t_rex *rex, unsigned long rmb);
+
+/*
+** get_addr.c
+*/
+
+unsigned long addr_indirect(unsigned long opcode, t_call *call, t_rex *rex);
+unsigned long	get_sib(unsigned char sib, t_call *call, t_rex *rex, char mod);
+unsigned long	addr_relative(t_call *call, unsigned long opcode, char rexw);
 
 #endif /* !FTRACE_H_ */

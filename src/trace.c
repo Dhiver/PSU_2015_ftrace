@@ -1,11 +1,11 @@
 /*
 ** trace.c for ftrace in /home/work/work/projects/PSU_2015_ftrace_doc/PSU_2015_ftrace/src
-** 
+**
 ** Made by Bastien DHIVER
 ** Login   <dhiver_b@epitech.net>
-** 
+**
 ** Started on  Sun May 01 08:56:04 2016 Bastien DHIVER
-** Last update Sun May 01 09:37:22 2016 Bastien DHIVER
+** Last update Sun May  1 10:17:31 2016 florian videau
 */
 
 #define _GNU_SOURCE
@@ -51,108 +51,6 @@ int	one_more_step(int *status, t_call *call, unsigned long *opcode)
       return (0);
     }
   return (1);
-}
-
-unsigned long	addr_relative(t_call *call, unsigned long opcode, char rexw)
-{
-  int		offset;
-  unsigned long	call_addr;
-
-  offset = (int)((opcode >> 8));
-  if (rexw)
-    {
-      offset = ptrace(PTRACE_PEEKTEXT, g_pid, call->regs.rip + 1);
-      call_addr = call->regs.rip + offset + 9;
-    }
-  else
-    call_addr = call->regs.rip + offset + 5;
-  return (call_addr);
-}
-
-int	my_power_rec(int nbr, int power)
-{
-  return (power ? (nbr * my_power_rec(nbr, power -1)) : 1);
-}
-
-unsigned long	*tab_no_sib_index(t_call *call)
-{
-  unsigned long	*tab;
-
-  tab = malloc(8 * sizeof(long));
-
-  tab[0] = call->regs.rax;
-  tab[1] = call->regs.rcx;
-  tab[2] = call->regs.rdx;
-  tab[3] = call->regs.rbx;
-  tab[4] = call->regs.rsp;
-  tab[5] = call->regs.rbp;
-  tab[6] = call->regs.rsi;
-  tab[7] = call->regs.rdi;
-  return (tab);
-}
-
-unsigned long	*tab_yes_sib_index(t_call *call)
-{
-  unsigned long	*tab;
-
-  tab = malloc(8 * sizeof(long));
-
-  tab[0] = call->regs.r8;
-  tab[1] = call->regs.r9;
-  tab[2] = call->regs.r10;
-  tab[3] = call->regs.r11;
-  tab[4] = call->regs.r12;
-  tab[5] = call->regs.r13;
-  tab[6] = call->regs.r14;
-  tab[7] = call->regs.r15;
-  return (tab);
-}
-
-unsigned long	sib_index(t_call *call, t_rex *rex, unsigned long rmb)
-{
-  unsigned long	*tab;
-  unsigned long addr;
-
-  if (!rex->x)
-    tab = tab_no_sib_index(call);
-  else
-    tab = tab_yes_sib_index(call);
-  addr = tab[rmb];
-  free(tab);
-  return (addr);
-}
-
-unsigned long	get_sib(unsigned char sib, t_call *call, t_rex *rex,
-				char mod)
-{
-  char			scale;
-  char			index;
-  char			base;
-  unsigned long		result;
-
-  scale = sib & 0xC0;
-  index = sib & 0x38;
-  base = sib & 0x07;
-  result = index >= 0 && index <= 7 ? sib_index(call, rex, index) : 0;
-  result *= (scale > 0 && scale < 4 ? my_power_rec(2, scale) : 1);
-  result += base >= 0 && base <= 7 ? sib_base(call, rex, base, mod) : 0;
-  return (result);
-}
-
-unsigned long addr_indirect(unsigned long opcode, t_call *call, t_rex *rex)
-{
-  unsigned char	rmb;
-
-  rmb = (opcode & 0xFF00) >> 8;
-  if (rmb >= 0xD0 && rmb <= 0xD7)
-      return (D0rmbD7(call, rex, rmb));
-  else if (rmb >= 0x10 && rmb <= 0x17)
-    return (l0rmb17(call, rex, rmb, opcode));
-  else if (rmb >= 0x50 && rmb <= 0x57)
-    return (S0rmb57(call, rex, rmb, opcode));
-  else if (rmb >= 0x90 && rmb <= 0x97)
-    return (J0rmb97(call, rex, rmb, opcode));
-  return (0);
 }
 
 unsigned long	be_the_parent_rec(int *status, t_call *call,
