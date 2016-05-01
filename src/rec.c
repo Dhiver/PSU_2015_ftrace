@@ -5,7 +5,7 @@
 ** Login   <videau_f@epitech.net>
 **
 ** Started on  Sun May  1 10:45:33 2016 florian videau
-** Last update Sun May  1 12:33:00 2016 florian videau
+** Last update Sun May 01 12:46:56 2016 Bastien DHIVER
 */
 
 #include <errno.h>
@@ -87,13 +87,13 @@ unsigned long	be_the_parent_rec(int *status, t_call *call,
   fct_name = get_name_from_addr(addr);
   printf("Entering function %s at 0x%llx\n", fct_name, (long_stuff)addr);
   if (one_more_step(status, call, &opcode))
-    return (0);
+    return (free(fct_name), 0);
   while (!RET(opcode) && aff_end_signal(*status))
     {
       if (!(loop_return = loop_rec(&opcode, status, call, fct_name)))
-	return 0;
+	return (free(fct_name), 0);
       else if (loop_return == 1)
-	return opcode;
+	return (opcode);
     }
   printf("Leaving function %s\n", fct_name);
   return (free(fct_name), opcode);
