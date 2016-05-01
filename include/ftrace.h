@@ -5,7 +5,7 @@
 ** Login   <videau_f@epitech.net>
 **
 ** Started on  Tue Apr 12 14:07:13 2016 florian videau
-** Last update Sun May  1 10:50:17 2016 florian videau
+** Last update Sun May 01 10:59:51 2016 Bastien DHIVER
 */
 
 #ifndef FTRACE_H_
@@ -99,6 +99,7 @@ int				be_the_parent(t_call *call, char *);
 ** utils.c
 */
 int				display_error(int);
+int				my_power_rec(int, int);
 
 /*
 ** signals.c

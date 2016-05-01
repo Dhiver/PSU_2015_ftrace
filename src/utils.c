@@ -5,7 +5,7 @@
 ** Login   <dhiver_b@epitech.net>
 **
 ** Started on  Thu Mar 31 13:18:13 2016 Bastien DHIVER
-** Last update Thu Apr 21 10:09:24 2016 florian videau
+** Last update Sun May 01 11:00:34 2016 Bastien DHIVER
 */
 
 #include <stdlib.h>
@@ -27,4 +27,9 @@ int	get_nbr(char *str, long int *nbr)
     return (1);
   *nbr = strtol(str, &tmp, 10);
   return ((*nbr == LONG_MIN || *nbr == LONG_MAX || *tmp != '\0') ? 1 : 0);
+}
+
+int	my_power_rec(int nbr, int power)
+{
+  return (power ? (nbr * my_power_rec(nbr, power -1)) : 1);
 }
