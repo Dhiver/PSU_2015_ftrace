@@ -5,7 +5,7 @@
 ** Login   <videau_f@epitech.net>
 **
 ** Started on  Sun May  1 10:45:33 2016 florian videau
-** Last update Sun May 01 12:46:56 2016 Bastien DHIVER
+** Last update Sun May 01 17:25:17 2016 Bastien DHIVER
 */
 
 #include <errno.h>
@@ -13,9 +13,9 @@
 #include <strings.h>
 #include <sys/ptrace.h>
 #include <sys/wait.h>
-#include "../include/ftrace.h"
+#include "ftrace.h"
 
-int	 test_call(unsigned long *opcode, char *fct_name, int *status,
+int	 test_call(long_stuff *opcode, char *fct_name, int *status,
 		   t_call *call)
 {
   t_rex		rex;
@@ -45,7 +45,7 @@ int	 test_call(unsigned long *opcode, char *fct_name, int *status,
   return 2;
 }
 
-int		loop_rec(unsigned long *opcode, int *status,
+int		loop_rec(long_stuff *opcode, int *status,
 				 t_call *call, char *fct_name)
 {
   int		test_ret;
@@ -72,11 +72,11 @@ int		loop_rec(unsigned long *opcode, int *status,
   return 2;
 }
 
-unsigned long	be_the_parent_rec(int *status, t_call *call,
-				  t_rex *rex, t_call_type calltype)
+long_stuff	be_the_parent_rec(int *status, t_call *call,
+					  t_rex *rex, t_call_type calltype)
 {
-  unsigned long addr;
-  unsigned long opcode;
+  long_stuff	addr;
+  long_stuff	opcode;
   char		*fct_name;
   int		loop_return;
 

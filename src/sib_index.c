@@ -5,16 +5,16 @@
 ** Login   <videau_f@epitech.net>
 **
 ** Started on  Sun May  1 09:59:15 2016 florian videau
-** Last update Sun May  1 10:00:51 2016 florian videau
+** Last update Sun May 01 17:23:25 2016 Bastien DHIVER
 */
 
 #include <stdlib.h>
 #include <sys/ptrace.h>
 #include "ftrace.h"
 
-unsigned long	*tab_no_sib_index(t_call *call)
+long_stuff	*tab_no_sib_index(t_call *call)
 {
-  unsigned long	*tab;
+  long_stuff	*tab;
 
   tab = malloc(8 * sizeof(long));
 
@@ -29,9 +29,9 @@ unsigned long	*tab_no_sib_index(t_call *call)
   return (tab);
 }
 
-unsigned long	*tab_yes_sib_index(t_call *call)
+long_stuff	*tab_yes_sib_index(t_call *call)
 {
-  unsigned long	*tab;
+  long_stuff	*tab;
 
   tab = malloc(8 * sizeof(long));
 
@@ -46,10 +46,10 @@ unsigned long	*tab_yes_sib_index(t_call *call)
   return (tab);
 }
 
-unsigned long	sib_index(t_call *call, t_rex *rex, unsigned long rmb)
+long_stuff	sib_index(t_call *call, t_rex *rex, long_stuff rmb)
 {
-  unsigned long	*tab;
-  unsigned long addr;
+  long_stuff	*tab;
+  long_stuff addr;
 
   if (!rex->x)
     tab = tab_no_sib_index(call);

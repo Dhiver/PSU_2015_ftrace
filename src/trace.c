@@ -5,7 +5,7 @@
 ** Login   <dhiver_b@epitech.net>
 **
 ** Started on  Sun May 01 08:56:04 2016 Bastien DHIVER
-** Last update Sun May  1 10:49:07 2016 florian videau
+** Last update Sun May 01 17:26:14 2016 Bastien DHIVER
 */
 
 #define _GNU_SOURCE
@@ -35,7 +35,7 @@ int	be_the_child(t_args *args)
   return (0);
 }
 
-int	one_more_step(int *status, t_call *call, unsigned long *opcode)
+int	one_more_step(int *status, t_call *call, long_stuff *opcode)
 {
   if (ptrace(PTRACE_SINGLESTEP, g_pid, NULL, NULL) == -1)
     return (display_error(errno), 1);
@@ -53,7 +53,7 @@ int	one_more_step(int *status, t_call *call, unsigned long *opcode)
   return (1);
 }
 
-int	during_signal_to_appear(unsigned long opcode, int *status,
+int	during_signal_to_appear(long_stuff opcode, int *status,
 				t_call *call, t_rex *rex)
 {
   while (!opcode || !CALL(opcode))
@@ -84,7 +84,7 @@ int	during_signal_to_appear(unsigned long opcode, int *status,
 int		be_the_parent(t_call *call, char *pathname)
 {
   int		status;
-  unsigned long	opcode;
+  long_stuff	opcode;
   t_rex		rex;
 
   if (load_elf(pathname, &g_bin))

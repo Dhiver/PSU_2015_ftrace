@@ -5,16 +5,16 @@
 ** Login   <videau_f@epitech.net>
 **
 ** Started on  Sat Apr 30 18:56:58 2016 florian videau
-** Last update Sun May 01 09:20:40 2016 Bastien DHIVER
+** Last update Sun May 01 17:22:16 2016 Bastien DHIVER
 */
 
 #include <stdlib.h>
 #include <sys/ptrace.h>
 #include "ftrace.h"
 
-unsigned long	*tab_yes_sib_base(t_call *call)
+long_stuff	*tab_yes_sib_base(t_call *call)
 {
-  unsigned long	*tab;
+  long_stuff	*tab;
 
   tab = malloc(8 * sizeof(long));
   tab[0] = call->regs.r8;
@@ -28,9 +28,9 @@ unsigned long	*tab_yes_sib_base(t_call *call)
   return (tab);
 }
 
-unsigned long	*tab_no_b_sib_base(t_call *call)
+long_stuff	*tab_no_b_sib_base(t_call *call)
 {
-  unsigned long	*tab;
+  long_stuff	*tab;
 
   tab = malloc(8 * sizeof(long));
   tab[0] = call->regs.rax;
@@ -44,9 +44,9 @@ unsigned long	*tab_no_b_sib_base(t_call *call)
   return (tab);
 }
 
-unsigned long	*tab_no_sib_base(t_call *call)
+long_stuff	*tab_no_sib_base(t_call *call)
 {
-  unsigned long	*tab;
+  long_stuff	*tab;
 
   tab = malloc(8 * sizeof(long));
   tab[0] = call->regs.rax;
@@ -60,11 +60,11 @@ unsigned long	*tab_no_sib_base(t_call *call)
   return (tab);
 }
 
-unsigned long	sib_base(t_call *call, t_rex *rex,
-			 unsigned long rmb, char mod)
+long_stuff	sib_base(t_call *call, t_rex *rex,
+			 long_stuff rmb, char mod)
 {
-  unsigned long	*tab;
-  unsigned long addr;
+  long_stuff	*tab;
+  long_stuff addr;
 
   if (rex->b && mod)
     tab = tab_yes_sib_base(call);

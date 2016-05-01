@@ -5,16 +5,16 @@
 ** Login   <videau_f@epitech.net>
 **
 ** Started on  Sat Apr 30 18:51:13 2016 florian videau
-** Last update Sun May 01 09:57:45 2016 Bastien DHIVER
+** Last update Sun May 01 17:52:19 2016 Bastien DHIVER
 */
 
 #include <stdlib.h>
 #include <sys/ptrace.h>
 #include "ftrace.h"
 
-unsigned long	*tab_no_D0rmbD7(t_call *call)
+long_stuff	*tab_no_D0rmbD7(t_call *call)
 {
-  unsigned long	*tab;
+  long_stuff	*tab;
 
   tab = malloc(8 * sizeof(long));
   tab[0] = call->regs.rax;
@@ -28,9 +28,9 @@ unsigned long	*tab_no_D0rmbD7(t_call *call)
   return (tab);
 }
 
-unsigned long	*tab_yes_D0rmbD7(t_call *call)
+long_stuff	*tab_yes_D0rmbD7(t_call *call)
 {
-  unsigned long	*tab;
+  long_stuff	*tab;
 
   tab = malloc(8 * sizeof(long));
   tab[0] = call->regs.r8;
@@ -44,10 +44,10 @@ unsigned long	*tab_yes_D0rmbD7(t_call *call)
   return (tab);
 }
 
-unsigned long	D0rmbD7(t_call *call, t_rex *rex, unsigned long rmb)
+long_stuff	D0rmbD7(t_call *call, t_rex *rex, long_stuff rmb)
 {
-  unsigned long	*tab;
-  unsigned long addr;
+  long_stuff	*tab;
+  long_stuff addr;
 
   if (!rex->b)
     tab = tab_no_D0rmbD7(call);

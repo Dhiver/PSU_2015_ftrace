@@ -5,7 +5,7 @@
 ** Login   <videau_f@epitech.net>
 **
 ** Started on  Tue Apr 12 14:07:13 2016 florian videau
-** Last update Sun May 01 10:59:51 2016 Bastien DHIVER
+** Last update Sun May 01 17:25:43 2016 Bastien DHIVER
 */
 
 #ifndef FTRACE_H_
@@ -92,7 +92,7 @@ char				*find_executable(char *name);
 */
 int				be_the_child(t_args *arg);
 int				one_more_step(int *status, t_call *call,
-					      unsigned long *opcode);
+					      long_stuff *opcode);
 int				be_the_parent(t_call *call, char *);
 
 /*
@@ -141,50 +141,50 @@ char				*dynamic_name_resolv(long_stuff);
 /*
 ** J0rmb97.c
 */
-unsigned long			J0rmb97(t_call *, t_rex *,
-					unsigned long, unsigned long);
+long_stuff			J0rmb97(t_call *, t_rex *,
+					long_stuff, long_stuff);
 
 /*
 ** S0rmb57.c
 */
-unsigned long			S0rmb57(t_call *, t_rex *,
-					unsigned long, unsigned long);
+long_stuff			S0rmb57(t_call *, t_rex *,
+					long_stuff, long_stuff);
 
 /*
 ** l0rmb17.c
 */
-unsigned long			l0rmb17(t_call *, t_rex *,
-					unsigned long, unsigned long);
+long_stuff			l0rmb17(t_call *, t_rex *,
+					long_stuff, long_stuff);
 
 /*
 ** D0rmbD7.c
 */
-unsigned long			D0rmbD7(t_call *, t_rex *, unsigned long);
+long_stuff			D0rmbD7(t_call *, t_rex *, long_stuff);
 
 /*
 ** sib_base.c
 */
-unsigned long			sib_base(t_call *, t_rex *,
-					 unsigned long, char);
+long_stuff			sib_base(t_call *, t_rex *,
+					 long_stuff, char);
 /*
 ** sib_index.c
 */
-unsigned long			sib_index(t_call *call, t_rex *rex,
-					  unsigned long rmb);
+long_stuff			sib_index(t_call *call, t_rex *rex,
+					  long_stuff rmb);
 
 /*
 ** get_addr.c
 */
-unsigned long			addr_indirect(unsigned long opcode,
+long_stuff			addr_indirect(long_stuff opcode,
 					      t_call *call, t_rex *rex);
-unsigned long			get_sib(unsigned char sib, t_call *call,
+long_stuff			get_sib(unsigned char sib, t_call *call,
 					t_rex *rex, char mod);
-unsigned long			addr_relative(t_call *call,
-					      unsigned long opcode, char rexw);
+long_stuff			addr_relative(t_call *call,
+					      long_stuff opcode, char rexw);
 /*
 ** get_addr.c
 */
-unsigned long			be_the_parent_rec(int *status, t_call *call,
+long_stuff			be_the_parent_rec(int *status, t_call *call,
 						  t_rex *rex,
 						  t_call_type calltype);
 #endif /* !FTRACE_H_ */

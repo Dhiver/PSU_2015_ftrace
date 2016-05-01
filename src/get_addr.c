@@ -5,16 +5,16 @@
 ** Login   <videau_f@epitech.net>
 **
 ** Started on  Sun May  1 10:16:35 2016 florian videau
-** Last update Sun May 01 10:59:54 2016 Bastien DHIVER
+** Last update Sun May 01 17:23:37 2016 Bastien DHIVER
 */
 
 #include <sys/ptrace.h>
 #include "ftrace.h"
 
-unsigned long	addr_relative(t_call *call, unsigned long opcode, char rexw)
+long_stuff	addr_relative(t_call *call, long_stuff opcode, char rexw)
 {
   int		offset;
-  unsigned long	call_addr;
+  long_stuff	call_addr;
 
   offset = (int)((opcode >> 8));
   if (rexw)
@@ -27,13 +27,13 @@ unsigned long	addr_relative(t_call *call, unsigned long opcode, char rexw)
   return (call_addr);
 }
 
-unsigned long	get_sib(unsigned char sib, t_call *call, t_rex *rex,
+long_stuff	get_sib(unsigned char sib, t_call *call, t_rex *rex,
 				char mod)
 {
   char			scale;
   char			index;
   char			base;
-  unsigned long		result;
+  long_stuff		result;
 
   scale = sib & 0xC0;
   index = sib & 0x38;
@@ -44,7 +44,7 @@ unsigned long	get_sib(unsigned char sib, t_call *call, t_rex *rex,
   return (result);
 }
 
-unsigned long addr_indirect(unsigned long opcode, t_call *call, t_rex *rex)
+long_stuff addr_indirect(long_stuff opcode, t_call *call, t_rex *rex)
 {
   unsigned char	rmb;
 

@@ -5,17 +5,17 @@
 ** Login   <videau_f@epitech.net>
 **
 ** Started on  Sat Apr 30 18:39:03 2016 florian videau
-** Last update Sun May 01 09:20:56 2016 Bastien DHIVER
+** Last update Sun May 01 17:52:54 2016 Bastien DHIVER
 */
 
 #include <stdlib.h>
 #include <sys/ptrace.h>
 #include "ftrace.h"
 
-unsigned long	*tab_no_S0rmb57(t_call *call, t_rex *rex,
-				unsigned long addr, unsigned long opcode)
+long_stuff	*tab_no_S0rmb57(t_call *call, t_rex *rex,
+				long_stuff addr, long_stuff opcode)
 {
-  unsigned long	*tab;
+  long_stuff	*tab;
 
   tab = malloc(8 * sizeof(long));
   tab[0] = ptrace(PTRACE_PEEKTEXT, g_pid, call->regs.rax + addr);
@@ -30,10 +30,10 @@ unsigned long	*tab_no_S0rmb57(t_call *call, t_rex *rex,
   return (tab);
 }
 
-unsigned long	*tab_yes_S0rmb57(t_call *call, t_rex *rex,
-				 unsigned long addr, unsigned long opcode)
+long_stuff	*tab_yes_S0rmb57(t_call *call, t_rex *rex,
+				 long_stuff addr, long_stuff opcode)
 {
-  unsigned long	*tab;
+  long_stuff	*tab;
 
   tab = malloc(8 * sizeof(long));
   tab[0] = ptrace(PTRACE_PEEKTEXT, g_pid, call->regs.r8 + addr);
@@ -48,11 +48,11 @@ unsigned long	*tab_yes_S0rmb57(t_call *call, t_rex *rex,
   return (tab);
 }
 
-unsigned long	S0rmb57(t_call *call, t_rex *rex,
-			unsigned long rmb, unsigned long opcode)
+long_stuff	S0rmb57(t_call *call, t_rex *rex,
+			long_stuff rmb, long_stuff opcode)
 {
-  unsigned long	*tab;
-  unsigned long addr;
+  long_stuff	*tab;
+  long_stuff addr;
 
   if (!rex->b)
     tab = tab_no_S0rmb57(call, rex, (opcode & 0xFF0000) >> 16, opcode);
