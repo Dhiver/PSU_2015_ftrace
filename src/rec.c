@@ -5,7 +5,7 @@
 ** Login   <videau_f@epitech.net>
 **
 ** Started on  Sun May  1 10:45:33 2016 florian videau
-** Last update Sun May 01 17:25:17 2016 Bastien DHIVER
+** Last update Sun May 01 18:27:12 2016 Bastien DHIVER
 */
 
 #include <errno.h>
@@ -18,7 +18,7 @@
 int	 test_call(long_stuff *opcode, char *fct_name, int *status,
 		   t_call *call)
 {
-  t_rex		rex;
+  t_rex	rex;
 
   bzero(&rex, sizeof(t_rex));
   if ((*opcode & 0xF0) == 0x40)
@@ -48,7 +48,7 @@ int	 test_call(long_stuff *opcode, char *fct_name, int *status,
 int		loop_rec(long_stuff *opcode, int *status,
 				 t_call *call, char *fct_name)
 {
-  int		test_ret;
+  int	test_ret;
 
   while (!CALL(*opcode) && !RET(*opcode) && (*opcode & 0xF0) != 0x40
 	 && !WIFEXITED(*status))
