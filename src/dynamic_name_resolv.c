@@ -5,7 +5,7 @@
 ** Login   <dhiver_b@epitech.net>
 ** 
 ** Started on  Sun May 01 00:04:01 2016 Bastien DHIVER
-** Last update Sun May 01 08:51:55 2016 Bastien DHIVER
+** Last update Sun May 01 09:07:31 2016 Bastien DHIVER
 */
 
 #define _GNU_SOURCE
@@ -15,7 +15,8 @@
 #include <unistd.h>
 #include "ftrace.h"
 
-int		is_in_addr_range(long_stuff addr, char *tok, long_stuff *lib_load_at)
+int		is_in_addr_range(long_stuff addr, char *tok,
+				 long_stuff *lib_load_at)
 {
   char		*dash_at;
   long_stuff	begin_addr;
@@ -35,7 +36,19 @@ int		is_in_addr_range(long_stuff addr, char *tok, long_stuff *lib_load_at)
   return (1);
 }
 
-char		*find_sym_in_dyn_lib(long_stuff addr, char *lib_path, long_stuff begin_addr)
+char	*found_name_and_unload(t_bin_infos *bin, GElf_Word sh_link,
+			       GElf_Word st_name)
+{
+  char	*ret;
+
+  ret = strdup(elf_strptr(bin->e, sh_link, st_name));
+  if (unload_elf(bin))
+    return (free(ret), NULL);
+  return (ret);
+}
+
+char		*find_sym_in_dyn_lib(long_stuff addr, char *lib_path,
+				     long_stuff begin_addr)
 {
   GElf_Shdr	shdr;
   Elf_Scn	*scn;
@@ -44,7 +57,6 @@ char		*find_sym_in_dyn_lib(long_stuff addr, char *lib_path, long_stuff begin_add
   int		count;
   GElf_Sym	sym;
   int		i;
-  char		*ret;
 
   if (load_elf(lib_path, &bin))
     return (NULL);
@@ -53,20 +65,15 @@ char		*find_sym_in_dyn_lib(long_stuff addr, char *lib_path, long_stuff begin_add
     {
       i = -1;
       gelf_getshdr(scn, &shdr);
-      if (shdr.sh_type == SHT_SYMTAB && (data = elf_getdata(scn, NULL)) && data->d_size != 0
-	  && (count = shdr.sh_size / shdr.sh_entsize))
+      if (shdr.sh_type == SHT_SYMTAB && (data = elf_getdata(scn, NULL))
+	  && data->d_size != 0 && (count = shdr.sh_size / shdr.sh_entsize))
 	while (++i < count && gelf_getsym(data, i, &sym))
-	  if (sym.st_name && sym.st_value && (GELF_ST_TYPE(sym.st_info) == STT_FUNC))
+	  if (sym.st_name && sym.st_value
+	      && (GELF_ST_TYPE(sym.st_info) == STT_FUNC))
 	    if (begin_addr + sym.st_value == addr)
-	      {
-		ret = strdup(elf_strptr(bin.e, shdr.sh_link, sym.st_name));
-		if (unload_elf(&bin))
-		  return (free(ret), NULL);
-		return (ret);
-	      }
+	      return (found_name_and_unload(&bin, shdr.sh_link, sym.st_name));
     }
-  if (unload_elf(&bin))
-    return (NULL);
+  unload_elf(&bin);
   return (NULL);
 }
 
