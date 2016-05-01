@@ -4,7 +4,7 @@
 ** Made by Bastien DHIVER
 ** Login   <dhiver_b@epitech.net>
  **
-** Last update Sat Apr 30 23:57:03 2016 Bastien DHIVER
+** Last update Sun May 01 03:07:48 2016 Bastien DHIVER
 */
 
 #define _GNU_SOURCE
@@ -219,16 +219,8 @@ int		be_the_parent(t_call *call, char *pathname)
   unsigned long	opcode;
   t_rex		rex;
 
-  if (load_elf(pathname))
+  if (load_elf(pathname, &g_bin))
     return (1);
-  if (gelf_getclass(g_bin.e) == ELFCLASS32)
-    {
-#define ELF_IS_32_
-    }
-  else
-    {
-#undef ELF_IS_32_
-    }
   if (waitpid(g_pid, &status, 0) == -1)
     return (display_error(errno), 1);
   if (ptrace(PTRACE_GETREGS, g_pid, NULL, &(call->regs)) == -1)

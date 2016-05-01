@@ -1,10 +1,8 @@
 # TODO
 
 - [ ] Resolve names via adresses of all symboles in the binary (static and dynamic) Bastien
-	- [ ] Dynamic
-		- [ ] Section de type SHT_REL
-		- [ ] Elf64_Rel
-		- [ ] r_info
+	- [/] Dynamic
+	- [ ] valgrind
 
 - [ ] Detect functions calls (Florian)
 	- [X] Main recursive loop
@@ -14,19 +12,5 @@
 
 - [ ] Final printing
 	- [ ] Hide child output printing
-	- [ ] Finalize
+	- [ ] Finalize (norm / valgrind / segv...)
 
-### Bastien
-
-- [ ] /proc/self/maps
-- [ ] man dlinfo
-- [ ] man dladdr
-- [ ] man `dl_iterate_phdr`
-- [ ] `link_map`
-- [ ] Look in given binary
-- [ ] Look in extern lib
-	- [ ] Static
-	- [ ] Dynamic
-	- [ ] `LD_PRELOAD`
-	- [ ] /etc/ld.so.preload
-	- [ ] /etc/ld.so.cache

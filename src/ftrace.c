@@ -5,7 +5,7 @@
 ** Login   <videau_f@epitech.net>
 **
 ** Started on  Tue Apr 12 11:59:11 2016 florian videau
-** Last update Thu Apr 28 21:12:56 2016 Bastien DHIVER
+** Last update Sun May 01 03:09:23 2016 Bastien DHIVER
 */
 
 #define _GNU_SOURCE
@@ -36,11 +36,15 @@ int		main(int ac, char **av, char **env)
 {
   t_args	args;
   t_call	call;
+  int		ret;
 
   if (ac < 2)
     return (print_err("Usage : %s <command>\n", av[0]), 0);
   signal(SIGINT, &get_sigint);
   args.av = av + 1;
   args.env = env;
-  return (run_process(&args, &call) || unload_elf());
+  ret = run_process(&args, &call);
+  if (unload_elf(&g_bin))
+    return (1);
+  return (ret);
 }

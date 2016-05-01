@@ -5,7 +5,7 @@
 ** Login   <dhiver_b@epitech.net>
 **
 ** Started on  Sat Apr 02 22:31:08 2016 Bastien DHIVER
-** Last update Mon Apr 25 23:30:52 2016 Bastien DHIVER
+** Last update Sun May 01 03:26:10 2016 Bastien DHIVER
 */
 
 #define _GNU_SOURCE
@@ -19,7 +19,7 @@ void	get_sigint(int sig)
 {
   (void)sig;
   kill(g_pid, SIGKILL);
-  unload_elf();
+  unload_elf(&g_bin);
   print_err("Process %d detached\n", g_pid);
   print_err(" <detached ...>\n");
   exit(0);

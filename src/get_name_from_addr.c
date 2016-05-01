@@ -5,7 +5,7 @@
 ** Login   <dhiver_b@epitech.net>
 **
 ** Started on  Wed Apr 20 14:27:12 2016 Bastien DHIVER
-** Last update Sun May 01 00:05:11 2016 Bastien DHIVER
+** Last update Sun May 01 04:13:12 2016 Bastien DHIVER
 */
 
 #define _GNU_SOURCE
@@ -22,7 +22,7 @@ char	*get_name_from_addr(long_stuff addr)
   if ((res = static_name_resolv(addr)) != NULL)
     return (strdup(res));
   if ((res = dynamic_name_resolv(addr)) != NULL)
-    return (strdup(res));
+    return (res);
   asprintf(&res, "func_0x%llX@%s", addr, rindex(g_bin.name, '/') + 1);
   return (res);
 }
