@@ -5,7 +5,7 @@
 ** Login   <dhiver_b@epitech.net>
 **
 ** Started on  Sun May 01 08:56:04 2016 Bastien DHIVER
-** Last update Sun May  1 10:17:31 2016 florian videau
+** Last update Sun May  1 10:49:07 2016 florian videau
 */
 
 #define _GNU_SOURCE
@@ -51,68 +51,6 @@ int	one_more_step(int *status, t_call *call, unsigned long *opcode)
       return (0);
     }
   return (1);
-}
-
-unsigned long	be_the_parent_rec(int *status, t_call *call,
-				  t_rex *rex, t_call_type calltype)
-{
-  unsigned long addr;
-  unsigned long opcode;
-  char		*fct_name;
-
-  if (!(opcode = ptrace(PTRACE_PEEKTEXT, g_pid, call->regs.rip, call->regs)))
-    return (display_error(errno), 0);
-  addr = (calltype == RELATIVE ? addr_relative(call, opcode, rex->w) :
-	  addr_indirect(opcode, call, rex));
-  fct_name = get_name_from_addr(addr);
-  printf("Entering function %s at 0x%llx\n", fct_name, (long_stuff)addr);
-  free(fct_name);
-  if (one_more_step(status, call, &opcode))
-    return (0);
-  while (!RET(opcode) && aff_end_signal(*status))
-    {
-      bzero(rex, sizeof(t_rex));
-      while (!CALL(opcode) && !RET(opcode) && (opcode & 0xF0) != 0x40
-	     && !WIFEXITED(*status))
-	if (one_more_step(status, call, &opcode))
-	  return (0);
-      if (SYSCALL(opcode))
-	{
-	  if (one_more_step(status, call, &opcode))
-	    return (0);
-	  if (aff_end_signal(*status))
-	      aff_syscall(call);
-	  else
-	    return (0);
-	}
-      if ((opcode & 0xF0) == 0x40)
-	{
-	  rex->w = opcode & 0x8;
-	  rex->r = opcode & 0x4;
-	  rex->x = opcode & 0x2;
-	  rex->b = opcode & 0x1;
-	  opcode = ptrace(PTRACE_PEEKTEXT, g_pid, ++call->regs.rip);
-	}
-      if (RET(opcode))
-	{
-	  fct_name = get_name_from_addr(addr);
-	  printf("Leaving function %s\n", fct_name);
-	  return (free(fct_name), opcode);
-	}
-      else if (RELCALL(opcode))
-	{
-	  if (!(opcode = be_the_parent_rec(status, call, rex, RELATIVE)))
-	    return (0);
-	}
-      else if (INDCALL(opcode))
-	if (!(be_the_parent_rec(status, call, rex, INDIRECT)))
-	  return (0);
-      if (one_more_step(status, call, &opcode))
-	return (0);
-    }
-  fct_name = get_name_from_addr(addr);
-  printf("Leaving function %s\n", fct_name);
-  return (free(fct_name), opcode);
 }
 
 int	during_signal_to_appear(unsigned long opcode, int *status,

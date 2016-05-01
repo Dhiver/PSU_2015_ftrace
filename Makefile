@@ -4,7 +4,7 @@
 ## Made by florian videau
 ## Login   <videau_f@epitech.net>
 ##
-## Last update Sun May  1 10:24:40 2016 florian videau
+## Last update Sun May  1 10:52:50 2016 florian videau
 ##
 
 CC	= gcc
@@ -39,7 +39,8 @@ SRCS	= $(SRCF)ftrace.c		\
 	  $(SRCF)static_name_resolv.c	\
 	  $(SRCF)dynamic_name_resolv.c	\
 	  $(SRCF)sib_index.c		\
-	  $(SRCF)get_addr.c
+	  $(SRCF)get_addr.c		\
+	  $(SRCF)rec.c
 
 OBJS	= $(SRCS:.c=.o)
 

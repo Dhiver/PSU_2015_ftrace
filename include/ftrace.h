@@ -5,7 +5,7 @@
 ** Login   <videau_f@epitech.net>
 **
 ** Started on  Tue Apr 12 14:07:13 2016 florian videau
-** Last update Sun May  1 10:42:54 2016 florian videau
+** Last update Sun May  1 10:50:17 2016 florian videau
 */
 
 #ifndef FTRACE_H_
@@ -91,9 +91,9 @@ char				*find_executable(char *name);
 ** trace.c
 */
 int				be_the_child(t_args *arg);
+int				one_more_step(int *status, t_call *call,
+					      unsigned long *opcode);
 int				be_the_parent(t_call *call, char *);
-unsigned long			get_sib(unsigned char, t_call *,
-					t_rex *, char);
 
 /*
 ** utils.c
@@ -180,5 +180,10 @@ unsigned long			get_sib(unsigned char sib, t_call *call,
 					t_rex *rex, char mod);
 unsigned long			addr_relative(t_call *call,
 					      unsigned long opcode, char rexw);
-
+/*
+** get_addr.c
+*/
+unsigned long			be_the_parent_rec(int *status, t_call *call,
+						  t_rex *rex,
+						  t_call_type calltype);
 #endif /* !FTRACE_H_ */
