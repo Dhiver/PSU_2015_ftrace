@@ -5,7 +5,7 @@
 ** Login   <videau_f@epitech.net>
 **
 ** Started on  Tue Apr 12 14:07:13 2016 florian videau
-** Last update Sun May 01 03:05:51 2016 Bastien DHIVER
+** Last update Sun May 01 09:48:18 2016 Bastien DHIVER
 */
 
 #ifndef FTRACE_H_
@@ -92,6 +92,8 @@ char				*find_executable(char *name);
 */
 int				be_the_child(t_args *arg);
 int				be_the_parent(t_call *call, char *);
+unsigned long			get_sib(unsigned char, t_call *,
+					t_rex *, char);
 
 /*
 ** utils.c
@@ -135,16 +137,33 @@ char				*static_name_resolv(long_stuff);
 */
 char				*dynamic_name_resolv(long_stuff);
 
-unsigned long	get_sib(unsigned char sib, t_call *call, t_rex *rex,
-				char mod);
-unsigned long	J0rmb97(t_call *call, t_rex *rex, unsigned long rmb, unsigned long opcode);
+/*
+** J0rmb97.c
+*/
+unsigned long			J0rmb97(t_call *, t_rex *,
+					unsigned long, unsigned long);
 
-unsigned long	S0rmb57(t_call *call, t_rex *rex, unsigned long rmb, unsigned long opcode);
+/*
+** S0rmb57.c
+*/
+unsigned long			S0rmb57(t_call *, t_rex *,
+					unsigned long, unsigned long);
 
-unsigned long	l0rmb17(t_call *call, t_rex *rex, unsigned long rmb, unsigned long opcode);
+/*
+** l0rmb17.c
+*/
+unsigned long			l0rmb17(t_call *, t_rex *,
+					unsigned long, unsigned long);
 
-unsigned long	D0rmbD7(t_call *call, t_rex *rex, unsigned long rmb);
+/*
+** D0rmbD7.c
+*/
+unsigned long			D0rmbD7(t_call *, t_rex *, unsigned long);
 
-unsigned long	sib_base(t_call *call, t_rex *rex, unsigned long rmb, char mod);
+/*
+** sib_base.c
+*/
+unsigned long			sib_base(t_call *, t_rex *,
+					 unsigned long, char);
 
 #endif /* !FTRACE_H_ */
