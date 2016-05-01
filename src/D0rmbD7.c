@@ -5,7 +5,7 @@
 ** Login   <videau_f@epitech.net>
 **
 ** Started on  Sat Apr 30 18:51:13 2016 florian videau
-** Last update Sun May 01 09:21:52 2016 Bastien DHIVER
+** Last update Sun May 01 09:57:45 2016 Bastien DHIVER
 */
 
 #include <stdlib.h>
@@ -25,7 +25,7 @@ unsigned long	*tab_no_D0rmbD7(t_call *call)
   tab[5] = call->regs.rbp;
   tab[6] = call->regs.rsi;
   tab[7] = call->regs.rdi;
-  return tab;
+  return (tab);
 }
 
 unsigned long	*tab_yes_D0rmbD7(t_call *call)
@@ -41,7 +41,7 @@ unsigned long	*tab_yes_D0rmbD7(t_call *call)
   tab[5] = call->regs.r13;
   tab[6] = call->regs.r14;
   tab[7] = call->regs.r15;
-  return tab;
+  return (tab);
 }
 
 unsigned long	D0rmbD7(t_call *call, t_rex *rex, unsigned long rmb)
@@ -55,5 +55,5 @@ unsigned long	D0rmbD7(t_call *call, t_rex *rex, unsigned long rmb)
     tab = tab_yes_D0rmbD7(call);
   addr = tab[rmb & 0x0F];
   free(tab);
-  return addr;
+  return (addr);
 }
