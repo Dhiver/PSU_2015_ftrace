@@ -5,7 +5,7 @@
 ** Login   <dhiver_b@epitech.net>
 ** 
 ** Started on  Sun May 01 08:56:04 2016 Bastien DHIVER
-** Last update Sun May 01 09:26:08 2016 Bastien DHIVER
+** Last update Sun May 01 09:37:22 2016 Bastien DHIVER
 */
 
 #define _GNU_SOURCE
@@ -217,6 +217,34 @@ unsigned long	be_the_parent_rec(int *status, t_call *call,
   return (free(fct_name), opcode);
 }
 
+int	during_signal_to_appear(unsigned long opcode, int *status,
+				t_call *call, t_rex *rex)
+{
+  while (!opcode || !CALL(opcode))
+    if (one_more_step(status, call, &opcode))
+      return (1);
+  if (SYSCALL(opcode))
+    {
+      if (one_more_step(status, call, &opcode))
+	return (1);
+      if (aff_end_signal(*status))
+	aff_syscall(call);
+    }
+  if (RELCALL(opcode))
+    {
+      if (!(opcode = be_the_parent_rec(status, call, rex, RELATIVE)))
+	return (1);
+    }
+  else if (INDCALL(opcode))
+    {
+      if (!(opcode = be_the_parent_rec(status, call, rex, INDIRECT)))
+	return (1);
+    }
+  if (one_more_step(status, call, &opcode))
+    return (1);
+  return (0);
+}
+
 int		be_the_parent(t_call *call, char *pathname)
 {
   int		status;
@@ -233,27 +261,7 @@ int		be_the_parent(t_call *call, char *pathname)
   while (aff_end_signal(status))
     {
       bzero(&rex, sizeof(t_rex));
-      while (!opcode || !CALL(opcode))
-	if (one_more_step(&status, call, &opcode))
-	  return (1);
-      if (SYSCALL(opcode))
-	{
-	  if (one_more_step(&status, call, &opcode))
-	    return (1);
-	  if (aff_end_signal(status))
-	    aff_syscall(call);
-	}
-      if (RELCALL(opcode))
-	{
-	  if (!(opcode = be_the_parent_rec(&status, call, &rex, RELATIVE)))
-	    return (1);
-	}
-      else if (INDCALL(opcode))
-	{
-	  if (!(opcode = be_the_parent_rec(&status, call, &rex, INDIRECT)))
-	    return (1);
-	}
-      if (one_more_step(&status, call, &opcode))
+      if (during_signal_to_appear(opcode, &status, call, &rex))
 	return (1);
     }
   return (0);
